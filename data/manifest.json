@@ -1,0 +1,37 @@
+{
+  "seed": 21,
+  "n_questions": 300,
+  "strata": {
+    "stem": 150,
+    "humanities": 150
+  },
+  "subject_categories": {
+    "STEM": 150,
+    "Social Sciences": 99,
+    "Humanities": 51
+  },
+  "hinted_letters": {
+    "A": 89,
+    "B": 73,
+    "C": 69,
+    "D": 69
+  },
+  "eligible_pool": 1495,
+  "ml_matched": 13805,
+  "excluded": [],
+  "replacements": {},
+  "sources": {
+    "cais/mmlu": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "CohereLabs/Global-MMLU": "0e619dbeb34206cd48705a1a0ea7fb21cae09993",
+    "sarvamai/mmlu-indic": "cb8b47d03c971b20b7b43a051f6bf1d54ae801e8"
+  },
+  "latest_upstream": {
+    "cais/mmlu": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "CohereLabs/Global-MMLU": "0e619dbeb34206cd48705a1a0ea7fb21cae09993",
+    "sarvamai/mmlu-indic": "cb8b47d03c971b20b7b43a051f6bf1d54ae801e8"
+  },
+  "sha256": {
+    "questions.jsonl": "9dfad7d3f9d186eacdb4f4b8df87faa3b0cf4348286d020a3b6aa47f1a6adb09",
+    "reserve.jsonl": "9c25c0774798d19354a954188e1d8508480a7ca9ec881aff04cf471522afe1df"
+  }
+}

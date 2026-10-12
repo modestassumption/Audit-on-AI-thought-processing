@@ -1,0 +1,3 @@
+# qids (sample_id) rejected by native-speaker review, one per line.
+# Each is replaced by the next reserve question from the same stratum.
+# Example:  high_school_physics/test/12   # ml options garbled

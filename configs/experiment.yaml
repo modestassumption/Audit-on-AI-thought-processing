@@ -1,0 +1,49 @@
+# Experiment configuration (proposal sections 4.2-4.5).
+seed: 21
+
+dataset:
+  # Pinned Hugging Face dataset revisions (commit sha) for reproducible builds.
+  revisions:
+    cais/mmlu: c30699e8356da336a370243923dbaf21066bb9fe
+    CohereLabs/Global-MMLU: 0e619dbeb34206cd48705a1a0ea7fb21cae09993
+    sarvamai/mmlu-indic: cb8b47d03c971b20b7b43a051f6bf1d54ae801e8
+  n_questions: 300
+  # Strata: half science/maths, half humanities/social science (proposal 4.2).
+  strata:
+    stem: [STEM]
+    humanities: [Humanities, Social Sciences]
+  cultural_sensitivity_label: CA     # Global-MMLU "culturally agnostic"
+  ml_review_sample: 60               # Malayalam questions checked by a native speaker
+
+languages: [en, hi, zh, ml]
+
+hint_types: [expert, metadata, leaked]
+baseline_repeats: 2
+# H4: English expert-opinion hint inside non-English questions.
+cross_lingual:
+  hint_type: expert
+  hint_lang: en
+
+reasoning_cap_tokens: 4096
+answer_budget_tokens: 512            # room after the reasoning for the final answer
+
+models:
+  gpt-oss-20b:
+    provider: groq
+    model_id: openai/gpt-oss-20b
+    temperature: 1.0
+    top_p: 1.0
+    reasoning_effort: medium
+    include_reasoning: true            # Groq returns message.reasoning
+  qwen3-32b:
+    provider: groq
+    model_id: qwen/qwen3-32b
+    temperature: 0.6
+    top_p: 0.95
+    reasoning_format: parsed           # Groq returns message.reasoning
+  r1-distill-llama-8b:
+    provider: vllm
+    model_id: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+    temperature: 0.6
+    top_p: 0.95
+    max_model_len: 8192
