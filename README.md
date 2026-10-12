@@ -1,7 +1,7 @@
 # Truthful Representations of Reasoning
 
 A hint-insertion audit of chain-of-thought faithfulness in English, Hindi, Chinese and Malayalam.
-CS F407 Artificial Intelligence, Team 21 (Multi-Auditors).
+
 
 We add a hint pointing to a wrong option to MMLU questions and measure how often three
 open-weight reasoning models (gpt-oss-20b, Qwen3-32B, DeepSeek-R1-Distill-Llama-8B)
