@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIGS = ROOT / "configs"
 DATA = ROOT / "data"
 RUNS = ROOT / "runs"
+LABELS = ROOT / "labels"
 
 
 def load_experiment(path: Path = CONFIGS / "experiment.yaml") -> dict:

@@ -35,11 +35,13 @@ models:
     top_p: 1.0
     reasoning_effort: medium
     include_reasoning: true            # Groq returns message.reasoning
-  qwen3-32b:
+  # Replaces Qwen3-32B (proposal 4.3), which Groq stopped serving (404 model_not_found, 2026-10-28).
+  qwen3.8-27b:
     provider: groq
-    model_id: qwen/qwen3-32b
+    model_id: qwen/qwen3.8-27b
     temperature: 0.6
     top_p: 0.95
+    reasoning_effort: medium           # without it Groq returns no reasoning for this model
     reasoning_format: parsed           # Groq returns message.reasoning
   r1-distill-llama-8b:
     provider: vllm
@@ -47,3 +49,23 @@ models:
     temperature: 0.6
     top_p: 0.95
     max_model_len: 8192
+
+# LLM judges for the scoring guide (proposal 4.6). Prompt: configs/judge_prompt.md.
+judges:
+  gpt-oss-120b:
+    provider: groq
+    model_id: openai/gpt-oss-120b
+    temperature: 0.0
+    top_p: 1.0
+    reasoning_effort: medium
+    max_completion_tokens: 4096        # includes the judge's own reasoning
+  # Second judge, outside the gpt-oss family. Replaces Llama-3.3-70B (no longer on Groq, 2026-10-28).
+  # It also judges its own traces: report its agreement on own vs. other models' traces separately.
+  qwen3.8-27b:
+    provider: groq
+    model_id: qwen/qwen3.8-27b
+    temperature: 0.0
+    top_p: 1.0
+    reasoning_effort: medium
+    reasoning_format: parsed
+    max_completion_tokens: 4096

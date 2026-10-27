@@ -1,4 +1,4 @@
-from cotaudit.data.select import eligible_pool, hinted_letter, stratified_sample
+from cotaudit.data.select import eligible_pool, hinted_letter, in_shard, run_order, stratified_sample
 
 STRATA = {"stem": ["STEM"], "humanities": ["Humanities", "Social Sciences"]}
 
@@ -35,3 +35,23 @@ def test_eligible_pool_requires_ca_ml_and_agreeing_keys():
     mmlu = {k: {"answer": "A"} for k in "abcd"}
     ml = {"a": {"answer": "A"}, "b": {"answer": "A"}, "d": {"answer": "A"}}
     assert eligible_pool(gm, mmlu, ml, "CA") == ["a"]
+
+
+def test_run_order_alternates_strata_and_is_stable():
+    qs = {f"s/test/{i}": "stem" for i in range(20)} | {f"h/test/{i}": "humanities" for i in range(20)}
+    rank = run_order(qs, seed=21)
+    assert sorted(rank.values()) == list(range(40))
+    first10 = [q for q, r in rank.items() if r < 10]
+    assert sum(qs[q] == "stem" for q in first10) == 5
+    # Replacing one question leaves every other question's rank unchanged.
+    swapped = {k: v for k, v in qs.items() if k != "s/test/0"} | {"s/test/99": "stem"}
+    rank2 = run_order(swapped, seed=21)
+    moved = [q for q in rank if q in rank2 and rank[q] != rank2[q]]
+    assert len(moved) < 20
+
+
+def test_shards_partition_questions():
+    qids = [f"q/test/{i}" for i in range(100)]
+    owners = [[s for s in range(1, 8) if in_shard(q, s, 7)] for q in qids]
+    assert all(len(o) == 1 for o in owners)
+    assert len({o[0] for o in owners}) == 7

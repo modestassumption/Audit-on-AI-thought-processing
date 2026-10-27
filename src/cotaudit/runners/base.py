@@ -5,7 +5,8 @@ from __future__ import annotations
 import argparse
 import json
 
-from cotaudit.config import DATA
+from cotaudit.config import DATA, load_experiment
+from cotaudit.data.select import in_shard, run_order
 from cotaudit.extract import extract_answer
 from cotaudit.runlog import now_utc, run_id
 
@@ -17,11 +18,21 @@ CONDITION_FIELDS = (
 
 def add_filter_args(ap: argparse.ArgumentParser) -> None:
     ap.add_argument("--model", required=True, help="model key from configs/experiment.yaml")
-    ap.add_argument("--n-questions", type=int, help="only the first N questions (sorted by qid)")
+    ap.add_argument("--n-questions", type=int,
+                    help="only the first N questions in seeded, strata-alternating order (50 = pilot)")
     ap.add_argument("--langs", nargs="+", help="subset of languages")
     ap.add_argument("--hint-types", nargs="+", help="subset of: none expert metadata leaked")
     ap.add_argument("--no-h4", action="store_true", help="skip cross-lingual (H4) conditions")
     ap.add_argument("--limit", type=int, help="stop after this many new runs")
+    ap.add_argument("--shard", type=parse_shard, help="i/n: only this member's share of questions, e.g. 2/7")
+    ap.add_argument("--tag", help="log file suffix (default: this computer's name); keeps members' logs separate")
+
+
+def parse_shard(text: str) -> tuple[int, int]:
+    i, n = (int(x) for x in text.split("/"))
+    if not 1 <= i <= n:
+        raise argparse.ArgumentTypeError("shard must be i/n with 1 <= i <= n")
+    return i, n
 
 
 def load_conditions() -> list[dict]:
@@ -29,10 +40,14 @@ def load_conditions() -> list[dict]:
     return [json.loads(ln) for ln in lines if ln.strip()]
 
 
-def select_conditions(rows: list[dict], args: argparse.Namespace, done: set[str]) -> list[dict]:
+def select_conditions(rows: list[dict], args: argparse.Namespace, done: set[str],
+                      seed: int | None = None) -> list[dict]:
     if args.n_questions:
-        keep = set(sorted({r["qid"] for r in rows})[: args.n_questions])
-        rows = [r for r in rows if r["qid"] in keep]
+        seed = load_experiment()["seed"] if seed is None else seed
+        rank = run_order({r["qid"]: r["stratum"] for r in rows}, seed)
+        rows = [r for r in rows if rank[r["qid"]] < args.n_questions]
+    if getattr(args, "shard", None):
+        rows = [r for r in rows if in_shard(r["qid"], *args.shard)]
     if args.langs:
         rows = [r for r in rows if r["lang"] in args.langs]
     if args.hint_types:

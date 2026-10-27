@@ -50,7 +50,7 @@ def main() -> None:
     for model in models:
         run_args = argparse.Namespace(
             model=model, n_questions=args.n, langs=args.langs, hint_types=None,
-            no_h4=True, limit=None,
+            no_h4=True, limit=None, shard=None, tag=None,
         )
         records = run(run_args, root=RUNS / "smoke")
         summarise(model, records)

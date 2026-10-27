@@ -1,6 +1,6 @@
-"""Run conditions on a Groq-hosted model (gpt-oss-20b, qwen3-32b), resuming where it left off.
+"""Run conditions on a Groq-hosted model (gpt-oss-20b, qwen3.8-27b), resuming where it left off.
 
-    uv run python scripts/run_groq.py --model qwen3-32b --n-questions 5 --langs en hi
+    uv run python scripts/run_groq.py --model qwen3.8-27b --n-questions 5 --langs en hi
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ def run(args: argparse.Namespace, root: Path = RUNS) -> list[dict]:
     if model_cfg["provider"] != "groq":
         raise SystemExit(f"{args.model} is a {model_cfg['provider']} model; use run_vllm.py")
 
-    log = RunLog(args.model, root)
+    log = RunLog(args.model, root, args.tag)
     todo = select_conditions(load_conditions(), args, log.completed_ids())
     print(f"{args.model}: {len(todo)} runs to do -> {log.dir}")
     runner = GroqRunner(model_cfg, max_completion_tokens(cfg), keys_from_env())
