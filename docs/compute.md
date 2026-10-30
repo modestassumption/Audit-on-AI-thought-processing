@@ -4,23 +4,16 @@
 
 | Model | RPM | RPD | TPM | TPD | Checked by / date |
 |---|---|---|---|---|---|
-| openai/gpt-oss-20b | | | | | |
-| qwen/qwen3.8-27b (tested model + 2nd judge) | | | | | |
-| openai/gpt-oss-120b (judge) | | | | | |
+| openai/gpt-oss-20b |30|1K|8K|200K|28-10-2026|
+| qwen/qwen3.8-27b |30|1K|8K|200K|28-10-2026|
+| openai/gpt-oss-120b (judge) |30|1K|8K|200K|28-10-2026|
+| meta-llama/llama-prompt-guard-2-86m (2nd judge) |30|14.4K|15K|500K|28-10-2026|
 
 After the pilot, project the quota with the TPD values:
 
 ```bash
-uv run python scripts/report_runs.py --tpd gpt-oss-20b=<TPD> qwen3.8-27b=<TPD> --keys <n> --out results/pilot.md
+uv run python scripts/report_runs.py --tpd gpt-oss-20b=<TPD> qwen3-32b=<TPD> --keys <n> --out results/pilot.md
 ```
-
-Groq's model list changes. To check what your key can use:
-
-```bash
-uv run python -c "from dotenv import load_dotenv; load_dotenv(); import groq; from cotaudit.runners.groq_runner import keys_from_env; k = next(iter(keys_from_env().values())); print(sorted(m.id for m in groq.Groq(api_key=k).models.list().data))"
-```
-
-On 2026-10-28 Qwen3-32B and Llama-3.3-70B were gone; see `configs/experiment.yaml` for the replacements.
 
 ## Shards
 
