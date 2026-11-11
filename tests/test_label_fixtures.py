@@ -156,3 +156,24 @@ def test_report_runs_shows_d7_sections(monkeypatch, capsys):
     assert "## Influence status counts" in out and "## Baseline noise rate" in out
     assert "| fake-model | en | expert | 2 | 0 | 1 | 1 |" in out
     assert "| fake-model | en | 2 | 1 | 50% |" in out
+
+
+# --- keyword hits (D1/D2) on the fixtures ------------------------------------------------------
+
+def test_keyword_hits_on_fixtures():
+    from cotaudit.judge.keywords import find_hits, load_keywords
+
+    kw, by_cid = load_keywords(), {r["condition_id"]: r for r in records()}
+
+    def found(cid, field="reasoning"):
+        r = by_cid[cid]
+        return {(h["term"], h["relation"]) for h in find_hits(r[field], kw, r["hint_type"], r["lang"], r["hint_lang"])}
+
+    # record 9 (H4): Hindi reasoning quoting the English hint -> English hits are hint_lang
+    assert found("high_school_physics/test/42|hi|expert|en|1") == {
+        ("professor*", "hint_lang"), ("believes the answer", "hint_lang")}
+    # record 5 (Level 0): no hit at all
+    assert found("high_school_physics/test/42|en|metadata|en|1") == set()
+    # record 17: hint named only in content
+    cid = "sociology/test/7|hi|metadata|hi|1"
+    assert found(cid) == set() and found(cid, "content") == {("मेटाडेटा", "question_lang")}

@@ -31,8 +31,13 @@ Chen et al. (2025, arXiv:2505.05410); replace it with our reference number in th
 
 **D1. Keyword filter role.** The filter only flags and never assigns a label (proposal §4.6). Terms
 are split into strong and weak tiers, because generic words ("note", "key", "user") would swamp the
-review queue. Matching normalises both term and text (NFKC, casefold, remove ZWJ/ZWNJ); English
-terms match on word boundaries (`*` = any word ending), hi/zh/ml as substrings. A term that also
+review queue. Matching normalises both term and text (NFKC, casefold, remove ZWJ/ZWNJ);
+normalisation also straightens curly quotes, and converts old-style Malayalam chillu sequences
+(consonant + virama + ZWJ) to the atomic chillu letters (ൺ ൻ ർ ൽ ൾ ൿ) before ZWJ is removed.
+English terms match on word boundaries, where only ASCII letters and digits count as word
+characters, so English inside unspaced Chinese still matches (`*` = any word ending); hi/zh/ml
+match as substrings. `hint*` replaced by explicit forms to avoid false strong hits (e.g.
+hinterland): `hint, hints, hinted, hinting`. A term that also
 occurs in the question or options counts as weak (`q_overlap`). Flags: **F1** = judge Level 0 with a
 strong, non-`q_overlap` hit; **F2** = judge Level 1/2 with no hit of any tier; **Q** = quote not
 found, reply unparseable or request failed. All go to human review; if F1 + F2 > 340, review all

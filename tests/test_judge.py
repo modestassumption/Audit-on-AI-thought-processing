@@ -75,4 +75,72 @@ def test_run_judge_end_to_end_with_fake_groq(tmp_path, monkeypatch):
 
     rows = [json.loads(ln) for p in (labels / "gpt-oss-120b").glob("20*.jsonl") for ln in p.read_text(encoding="utf-8").splitlines()]
     assert len(rows) == 1
-    assert rows[0]["level"] == 2 and rows[0]["needs_manual"] is None and rows[0]["kw_hits"] == ["professor"]
+    assert rows[0]["level"] == 2 and rows[0]["needs_manual"] is None
+    assert rows[0]["kw_hits"] == ["believes the answer", "professor"]  # D1 lists: two strong English terms
+
+
+# --- D1/D2 keyword matching --------------------------------------------------------------------
+
+def hits(text, hint_type="expert", lang="en", hint_lang="en", question=""):
+    from cotaudit.judge.keywords import find_hits
+
+    return {(h["term"], h["list_lang"]): h for h in find_hits(text, load_keywords(), hint_type, lang, hint_lang, question)}
+
+
+def test_english_terms_match_whole_words_and_star_endings():
+    found = hits("The user's hints suggested it; the professors agree.", hint_type="expert")
+    assert {("hints", "en"), ("suggest*", "en"), ("user", "en"), ("professor*", "en")} <= set(found)
+    # no partial-word matches: "username", "keyboard", "monkey", "chinted"
+    assert hits("username keyboard monkey chinted", hint_type="leaked") == {}
+    assert ("key", "en") in hits("The key idea", hint_type="leaked")
+    # tags with non-word edges still match next to letters
+    assert {("<answer>", "en"), ("</answer>", "en")} <= set(hits("x<answer>C</answer>", hint_type="metadata"))
+    # hint-type lists only on that type; `any` on all
+    assert ("professor*", "en") not in hits("the professor", hint_type="leaked")
+    assert ("hint", "en") in hits("a hint", hint_type="metadata")
+
+
+def test_normalisation_removes_zwj_zwnj_and_casefolds():
+    assert ("പ്രൊഫസർ", "ml") in hits("ഒരു പ്രൊ\u200dഫസർ പറയുന്നു", lang="ml", hint_lang="ml")
+    assert ("मेटाडेटा", "hi") in hits("मेटा\u200cडेटा में", hint_type="metadata", lang="hi", hint_lang="hi")
+    assert ("metadata", "en") in hits("The METADATA says", hint_type="metadata")
+
+
+def test_hindi_terms_match_as_substrings():
+    found = hits("विशेषज्ञों की राय और उत्तरकुंजी से", hint_type="expert", lang="hi", hint_lang="hi")
+    assert found[("विशेषज्ञ", "hi")]["tier"] == "weak"  # inflected plural still hits the stem
+    leaked = hits("उत्तर कुंजीयों से पता चला", hint_type="leaked", lang="hi", hint_lang="hi")
+    assert leaked[("उत्तर कुंजी", "hi")]["tier"] == "strong"
+
+
+def test_q_overlap_marks_terms_that_also_occur_in_the_question():
+    q = "Which key property of a cipher ...\nconfusion\ndiffusion"
+    found = hits("The key idea is diffusion; the answer key is irrelevant.", hint_type="leaked", question=q)
+    assert found[("key", "en")]["q_overlap"] is True
+    assert found[("answer key", "en")]["q_overlap"] is False
+
+
+def test_relation_in_an_h4_trace():
+    # Hindi question, English expert hint; the model also slips into Chinese
+    found = hits("प्रश्न में लिखा है: A professor believes ... प्रोफेसर ... 教授", lang="hi", hint_lang="en")
+    assert found[("professor*", "en")]["relation"] == "hint_lang"
+    assert found[("प्रोफेसर", "hi")]["relation"] == "question_lang"
+    assert found[("教授", "zh")]["relation"] == "other"
+
+
+def test_english_boundaries_are_ascii_only():
+    assert ("hint", "en") in hits("这里的hint是C", lang="zh", hint_lang="zh")
+    # explicit forms, not hint*: no strong hit on ordinary words that start with "hint"
+    assert not {t for t, _ in hits("the hinterland of Rome")} & {"hint", "hints", "hinted", "hinting"}
+    assert ("user", "en") in hits("उपयोगकर्ता (user)ने कहा", lang="hi", hint_lang="hi")
+    assert ("user", "en") not in hits("这里的username是", lang="zh", hint_lang="zh")
+
+
+def test_curly_quotes_are_straightened():
+    found = hits("The expert’s view is C", hint_type="expert")
+    assert found[("expert's", "en")]["tier"] == "strong"
+
+
+def test_old_style_malayalam_chillu_matches_the_atomic_letter():
+    old_style = "ഒരു പ്രൊഫസര്‍ പറയുന്നു"  # ര + virama + ZWJ, not the atomic ർ
+    assert ("പ്രൊഫസർ", "ml") in hits(old_style, lang="ml", hint_lang="ml")
