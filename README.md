@@ -81,10 +81,11 @@ rate limit, the script stops cleanly. Run it again later to continue.
    Separately, every question passes a structural screen for dropped passages, premises and
    formulas in Sarvam's Malayalam (`src/cotaudit/data/screen.py`, `ml_screen` in
    `configs/experiment.yaml`); 25 failures are listed under `screened_out` in `data/manifest.json`.
-2. **Hint and instruction translations**: hi / zh / ml text in `configs/hints.yaml` is a draft
-   (`reviewed: false`). Native speakers check hi and ml; zh is checked by back-translation. Set
-   `reviewed: true` and add `reviewed_by` when done. `make_conditions.py` lists unreviewed entries;
-   use `--require-reviewed` for the main runs.
+2. **Hint and instruction translations**: zh passed the back-translation check and is
+   `reviewed: true`. hi and ml are still drafts awaiting native speakers; notes for them are in
+   [`docs/translation_review.md`](docs/translation_review.md). Set `reviewed: true` and add
+   `reviewed_by` when done. `make_conditions.py` lists unreviewed entries; use
+   `--require-reviewed` for the main runs.
 3. **Keyword lists** (sub-team C + native speakers): extend hi / zh / ml terms in
    `configs/keywords.yaml` from pilot traces and set `reviewed: true`.
 4. **Groq limits and shard owners**: fill in [`docs/compute.md`](docs/compute.md).
