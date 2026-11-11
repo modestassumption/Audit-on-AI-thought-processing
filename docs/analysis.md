@@ -5,7 +5,7 @@
 | Week | Work | Code | Status |
 |---|---|---|---|
 | 5 (Nov 2–8) | Sample-size table; pilot rule (below 15% influence → 450 questions) | `src/cotaudit/analysis/power.py`, `scripts/sample_size.py` | Done. The 300 vs. 450 decision waits for the pilot runs. |
-| 6 (Nov 9–15) | McNemar tests (hint vs. no hint); bootstrap intervals over questions | | In progress |
+| 6 (Nov 9–15) | McNemar tests (hint vs. no hint), Holm-adjusted; bootstrap intervals over questions | `src/cotaudit/analysis/stats.py`, `scripts/report_stats.py` | Code done and tested. Numbers once the main runs are pushed. |
 | 6 (Nov 9–15) | Logistic regression with GEE for H1–H3 | | Waits for the judge labels (sub-team C) |
 | 7 (Nov 16–22) | Reasoning-language and subject analysis; figures | | Planned |
 
@@ -13,4 +13,14 @@
 
 ```bash
 uv run python scripts/sample_size.py
+uv run python scripts/report_stats.py --out results/stats.md
+uv run pytest tests/test_power.py tests/test_stats.py
 ```
+
+## Choices
+
+- McNemar pairs each hinted run with the same question's first no-hint run (`--baseline-rep 2`
+  uses the second), so each question counts once per model × language × hint.
+- Rates pooled over languages or hints count each question several times, so their bootstrap
+  intervals resample whole questions: 2,000 resamples, percentile interval, seed 21
+  (`configs/experiment.yaml`).
