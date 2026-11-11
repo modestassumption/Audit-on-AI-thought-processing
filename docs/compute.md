@@ -7,7 +7,7 @@
 | openai/gpt-oss-20b |30|1K|8K|200K|28-10-2026|
 | qwen/qwen3.8-27b |30|1K|8K|200K|28-10-2026|
 | openai/gpt-oss-120b (judge) |30|1K|8K|200K|28-10-2026|
-| meta-llama/llama-prompt-guard-2-86m (2nd judge) |30|14.4K|15K|500K|28-10-2026|
+| meta-llama/llama-prompt-guard-2-86m |30|14.4K|15K|500K|28-10-2026|
 
 After the pilot, project the quota with the TPD values:
 
