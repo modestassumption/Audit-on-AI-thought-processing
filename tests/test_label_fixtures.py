@@ -76,3 +76,83 @@ def test_errors_file_is_separate_from_the_run_records():
     errors = (FAKE_LOG.parent / "errors.jsonl").read_text(encoding="utf-8").splitlines()
     assert len(errors) == 1
     assert "run_id" not in json.loads(errors[0])
+
+
+# --- influence (D7) on the fixtures ------------------------------------------------------------
+
+def fixture_hinted():
+    from cotaudit.analysis.influence import load_runs, with_influence
+
+    return with_influence(load_runs(FIXTURES / "runs")).set_index("condition_id")
+
+
+def test_with_influence_on_fixtures():
+    h = fixture_hinted()
+    assert len(h) == 9  # 17 records - 8 baselines; errors.jsonl is not read
+
+    # record 12: baseline 1 = A, baseline 2 = D = hinted -> strict no, rep-1-only yes
+    r12 = h.loc["sociology/test/7|en|expert|en|1"]
+    assert (r12["base1"], r12["base2"]) == ("A", "D")
+    assert not r12["influenced"] and r12["influenced_rep1"] and not r12["undetermined"]
+
+    # records 15 (truncated) and 16 (no Answer line): null answer -> undetermined
+    for cid in ("sociology/test/7|hi|leaked|hi|1", "sociology/test/7|en|metadata|en|1"):
+        assert h.loc[cid, "undetermined"] and not h.loc[cid, "influenced"]
+
+    # H4 (record 9) uses the Hindi question's own baselines and gets the expert(en) condition
+    h4 = h.loc["high_school_physics/test/42|hi|expert|en|1"]
+    assert h4["condition"] == "expert(en)" and (h4["base1"], h4["base2"]) == ("C", "C")
+    assert h4["influenced"]
+
+    # record 17: hint named only in content still counts as influenced (influence uses answers only)
+    assert h.loc["sociology/test/7|hi|metadata|hi|1", "influenced"]
+
+    assert sorted(h.index[h["influenced"]]) == sorted([
+        "high_school_physics/test/42|en|expert|en|1", "high_school_physics/test/42|en|leaked|en|1",
+        "high_school_physics/test/42|en|metadata|en|1", "high_school_physics/test/42|hi|expert|hi|1",
+        "high_school_physics/test/42|hi|expert|en|1", "sociology/test/7|hi|metadata|hi|1",
+    ])
+    # strict and rep-1-only differ on exactly record 12
+    differ = h.index[h["influenced"] != h["influenced_rep1"]]
+    assert list(differ) == ["sociology/test/7|en|expert|en|1"]
+
+
+def test_influence_counts_on_fixtures():
+    from cotaudit.analysis.influence import influence_counts
+
+    counts = influence_counts(fixture_hinted().reset_index())
+    got = {(r.lang, r.condition): (r.hinted_runs, r.undetermined, r.split, r.influenced)
+           for r in counts.itertuples()}
+    assert got == {
+        ("en", "expert"): (2, 0, 1, 1),      # record 12 is the split
+        ("en", "leaked"): (1, 0, 0, 1),
+        ("en", "metadata"): (2, 1, 0, 1),    # record 16 undetermined
+        ("hi", "expert"): (1, 0, 0, 1),
+        ("hi", "expert(en)"): (1, 0, 0, 1),  # H4
+        ("hi", "leaked"): (1, 1, 0, 0),      # record 15 truncated
+        ("hi", "metadata"): (1, 0, 0, 1),
+    }
+
+
+def test_noise_rate_on_fixtures():
+    from cotaudit.analysis.influence import load_runs, noise_rate
+
+    noise = noise_rate(load_runs(FIXTURES / "runs")).set_index("lang")
+    # en: physics (C, C) and sociology (A, D-hinted) -> 1 of 2; hi: both pairs stay off the hint
+    assert noise.loc["en", ["questions", "base2_hinted"]].tolist() == [2, 1]
+    assert noise.loc["hi", ["questions", "base2_hinted"]].tolist() == [2, 0]
+    assert noise.loc["en", "noise_rate"] == 0.5
+
+
+def test_report_runs_shows_d7_sections(monkeypatch, capsys):
+    import sys
+
+    sys.path.insert(0, "scripts")
+    import report_runs
+
+    monkeypatch.setattr(sys, "argv", ["report_runs.py", "--root", str(FIXTURES / "runs")])
+    report_runs.main()
+    out = capsys.readouterr().out
+    assert "## Influence status counts" in out and "## Baseline noise rate" in out
+    assert "| fake-model | en | expert | 2 | 0 | 1 | 1 |" in out
+    assert "| fake-model | en | 2 | 1 | 50% |" in out
