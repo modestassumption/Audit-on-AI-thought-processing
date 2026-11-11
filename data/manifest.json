@@ -7,18 +7,32 @@
   },
   "subject_categories": {
     "STEM": 150,
-    "Social Sciences": 106,
-    "Humanities": 44
+    "Social Sciences": 107,
+    "Humanities": 43
   },
   "hinted_letters": {
-    "A": 83,
-    "B": 73,
+    "A": 85,
+    "B": 71,
     "C": 69,
     "D": 75
   },
   "eligible_pool": 1495,
   "ml_matched": 13805,
-  "excluded": [],
+  "excluded": [
+    "anatomy/test/126",
+    "college_biology/test/30",
+    "college_chemistry/test/18",
+    "college_mathematics/test/26",
+    "conceptual_physics/test/143",
+    "econometrics/test/31",
+    "formal_logic/test/119",
+    "formal_logic/test/12",
+    "high_school_chemistry/test/18",
+    "high_school_chemistry/test/30",
+    "high_school_computer_science/test/54",
+    "high_school_macroeconomics/test/264",
+    "professional_psychology/test/184"
+  ],
   "screened_out": {
     "college_computer_science/test/48": [
       "question shortened to 0.43x the English length",
@@ -121,29 +135,39 @@
   "replacements": {
     "high_school_computer_science/test/70": "college_biology/test/142",
     "college_computer_science/test/49": "college_biology/test/130",
-    "high_school_computer_science/test/54": "machine_learning/test/95",
-    "college_computer_science/test/48": "high_school_computer_science/test/46",
+    "conceptual_physics/test/143": "machine_learning/test/95",
+    "high_school_computer_science/test/54": "high_school_computer_science/test/46",
+    "college_biology/test/30": "college_biology/test/12",
+    "college_chemistry/test/18": "college_mathematics/test/31",
+    "high_school_chemistry/test/18": "computer_security/test/45",
+    "college_mathematics/test/26": "abstract_algebra/test/49",
+    "anatomy/test/126": "high_school_mathematics/test/38",
+    "high_school_chemistry/test/30": "college_chemistry/test/61",
+    "college_computer_science/test/48": "college_physics/test/57",
     "high_school_us_history/test/13": "professional_psychology/test/34",
     "econometrics/test/76": "moral_disputes/test/225",
     "high_school_european_history/test/66": "international_law/test/12",
     "high_school_european_history/test/70": "formal_logic/test/28",
     "formal_logic/test/49": "high_school_geography/test/158",
     "formal_logic/test/123": "professional_psychology/test/132",
-    "formal_logic/test/108": "public_relations/test/52",
-    "econometrics/test/31": "public_relations/test/37",
-    "formal_logic/test/31": "prehistory/test/133",
-    "formal_logic/test/12": "logical_fallacies/test/142",
-    "formal_logic/test/104": "jurisprudence/test/73",
-    "econometrics/test/71": "formal_logic/test/117",
-    "high_school_european_history/test/60": "us_foreign_policy/test/95",
-    "econometrics/test/103": "high_school_microeconomics/test/85",
-    "high_school_european_history/test/51": "security_studies/test/215",
-    "formal_logic/test/71": "professional_psychology/test/80",
-    "high_school_european_history/test/37": "econometrics/test/58",
-    "econometrics/test/28": "high_school_macroeconomics/test/125",
-    "formal_logic/test/11": "sociology/test/102",
-    "econometrics/test/92": "high_school_macroeconomics/test/5",
-    "formal_logic/test/20": "high_school_european_history/test/163"
+    "high_school_macroeconomics/test/264": "public_relations/test/52",
+    "formal_logic/test/108": "public_relations/test/37",
+    "econometrics/test/31": "prehistory/test/133",
+    "formal_logic/test/31": "logical_fallacies/test/142",
+    "formal_logic/test/12": "jurisprudence/test/73",
+    "formal_logic/test/119": "formal_logic/test/117",
+    "formal_logic/test/104": "us_foreign_policy/test/95",
+    "econometrics/test/71": "high_school_microeconomics/test/85",
+    "professional_psychology/test/184": "security_studies/test/215",
+    "high_school_european_history/test/60": "professional_psychology/test/80",
+    "econometrics/test/103": "econometrics/test/58",
+    "high_school_european_history/test/51": "high_school_macroeconomics/test/125",
+    "formal_logic/test/71": "sociology/test/102",
+    "high_school_european_history/test/37": "high_school_macroeconomics/test/5",
+    "econometrics/test/28": "high_school_european_history/test/163",
+    "formal_logic/test/11": "high_school_macroeconomics/test/185",
+    "econometrics/test/92": "public_relations/test/71",
+    "formal_logic/test/20": "econometrics/test/3"
   },
   "sources": {
     "cais/mmlu": "c30699e8356da336a370243923dbaf21066bb9fe",
@@ -156,7 +180,7 @@
     "sarvamai/mmlu-indic": "cb8b47d03c971b20b7b43a051f6bf1d54ae801e8"
   },
   "sha256": {
-    "questions.jsonl": "0c61a7895e192d39134d3a55166460478cf293e3688cc2069d950a91789f7809",
-    "reserve.jsonl": "a7294269fe1d572392415e752726a4b55e8433b966b8488bc62d83298aedc047"
+    "questions.jsonl": "b33b9955270ebc563e58dcc0ff8b20ab375e0666c12412841d75b445e325113e",
+    "reserve.jsonl": "def5b72f089fe09987e09f28bad57267d13a29cc53d4edfd1e96c3c74f556391"
   }
 }
