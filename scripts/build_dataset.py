@@ -6,17 +6,16 @@ Outputs (all deterministic for a given seed and exclusion list):
     data/manifest.json            seed, counts, dataset revisions, output hashes
     data/review/ml_review_60.csv  Malayalam sample for native-speaker review
 
-To drop a badly translated question, add its qid to configs/excluded_questions.txt
-and rerun; it is replaced by the next reserve question from the same stratum.
+To drop a badly translated question, mark it "bad" in the review sheet or add its qid to
+configs/excluded_questions.txt and rerun; it is replaced by the next reserve question from the
+same stratum. Rerunning keeps the review sheet's verdict / reviewer / notes columns.
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import json
-import random
 from collections import Counter
 
 from huggingface_hub import HfApi
@@ -24,9 +23,11 @@ from huggingface_hub import HfApi
 from cotaudit.config import CONFIGS, DATA, load_experiment
 from cotaudit.data import load
 from cotaudit.data.match import match_sarvam_to_mmlu
+from cotaudit.data.review import bad_verdicts, review_sample, write_review
 from cotaudit.data.select import eligible_pool, hinted_letter, stratified_sample, stratum_of
 
 EXCLUDED = CONFIGS / "excluded_questions.txt"
+REVIEW = DATA / "review" / "ml_review_60.csv"
 
 
 def read_excluded() -> set[str]:
@@ -72,8 +73,10 @@ def main() -> None:
     print(f"Eligible pool: {len(pool)} {dict(Counter(stratum_of(category[s], strata) for s in pool))}")
 
     selected, reserve = stratified_sample(pool, category, strata, dcfg["n_questions"], seed)
+    initial = list(selected)
 
-    excluded = read_excluded()
+    # Excluded = qids listed by hand + every "bad" verdict in the Malayalam review sheet.
+    excluded = read_excluded() | bad_verdicts(REVIEW)
     replacements = {}
     for sid in [s for s in selected if s in excluded]:
         stratum = stratum_of(category[sid], strata)
@@ -111,27 +114,17 @@ def main() -> None:
     q_hash = write_jsonl(DATA / "questions.jsonl", questions)
     r_hash = write_jsonl(DATA / "reserve.jsonl", [record(s) for s in reserve])
 
-    # Malayalam review sample: equal share from each stratum.
-    rng = random.Random(f"{seed}:ml_review")
-    per = dcfg["ml_review_sample"] // len(strata)
-    review = []
-    for name in strata:
-        ids = sorted(q["qid"] for q in questions if q["stratum"] == name)
-        review += sorted(rng.sample(ids, per))
-    by_id = {q["qid"]: q for q in questions}
-    (DATA / "review").mkdir(exist_ok=True)
-    with open(DATA / "review" / "ml_review_60.csv", "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["qid", "subject", "gold", "en_question", "en_options", "ml_question", "ml_options", "verdict(ok/bad)", "notes"])
-        for sid in review:
-            q = by_id[sid]
-            w.writerow([
-                sid, q["subject"], q["gold"],
-                q["text"]["en"]["question"], " | ".join(q["text"]["en"]["options"]),
-                q["text"]["ml"]["question"], " | ".join(q["text"]["ml"]["options"]),
-                "", "",
-            ])
+    # Malayalam review sample, drawn from the selection before exclusions so it never shifts.
+    review = review_sample(
+        {s: stratum_of(category[s], strata) for s in initial}, list(strata), dcfg["ml_review_sample"], seed
+    )
+    write_review(REVIEW, [record(s) for s in review])
 
+    manifest_path = DATA / "manifest.json"
+    prev_upstream = (
+        json.loads(manifest_path.read_text(encoding="utf-8")).get("latest_upstream", {})
+        if manifest_path.exists() else {}
+    )
     manifest = {
         "seed": seed,
         "n_questions": len(questions),
@@ -143,10 +136,11 @@ def main() -> None:
         "excluded": sorted(excluded),
         "replacements": replacements,
         "sources": rev,
-        "latest_upstream": {repo: dataset_revision(repo) for repo in rev},
+        # Offline (HF_HUB_OFFLINE=1) the lookup fails; keep the last value we saw.
+        "latest_upstream": {repo: dataset_revision(repo) or prev_upstream.get(repo) for repo in rev},
         "sha256": {"questions.jsonl": q_hash, "reserve.jsonl": r_hash},
     }
-    (DATA / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: manifest[k] for k in ("n_questions", "strata", "subject_categories", "hinted_letters")}, indent=2))
 
 
