@@ -14,6 +14,11 @@ dataset:
     humanities: [Humanities, Social Sciences]
   cultural_sensitivity_label: CA     # Global-MMLU "culturally agnostic"
   ml_review_sample: 60               # Malayalam questions checked by a native speaker
+  # Deviation from proposal 4.2 (added 2026-11-11): Sarvam's Malayalam often drops passages,
+  # premises and numbered statements from multi-line questions. A structural screen
+  # (src/cotaudit/data/screen.py) runs on every question and replaces failures from the reserve;
+  # reasons are listed under `screened_out` in data/manifest.json.
+  ml_screen: true
 
 languages: [en, hi, zh, ml]
 

@@ -7,19 +7,144 @@
   },
   "subject_categories": {
     "STEM": 150,
-    "Social Sciences": 99,
-    "Humanities": 51
+    "Social Sciences": 106,
+    "Humanities": 44
   },
   "hinted_letters": {
-    "A": 89,
+    "A": 83,
     "B": 73,
     "C": 69,
-    "D": 69
+    "D": 75
   },
   "eligible_pool": 1495,
   "ml_matched": 13805,
   "excluded": [],
-  "replacements": {},
+  "screened_out": {
+    "college_computer_science/test/48": [
+      "question shortened to 0.43x the English length",
+      "multi-line question collapsed (6 -> 1 lines)"
+    ],
+    "college_computer_science/test/49": [
+      "question shortened to 0.49x the English length",
+      "multi-line question collapsed (4 -> 1 lines)"
+    ],
+    "econometrics/test/103": [
+      "question shortened to 0.26x the English length",
+      "multi-line question collapsed (5 -> 1 lines)"
+    ],
+    "econometrics/test/28": [
+      "question shortened to 0.10x the English length",
+      "multi-line question collapsed (5 -> 1 lines)",
+      "question left untranslated"
+    ],
+    "econometrics/test/31": [
+      "question shortened to 0.29x the English length",
+      "multi-line question collapsed (10 -> 1 lines)"
+    ],
+    "econometrics/test/71": [
+      "question shortened to 0.35x the English length",
+      "multi-line question collapsed (5 -> 1 lines)"
+    ],
+    "econometrics/test/76": [
+      "question shortened to 0.10x the English length",
+      "multi-line question collapsed (6 -> 1 lines)",
+      "question left untranslated"
+    ],
+    "econometrics/test/92": [
+      "question shortened to 0.08x the English length",
+      "multi-line question collapsed (5 -> 1 lines)"
+    ],
+    "formal_logic/test/104": [
+      "lost symbols ~x1 \u2228x1 \u2261x1"
+    ],
+    "formal_logic/test/108": [
+      "multi-line question collapsed (4 -> 1 lines)",
+      "lost symbols ~x3 \u00b7x1 \u2261x3 \u2283x1"
+    ],
+    "formal_logic/test/11": [
+      "lost symbols ~x5 \u00b7x3 \u2228x3 \u2261x1 \u2283x1"
+    ],
+    "formal_logic/test/12": [
+      "multi-line question collapsed (4 -> 1 lines)",
+      "lost symbols ~x3 \u2283x2"
+    ],
+    "formal_logic/test/123": [
+      "lost symbols ~x2 \u2261x1"
+    ],
+    "formal_logic/test/20": [
+      "lost symbols ~x1 \u00b7x2 \u2283x1"
+    ],
+    "formal_logic/test/31": [
+      "lost symbols ~x1 \u00b7x1 \u2228x1"
+    ],
+    "formal_logic/test/49": [
+      "multi-line question collapsed (4 -> 1 lines)",
+      "lost symbols ~x3 \u2200x2 \u2228x1 \u2283x1"
+    ],
+    "formal_logic/test/71": [
+      "lost symbols ~x3 \u00b7x2 \u2261x1 \u2283x1"
+    ],
+    "high_school_computer_science/test/54": [
+      "question shortened to 0.26x the English length",
+      "multi-line question collapsed (8 -> 1 lines)",
+      "question left untranslated"
+    ],
+    "high_school_computer_science/test/70": [
+      "multi-line question collapsed (7 -> 1 lines)"
+    ],
+    "high_school_european_history/test/37": [
+      "question shortened to 0.03x the English length",
+      "multi-line question collapsed (9 -> 1 lines)"
+    ],
+    "high_school_european_history/test/51": [
+      "multi-line question collapsed (4 -> 1 lines)"
+    ],
+    "high_school_european_history/test/60": [
+      "question shortened to 0.10x the English length",
+      "multi-line question collapsed (5 -> 1 lines)"
+    ],
+    "high_school_european_history/test/66": [
+      "multi-line question collapsed (5 -> 1 lines)",
+      "repetition loop"
+    ],
+    "high_school_european_history/test/70": [
+      "question shortened to 0.02x the English length",
+      "multi-line question collapsed (6 -> 1 lines)",
+      "question left untranslated"
+    ],
+    "high_school_us_history/test/13": [
+      "question shortened to 0.49x the English length",
+      "multi-line question collapsed (4 -> 1 lines)"
+    ]
+  },
+  "screened_reserve_skipped": 78,
+  "replacements": {
+    "high_school_computer_science/test/70": "college_biology/test/142",
+    "college_computer_science/test/49": "college_biology/test/130",
+    "high_school_computer_science/test/54": "machine_learning/test/95",
+    "college_computer_science/test/48": "high_school_computer_science/test/46",
+    "high_school_us_history/test/13": "professional_psychology/test/34",
+    "econometrics/test/76": "moral_disputes/test/225",
+    "high_school_european_history/test/66": "international_law/test/12",
+    "high_school_european_history/test/70": "formal_logic/test/28",
+    "formal_logic/test/49": "high_school_geography/test/158",
+    "formal_logic/test/123": "professional_psychology/test/132",
+    "formal_logic/test/108": "public_relations/test/52",
+    "econometrics/test/31": "public_relations/test/37",
+    "formal_logic/test/31": "prehistory/test/133",
+    "formal_logic/test/12": "logical_fallacies/test/142",
+    "formal_logic/test/104": "jurisprudence/test/73",
+    "econometrics/test/71": "formal_logic/test/117",
+    "high_school_european_history/test/60": "us_foreign_policy/test/95",
+    "econometrics/test/103": "high_school_microeconomics/test/85",
+    "high_school_european_history/test/51": "security_studies/test/215",
+    "formal_logic/test/71": "professional_psychology/test/80",
+    "high_school_european_history/test/37": "econometrics/test/58",
+    "econometrics/test/28": "high_school_macroeconomics/test/125",
+    "formal_logic/test/11": "sociology/test/102",
+    "econometrics/test/92": "high_school_macroeconomics/test/5",
+    "formal_logic/test/20": "high_school_european_history/test/163"
+  },
   "sources": {
     "cais/mmlu": "c30699e8356da336a370243923dbaf21066bb9fe",
     "CohereLabs/Global-MMLU": "0e619dbeb34206cd48705a1a0ea7fb21cae09993",
@@ -31,7 +156,7 @@
     "sarvamai/mmlu-indic": "cb8b47d03c971b20b7b43a051f6bf1d54ae801e8"
   },
   "sha256": {
-    "questions.jsonl": "9dfad7d3f9d186eacdb4f4b8df87faa3b0cf4348286d020a3b6aa47f1a6adb09",
-    "reserve.jsonl": "9c25c0774798d19354a954188e1d8508480a7ca9ec881aff04cf471522afe1df"
+    "questions.jsonl": "0c61a7895e192d39134d3a55166460478cf293e3688cc2069d950a91789f7809",
+    "reserve.jsonl": "a7294269fe1d572392415e752726a4b55e8433b966b8488bc62d83298aedc047"
   }
 }

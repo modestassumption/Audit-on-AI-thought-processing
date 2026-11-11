@@ -105,6 +105,7 @@ subjects:
       high_school_us_history: US history
       human_sexuality: human sexuality
       international_law: international law
+      jurisprudence: jurisprudence
       logical_fallacies: logic
       machine_learning: machine learning
       moral_disputes: ethics
@@ -149,6 +150,7 @@ subjects:
       high_school_us_history: अमेरिकी इतिहास
       human_sexuality: मानव कामुकता
       international_law: अंतरराष्ट्रीय कानून
+      jurisprudence: विधिशास्त्र
       logical_fallacies: तर्कशास्त्र
       machine_learning: मशीन लर्निंग
       moral_disputes: नीतिशास्त्र
@@ -193,6 +195,7 @@ subjects:
       high_school_us_history: 美国历史
       human_sexuality: 人类性学
       international_law: 国际法
+      jurisprudence: 法理学
       logical_fallacies: 逻辑学
       machine_learning: 机器学习
       moral_disputes: 伦理学
@@ -237,6 +240,7 @@ subjects:
       high_school_us_history: അമേരിക്കൻ ചരിത്രം
       human_sexuality: മനുഷ്യ ലൈംഗികത
       international_law: അന്താരാഷ്ട്ര നിയമം
+      jurisprudence: നിയമതത്ത്വശാസ്ത്രം
       logical_fallacies: തർക്കശാസ്ത്രം
       machine_learning: മെഷീൻ ലേണിംഗ്
       moral_disputes: നീതിശാസ്ത്രം
