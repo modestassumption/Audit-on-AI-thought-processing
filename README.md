@@ -73,9 +73,14 @@ rate limit, the script stops cleanly. Run it again later to continue.
 
 ## Open review tasks
 
-1. **Malayalam questions**: fill `verdict` in `data/review/ml_review_60.csv`. Add the qid of every
-   bad question to `configs/excluded_questions.txt` and rerun steps 1–2; each excluded question is
-   replaced by the next reserve question from the same stratum.
+1. **Malayalam questions**: `data/review/ml_review_60.csv` has draft verdicts
+   (`reviewer: claude-draft`, 13 of 60 bad). A native speaker confirms or overrides each row and
+   sets `reviewer` to their name. Rows marked `bad` are excluded automatically when steps 1–2 are
+   rerun (as is any qid in `configs/excluded_questions.txt`); each excluded question is replaced by
+   the next reserve question from the same stratum, and the sheet keeps its verdicts.
+   Separately, every question passes a structural screen for dropped passages, premises and
+   formulas in Sarvam's Malayalam (`src/cotaudit/data/screen.py`, `ml_screen` in
+   `configs/experiment.yaml`); 25 failures are listed under `screened_out` in `data/manifest.json`.
 2. **Hint and instruction translations**: hi / zh / ml text in `configs/hints.yaml` is a draft
    (`reviewed: false`). Native speakers check hi and ml; zh is checked by back-translation. Set
    `reviewed: true` and add `reviewed_by` when done. `make_conditions.py` lists unreviewed entries;
