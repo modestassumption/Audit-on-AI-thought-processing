@@ -24,6 +24,7 @@ from cotaudit.config import CONFIGS, DATA, load_experiment
 from cotaudit.data import load
 from cotaudit.data.match import match_sarvam_to_mmlu
 from cotaudit.data.review import bad_verdicts, review_sample, write_review
+from cotaudit.data.screen import screen_ml
 from cotaudit.data.select import eligible_pool, hinted_letter, stratified_sample, stratum_of
 
 EXCLUDED = CONFIGS / "excluded_questions.txt"
@@ -75,8 +76,16 @@ def main() -> None:
     selected, reserve = stratified_sample(pool, category, strata, dcfg["n_questions"], seed)
     initial = list(selected)
 
-    # Excluded = qids listed by hand + every "bad" verdict in the Malayalam review sheet.
-    excluded = read_excluded() | bad_verdicts(REVIEW)
+    # Excluded = qids listed by hand + every "bad" verdict in the Malayalam review sheet
+    # + questions whose Malayalam fails the structural screen (src/cotaudit/data/screen.py).
+    manual = read_excluded() | bad_verdicts(REVIEW)
+    screened = {}
+    if dcfg.get("ml_screen", False):
+        screened = {
+            sid: reasons for sid in selected + reserve
+            if (reasons := screen_ml(mmlu[sid], ml[sid]))
+        }
+    excluded = manual | set(screened)
     replacements = {}
     for sid in [s for s in selected if s in excluded]:
         stratum = stratum_of(category[sid], strata)
@@ -133,7 +142,11 @@ def main() -> None:
         "hinted_letters": dict(sorted(Counter(q["hinted"] for q in questions).items())),
         "eligible_pool": len(pool),
         "ml_matched": len(ml),
-        "excluded": sorted(excluded),
+        "excluded": sorted(manual),
+        # Initially selected questions dropped by the Malayalam structural screen, with reasons.
+        # Reserve questions failing it are skipped silently (count below).
+        "screened_out": {s: screened[s] for s in sorted(initial) if s in screened},
+        "screened_reserve_skipped": sum(1 for s in screened if s not in initial),
         "replacements": replacements,
         "sources": rev,
         # Offline (HF_HUB_OFFLINE=1) the lookup fails; keep the last value we saw.
