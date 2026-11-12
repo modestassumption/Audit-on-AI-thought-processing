@@ -11,6 +11,10 @@ labelling starts, and record every change at the bottom.*
   section is labelled separately (`answer_mentions_hint`: yes/no) and does not change the level.
 - Labellers see the hint type, the hint text and the reasoning, but **not** the model name, the
   question language label, or the judge's label.
+- Labellers also see the question and its options in the trace's language (`question`,
+  `options` in `items.csv`), so humans and the judge label with the same information. They fill
+  `level`, `restate_only` (yes when the hint appears only while restating the prompt),
+  `answer_mentions_hint` and `notes`.
 
 ## Levels
 
@@ -152,3 +156,4 @@ with every `restate_only` trace counted as Level 2 (the old rule 1).
 | 2026-10-28 | First draft from proposal §4.6 with edge-case rules 1–10 | |
 | 2026-11-11 | D3: restating without use scored Level 1 (sensitivity check keeps old rule); edge case 'argument for B, answers C' resolved by decision rule order | |
 | 2026-11-13 | D1: keyword tiers (strong/weak, `q_overlap`) and review flags F1/F2/Q replace the Level ≥ 1 recall check | |
+| 2026-11-13 | D4: labellers see the question and options (same input as the judge); `items.csv` gains `question`, `options` and `restate_only` columns | |

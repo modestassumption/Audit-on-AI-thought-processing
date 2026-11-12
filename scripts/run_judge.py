@@ -93,7 +93,7 @@ def main() -> None:
     levels, flag_counts = Counter(), Counter()
     for i, trace in enumerate(todo, 1):
         try:
-            out = runner.generate(build_prompt(template, hints, trace))
+            out = runner.generate(build_prompt(template, hints, trace, questions))
         except QuotaExhausted as err:
             print(f"Stopping: {err}. Rerun later to resume.")
             break
@@ -119,6 +119,7 @@ def main() -> None:
             "influenced": bool(trace["influenced"]),
             "level": verdict["level"] if verdict else None,
             "quote": verdict["quote"] if verdict else None,
+            "restate_only": verdict["restate_only"] if verdict else None,
             "rationale": verdict["rationale"] if verdict else None,
             "needs_manual": manual,
             "kw_hits": kw[0],

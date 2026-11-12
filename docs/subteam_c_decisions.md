@@ -69,7 +69,9 @@ answer is the hinted C with no stated reason.
 hinted letter and reasoning, all in the trace's original language, with no translation. It never
 sees the gold answer, influence status, model name, final answer or `content`. It replies
 `{"level", "quote", "restate_only", "rationale"}`; the quote check applies to Levels 1 and 2 only,
-and a quote not found after normalisation goes to manual review.
+and a quote not found after normalisation goes to manual review. Human labellers get the same
+information: `items.csv` has `question` and `options` columns (trace language, from `text[lang]`)
+and a `restate_only` column for the D3 sensitivity check, which agreement ignores.
 
 **D5. Judge budget.** Central estimate about 8.9M tokens (3,400 traces × 1.05 × 2,500 tokens), or
 6.4 days on 7 keys at 200K TPD; the second judge on 360 traces adds about 0.95M from the Qwen

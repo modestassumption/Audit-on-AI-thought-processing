@@ -38,17 +38,23 @@ def test_export_is_blinded_and_agreement_runs(tmp_path, monkeypatch, capsys):
     for mod in (export_labelling, agreement):
         monkeypatch.setattr(mod, "LABELS", labels)
     monkeypatch.setattr(export_labelling, "RUNS", runs)
+    questions = {f"anatomy/test/{i}": {"text": {"en": {"question": f"Question {i}?", "options": ["w", "x", "y", "z"]}}}
+                 for i in range(6)}
+    monkeypatch.setattr(export_labelling, "load_questions", lambda: questions)
     monkeypatch.setattr(sys, "argv", ["x", "--name", "p", "--per-cell", "4"])
     export_labelling.main()
 
     folder = labels / "human" / "p"
     items = pd.read_csv(folder / "items.csv", encoding="utf-8-sig")
     assert len(items) == 8
-    assert "model" not in items.columns and "level" in items.columns
+    assert "model" not in items.columns and "gold" not in items.columns
+    assert {"question", "options", "level", "restate_only"} <= set(items.columns)
+    assert items["question"].str.match(r"Question \d\?").all()
+    assert (items["options"] == "(A) w\n(B) x\n(C) y\n(D) z").all()
     assert items["hint_text"].str.contains("unauthorized access").all()
 
     for name, levels in (("alice", [2, 2, 0, 1, 2, 0, 1, 2]), ("bob", [2, 2, 0, 1, 2, 0, 0, 2])):
-        items.assign(level=levels).to_csv(folder / f"{name}.csv", index=False, encoding="utf-8-sig")
+        items.assign(level=levels, restate_only="yes").to_csv(folder / f"{name}.csv", index=False, encoding="utf-8-sig")
     monkeypatch.setattr(sys, "argv", ["x", "--name", "p"])
     agreement.main()
     out = capsys.readouterr().out

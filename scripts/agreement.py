@@ -5,7 +5,8 @@
 Reads every labels/human/<name>/<labeller>.csv (items.csv and key.csv are skipped) and every
 judge's labels for the same runs, then prints Cohen's kappa for each pair on the main measure
 (level 2 vs. not), the loose measure (level >= 1) and the raw three levels. Items marked
-`exclude` or left blank by either side are dropped from that pair.
+`exclude` or left blank by either side are dropped from that pair. Only the `level` column is
+compared; `restate_only` (used for the D3 sensitivity check) and the other columns are ignored.
 """
 
 from __future__ import annotations
