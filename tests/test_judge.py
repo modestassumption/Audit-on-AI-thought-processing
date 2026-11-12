@@ -1,6 +1,8 @@
 import json
 import sys
 
+import pytest
+
 from cotaudit.config import load_hints
 from cotaudit.judge.keywords import keyword_hits, load_keywords
 from cotaudit.judge.llm_judge import build_prompt, load_template, needs_manual, parse_response, quote_found
@@ -76,7 +78,9 @@ def test_run_judge_end_to_end_with_fake_groq(tmp_path, monkeypatch):
     rows = [json.loads(ln) for p in (labels / "gpt-oss-120b").glob("20*.jsonl") for ln in p.read_text(encoding="utf-8").splitlines()]
     assert len(rows) == 1
     assert rows[0]["level"] == 2 and rows[0]["needs_manual"] is None
-    assert rows[0]["kw_hits"] == ["believes the answer", "professor"]  # D1 lists: two strong English terms
+    assert {(h["term"], h["tier"], h["relation"]) for h in rows[0]["kw_hits"]} == {
+        ("professor*", "strong", "question_lang"), ("believes the answer", "strong", "question_lang")}
+    assert rows[0]["content_kw_hits"] == [] and rows[0]["flags"] == []
 
 
 # --- D1/D2 keyword matching --------------------------------------------------------------------
@@ -144,3 +148,68 @@ def test_curly_quotes_are_straightened():
 def test_old_style_malayalam_chillu_matches_the_atomic_letter():
     old_style = "ഒരു പ്രൊഫസര്‍ പറയുന്നു"  # ര + virama + ZWJ, not the atomic ർ
     assert ("പ്രൊഫസർ", "ml") in hits(old_style, lang="ml", hint_lang="ml")
+
+
+
+# --- D1 review flags -----------------------------------------------------------------------------
+
+def hit(tier="strong", q_overlap=False):
+    return {"term": "t", "list_lang": "en", "tier": tier, "q_overlap": q_overlap, "relation": "question_lang"}
+
+
+def test_review_flags():
+    from cotaudit.judge.keywords import review_flags
+
+    assert review_flags(0, [hit()], None) == ["F1"]
+    assert review_flags(0, [hit("weak"), hit(q_overlap=True)], None) == []   # weak / q_overlap never F1
+    assert review_flags(0, [], None) == []
+    assert review_flags(2, [], None) == ["F2"]
+    assert review_flags(1, [hit("weak", q_overlap=True)], None) == []        # a hit of any tier stops F2
+    assert review_flags(2, [], "quote_not_found") == ["F2", "Q"]
+    assert review_flags(None, [hit()], "unparseable") == ["Q"]
+
+
+def flagged(n, flag, lang):
+    return [{"run_id": f"{flag}{lang}{i:03d}", "lang": lang, "flags": [flag]} for i in range(n)]
+
+
+def test_review_sample_below_cap_reviews_everything():
+    from cotaudit.judge.keywords import review_sample
+
+    labels = flagged(3, "F1", "en") + flagged(2, "F2", "hi") + [{"run_id": "x", "lang": "en", "flags": []}]
+    out = review_sample(labels, seed=21, cap=10)
+    assert len(out) == 5 and {r["weight"] for r in out} == {1.0}
+
+
+def test_review_sample_above_cap_is_equal_per_language_and_weighted():
+    from cotaudit.judge.keywords import review_sample
+
+    labels = flagged(100, "F1", "en") + flagged(10, "F1", "ml") + flagged(40, "F1", "hi") + flagged(7, "F2", "zh")
+    out = review_sample(labels, seed=21, cap=100, per_lang=25)
+    f1 = [r for r in out if r["review_flag"] == "F1"]
+    by_lang = {lang: [r for r in f1 if r["lang"] == lang] for lang in ("en", "hi", "ml")}
+    assert {k: len(v) for k, v in by_lang.items()} == {"en": 25, "hi": 25, "ml": 10}  # ml: all 10
+    assert {k: v[0]["weight"] for k, v in by_lang.items()} == {"en": 4.0, "hi": 1.6, "ml": 1.0}
+    assert sum(r["review_flag"] == "F2" for r in out) == 7
+    # weights recover the true F1 count per language; the draw is seeded
+    assert sum(r["weight"] for r in f1) == pytest.approx(150)
+    assert [r["run_id"] for r in out] == [r["run_id"] for r in review_sample(labels, seed=21, cap=100)]
+
+
+def test_run_judge_review_sample_mode(tmp_path, monkeypatch, capsys):
+    sys.path.insert(0, "scripts")
+    import run_judge
+    from cotaudit.runlog import RunLog
+
+    log = RunLog("gpt-oss-120b", tmp_path, "t")
+    for r in flagged(2, "F1", "en") + flagged(1, "F2", "hi"):
+        log.write({**r, "trace_run_id": "tr" + r["run_id"], "model": "m", "condition": "expert",
+                   "level": 0 if "F1" in r["flags"] else 2, "timestamp_utc": "2026-11-13T00:00:00+00:00"})
+    monkeypatch.setattr(run_judge, "LABELS", tmp_path)
+    monkeypatch.setattr(sys, "argv", ["run_judge.py", "--judge", "gpt-oss-120b", "--review-sample"])
+    run_judge.main()  # no runner, no keys
+    out = capsys.readouterr().out
+    assert "F1 + F2 = 3" in out and "all F1 and F2" in out
+    import pandas as pd
+    sample = pd.read_csv(tmp_path / "gpt-oss-120b" / "review_sample.csv", encoding="utf-8-sig")
+    assert sorted(sample["review_flag"]) == ["F1", "F1", "F2"]

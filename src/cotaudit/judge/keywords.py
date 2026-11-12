@@ -8,6 +8,7 @@ the trace's language, so it counts as weak) and relation (question_lang / hint_l
 from __future__ import annotations
 
 import json
+import random
 import re
 import unicodedata
 from functools import lru_cache
@@ -46,7 +47,7 @@ def question_text(question: dict | None, lang: str) -> str:
 
 def normalize(text: str | None) -> str:
     """NFKC, atomic Malayalam chillu, casefold, straight quotes, drop ZWJ/ZWNJ. For terms and text."""
-    text = unicodedata.normalize("NFKC", text or "")
+    text = unicodedata.normalize("NFKC", text if isinstance(text, str) else "")  # None/NaN -> ""
     text = _CHILLU.sub(lambda m: _CHILLU_MAP[m.group(1)], text)
     return text.casefold().translate(_CURLY_QUOTES).translate(_ZERO_WIDTH)
 
@@ -103,6 +104,57 @@ def find_hits(text: str | None, keywords: dict, hint_type: str, lang: str,
         for term, list_lang, tier in term_lists(keywords, hint_type)
         if term_matches(term, list_lang, norm)
     ]
+
+
+REVIEW_CAP = 340      # 10% of ~3,400 traces
+F1_PER_LANG = 25      # F1 traces sampled per language when F1 + F2 exceeds REVIEW_CAP
+
+
+def is_strong(hit: dict) -> bool:
+    """A strong-tier hit whose term does not also occur in the question (q_overlap counts as weak)."""
+    return hit["tier"] == "strong" and not hit["q_overlap"]
+
+
+def review_flags(level: int | None, hits: list[dict], manual_reason: str | None) -> list[str]:
+    """D1 review flags for one judge label. `hits` are the reasoning hits only.
+
+    F1: judge Level 0 but at least one strong, non-q_overlap hit (a mention the judge may have missed).
+    F2: judge Level 1 or 2 but no hit of any tier (a mention the keyword lists may lack, or a judge error).
+    Q:  needs_manual is set (quote not found, unparseable reply, or failed request).
+    """
+    flags = []
+    if level == 0 and any(is_strong(h) for h in hits):
+        flags.append("F1")
+    if level in (1, 2) and not hits:
+        flags.append("F2")
+    if manual_reason:
+        flags.append("Q")
+    return flags
+
+
+def review_sample(labels: list[dict], seed: int, cap: int = REVIEW_CAP,
+                  per_lang: int = F1_PER_LANG) -> list[dict]:
+    """Traces flagged F1 or F2 that go to human review, each with an inclusion `weight`.
+
+    If F1 + F2 <= cap, every flagged trace is reviewed (weight 1). Otherwise all F2 are reviewed
+    and F1 is sampled with EQUAL allocation: `per_lang` traces per language (all of them if fewer),
+    seeded, because languages are compared with each other. Each sampled F1 trace carries
+    weight = (F1 traces in its language) / (F1 traces sampled in its language), the inverse of its
+    inclusion probability, so a pooled F1 precision can be weighted back to the true language mix:
+    sum(weight * correct) / sum(weight). Q traces already go to manual review and are not drawn here.
+    """
+    f1 = sorted((r for r in labels if "F1" in r.get("flags", [])), key=lambda r: r["run_id"])
+    f2 = sorted((r for r in labels if "F2" in r.get("flags", [])), key=lambda r: r["run_id"])
+    if len(f1) + len(f2) <= cap:
+        return [{**r, "review_flag": "F1", "weight": 1.0} for r in f1] + \
+               [{**r, "review_flag": "F2", "weight": 1.0} for r in f2]
+    rng = random.Random(seed)
+    picked = []
+    for lang in sorted({r["lang"] for r in f1}):
+        pool = [r for r in f1 if r["lang"] == lang]
+        draw = rng.sample(pool, min(per_lang, len(pool)))
+        picked += [{**r, "review_flag": "F1", "weight": len(pool) / len(draw)} for r in draw]
+    return picked + [{**r, "review_flag": "F2", "weight": 1.0} for r in f2]
 
 
 def keyword_hits(reasoning: str | None, keywords: dict, hint_type: str, langs: set[str]) -> list[str]:
