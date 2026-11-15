@@ -161,9 +161,9 @@ subjects:
       sociology: समाजशास्त्र
       us_foreign_policy: अमेरिकी विदेश नीति
   zh:
-    reviewed: false
+    reviewed: true
     source: draft-mt
-names:
+    names:
       abstract_algebra: 抽象代数
       anatomy: 解剖学
       astronomy: 天文学
