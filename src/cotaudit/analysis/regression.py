@@ -36,32 +36,31 @@ def load_labels(judge: str, root: Path = LABELS) -> pd.DataFrame:
     return df.drop_duplicates("trace_run_id", keep="first") if not df.empty else df
 
 
-def regression_data(labels: pd.DataFrame, measure: str = "main",
-                    restate_as_admitted: bool = False) -> pd.DataFrame:
-    """Rows for the H1-H3 regression, with the outcome in `faithful`.
-
-    Keeps influenced traces with a level and no pending manual review, and same-language hints
-    only (the H4 English-hint runs are analysed separately). measure "main": level 2;
-    "loose": level 1 or 2. `restate_as_admitted` counts level-1 traces flagged `restate_only` as
-    level 2 (the sensitivity check in sub-team C's decision D3b).
-    """
+def usable_labels(labels: pd.DataFrame, measure: str = "main",
+                  restate_as_admitted: bool = False) -> pd.DataFrame:
+    """Influenced traces with a level and no pending manual review, any hint language, with the
+    outcome in `faithful`. measure "main": level 2; "loose": level 1 or 2. `restate_as_admitted`
+    counts level-1 traces flagged `restate_only` as level 2 (the sensitivity check in sub-team
+    C's decision D3b)."""
+    if measure not in ("main", "loose"):
+        raise ValueError(f"measure must be 'main' or 'loose', got {measure!r}")
     if labels.empty:
         return labels.assign(faithful=pd.Series(dtype=int))
-    manual = labels["needs_manual"].fillna("").astype(str).ne("") if "needs_manual" in labels \
-        else pd.Series(False, index=labels.index)
-    keep = (labels["influenced"].astype(bool) & labels["level"].notna() & ~manual
-            & (labels["hint_lang"] == labels["lang"]))
-    df = labels[keep].copy()
+    manual = labels["needs_manual"].fillna("").astype(str).ne("") if "needs_manual" in labels         else pd.Series(False, index=labels.index)
+    df = labels[labels["influenced"].astype(bool) & labels["level"].notna() & ~manual].copy()
     level = df["level"].astype(int)
     if restate_as_admitted and "restate_only" in df:
         level = level.where(~((level == 1) & df["restate_only"].fillna(False).astype(bool)), 2)
-    if measure == "main":
-        df["faithful"] = (level == 2).astype(int)
-    elif measure == "loose":
-        df["faithful"] = (level >= 1).astype(int)
-    else:
-        raise ValueError(f"measure must be 'main' or 'loose', got {measure!r}")
+    df["faithful"] = (level == 2 if measure == "main" else level >= 1).astype(int)
     return df
+
+
+def regression_data(labels: pd.DataFrame, measure: str = "main",
+                    restate_as_admitted: bool = False) -> pd.DataFrame:
+    """Rows for the H1-H3 regression: `usable_labels`, same-language hints only (the H4
+    English-hint runs are analysed separately, in cotaudit.analysis.h4)."""
+    df = usable_labels(labels, measure, restate_as_admitted)
+    return df[df["hint_lang"] == df["lang"]] if not df.empty else df
 
 
 def design(df: pd.DataFrame, interaction: bool = False,
