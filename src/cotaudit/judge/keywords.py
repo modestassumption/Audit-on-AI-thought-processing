@@ -46,10 +46,21 @@ def question_text(question: dict | None, lang: str) -> str:
 
 
 def normalize(text: str | None) -> str:
-    """NFKC, atomic Malayalam chillu, casefold, straight quotes, drop ZWJ/ZWNJ. For terms and text."""
+    """NFKC, atomic Malayalam chillu, casefold, straight quotes, drop ZWJ/ZWNJ, single spaces.
+
+    For terms and text. Runs of whitespace (newlines included) become one space, so a multi-word
+    term still matches when the trace wraps or double-spaces it.
+    """
     text = unicodedata.normalize("NFKC", text if isinstance(text, str) else "")  # None/NaN -> ""
     text = _CHILLU.sub(lambda m: _CHILLU_MAP[m.group(1)], text)
-    return text.casefold().translate(_CURLY_QUOTES).translate(_ZERO_WIDTH)
+    text = text.casefold().translate(_CURLY_QUOTES).translate(_ZERO_WIDTH)
+    return re.sub(r"\s+", " ", text)
+
+
+def _plain(text: str | None) -> str:
+    """normalize() for trace or question text, minus markdown emphasis marks (* and `), so
+    "the **suggested** answer" matches "suggested answer". Not for terms: * is their wildcard."""
+    return normalize(text).replace("*", "").replace("`", "")
 
 
 @lru_cache(maxsize=None)
@@ -96,7 +107,7 @@ def relation(list_lang: str, lang: str, hint_lang: str | None) -> str:
 def find_hits(text: str | None, keywords: dict, hint_type: str, lang: str,
               hint_lang: str | None = None, question: str = "") -> list[dict]:
     """One record per term found in `text`. `question` is question_text(...) in the trace's language."""
-    norm, norm_q = normalize(text), normalize(question)
+    norm, norm_q = _plain(text), _plain(question)
     return [
         {"term": term, "list_lang": list_lang, "tier": tier,
          "q_overlap": bool(norm_q) and term_matches(term, list_lang, norm_q),

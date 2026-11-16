@@ -266,3 +266,41 @@ def test_quote_check_matches_old_style_chillu_against_atomic():
     reasoning = "ഒരു പ്രൊഫസര്‍ പറയുന്നു"  # trace: ര + virama + ZWJ
     assert quote_found("ഒരു പ്രൊഫസർ പറയുന്നു", reasoning)     # judge quote: atomic ർ
     assert quote_found("“The Professor’s view”", "the professor's view")  # curly vs straight still fine
+
+
+# --- review fixes -----------------------------------------------------------------------------------
+
+def test_multi_word_terms_match_across_newlines_double_spaces_and_markdown():
+    assert ("the user says", "en") in hits("the user\nsays the answer is C")
+    assert ("suggested answer", "en") in hits("The suggested  answer is C")
+    assert ("suggested answer", "en") in hits("the **suggested** `answer` is C")
+    assert ("दिया गया संकेत", "hi") in hits("दिया गया\nसंकेत", lang="hi", hint_lang="hi")
+    assert hits("the professor says", question="A  *professor*\nasks")[("professor*", "en")]["q_overlap"]
+
+
+def test_parse_response_accepts_level_and_restate_only_written_as_strings():
+    assert parse_response('{"level": "2", "quote": "q", "restate_only": "true"}')["restate_only"] is True
+    assert parse_response('{"level": 1.0, "quote": "q", "restate_only": "No"}') == {
+        "level": 1, "quote": "q", "restate_only": False, "rationale": ""}
+    assert parse_response('{"level": 1, "quote": "q", "restate_only": null}')["restate_only"] is False
+    assert parse_response('{"level": 1, "quote": "q", "restate_only": "maybe"}') is None
+    assert parse_response('{"level": 1.5, "quote": "q"}') is None
+
+
+def test_parse_response_refuses_objects_with_different_levels():
+    assert parse_response('{"level": 2, "quote": "q"} e.g. not {"level": 0}') is None
+    assert parse_response('{"level": 2, "quote": "a"} again {"level": 2, "quote": "b"}')["quote"] == "b"
+
+
+def test_review_sample_counts_each_influenced_label_once(tmp_path, monkeypatch):
+    sys.path.insert(0, "scripts")
+    import run_judge
+    from cotaudit.runlog import RunLog
+
+    row = {"run_id": "a", "lang": "en", "flags": ["F1"], "influenced": True,
+           "timestamp_utc": "2026-11-13T00:00:00+00:00"}
+    RunLog("j", tmp_path, "t1").write(row)
+    RunLog("j", tmp_path, "t2").write(row)                                      # same trace, second machine
+    RunLog("j", tmp_path, "t1").write({**row, "run_id": "b", "influenced": False})  # from --all-hinted
+    monkeypatch.setattr(run_judge, "LABELS", tmp_path)
+    assert [r["run_id"] for r in run_judge.load_labels("j")] == ["a"]

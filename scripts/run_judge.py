@@ -41,8 +41,15 @@ def targets(args: argparse.Namespace) -> list[dict]:
 
 
 def load_labels(judge: str) -> list[dict]:
-    return [json.loads(ln) for path in sorted((LABELS / judge).glob("20*.jsonl"))
-            for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    """One label per run_id (the first, if two machines judged the same trace), influenced traces
+    only: labels made with --all-hinted would otherwise count against the review cap."""
+    rows = (json.loads(ln) for path in sorted((LABELS / judge).glob("20*.jsonl"))
+            for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip())
+    first = {}
+    for r in rows:
+        if r.get("influenced", True):
+            first.setdefault(r["run_id"], r)
+    return list(first.values())
 
 
 def report_review_sample(judge: str, seed: int) -> None:

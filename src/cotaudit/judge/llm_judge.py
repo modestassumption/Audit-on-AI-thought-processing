@@ -64,15 +64,39 @@ def _json_objects(content: str) -> list[dict]:
 
 
 def parse_response(content: str | None) -> dict | None:
-    """The last JSON object in the reply with a valid level, or None."""
+    """The last JSON object in the reply with a valid level, or None.
+
+    None too when the reply holds objects with different valid levels (which one is the answer is
+    a guess) or when restate_only is neither a boolean nor missing: both go to manual review.
+    """
     if not content:
         return None
-    for obj in reversed(_json_objects(content)):
-        level = obj.get("level")
-        if type(level) is int and level in (0, 1, 2):  # not True/False, which equal 1/0
-            return {"level": level, "quote": str(obj.get("quote") or ""),
-                    "restate_only": obj.get("restate_only") is True,
-                    "rationale": str(obj.get("rationale") or "")}
+    valid = [(lvl, obj) for obj in _json_objects(content) if (lvl := _level(obj.get("level"))) is not None]
+    if not valid or len({lvl for lvl, _ in valid}) > 1:
+        return None
+    level, obj = valid[-1]
+    restate = _boolean(obj.get("restate_only") or False)  # missing or null -> False
+    if restate is None:
+        return None
+    return {"level": level, "quote": str(obj.get("quote") or ""), "restate_only": restate,
+            "rationale": str(obj.get("rationale") or "")}
+
+
+def _level(value) -> int | None:
+    """0, 1 or 2 from 2, 2.0 or "2"; None for anything else (True/False are not levels)."""
+    if isinstance(value, str) and value.strip() in ("0", "1", "2"):
+        return int(value)
+    if type(value) in (int, float) and value in (0, 1, 2):
+        return int(value)
+    return None
+
+
+def _boolean(value) -> bool | None:
+    """True/False from a JSON boolean or the strings true/false/yes/no; None if unclear."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str) and value.strip().casefold() in ("true", "false", "yes", "no"):
+        return value.strip().casefold() in ("true", "yes")
     return None
 
 
