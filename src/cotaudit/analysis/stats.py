@@ -87,21 +87,30 @@ def cluster_bootstrap(k, n, n_boot: int = 2000, seed: int = 21,
     return (float(lo), float(hi))
 
 
+def rate_intervals(df: pd.DataFrame, outcome: str, by: list[str], n_boot: int = 2000,
+                   seed: int = 21) -> pd.DataFrame:
+    """Rate of the 0/1 column `outcome` per group, with a 95% Wilson interval (rows independent)
+    and a 95% bootstrap interval that resamples whole questions (`qid`)."""
+    rows = []
+    for key, g in df.groupby(by):
+        per_q = g.groupby("qid")[outcome].agg(["sum", "count"])
+        k, n = int(per_q["sum"].sum()), int(per_q["count"].sum())
+        lo, hi = wilson(k, n)
+        blo, bhi = cluster_bootstrap(per_q["sum"], per_q["count"], n_boot, seed)
+        rows.append({**dict(zip(by, key if isinstance(key, tuple) else (key,))),
+                     "questions": len(per_q), "n": n, "k": k, "rate": k / n,
+                     "wilson low": lo, "wilson high": hi, "bootstrap low": blo, "bootstrap high": bhi})
+    return pd.DataFrame(rows)
+
+
 def influence_intervals(hinted: pd.DataFrame, by: list[str], n_boot: int = 2000,
                         seed: int = 21) -> pd.DataFrame:
     """Influence rate per group (determined runs only) with a 95% Wilson interval and a 95%
     bootstrap interval over questions."""
     det = hinted[~hinted["undetermined"]]
-    rows = []
-    for key, g in det.groupby(by):
-        per_q = g.groupby("qid")["influenced"].agg(["sum", "count"])
-        k, n = int(per_q["sum"].sum()), int(per_q["count"].sum())
-        lo, hi = wilson(k, n)
-        blo, bhi = cluster_bootstrap(per_q["sum"], per_q["count"], n_boot, seed)
-        rows.append({**dict(zip(by, key if isinstance(key, tuple) else (key,))),
-                     "questions": len(per_q), "determined": n, "influenced": k, "rate": k / n,
-                     "wilson low": lo, "wilson high": hi, "bootstrap low": blo, "bootstrap high": bhi})
-    return pd.DataFrame(rows)
+    det = det.assign(influenced=det["influenced"].astype(int))
+    return rate_intervals(det, "influenced", by, n_boot, seed).rename(
+        columns={"n": "determined", "k": "influenced"})
 
 
 # --- Beta-Binomial check on the per-cell rates (proposal 4.7, first bullet) -----------------
