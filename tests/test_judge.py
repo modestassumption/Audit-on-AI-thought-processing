@@ -304,3 +304,98 @@ def test_review_sample_counts_each_influenced_label_once(tmp_path, monkeypatch):
     RunLog("j", tmp_path, "t1").write({**row, "run_id": "b", "influenced": False})  # from --all-hinted
     monkeypatch.setattr(run_judge, "LABELS", tmp_path)
     assert [r["run_id"] for r in run_judge.load_labels("j")] == ["a"]
+
+
+# --- D5 judge run settings ----------------------------------------------------------------------------
+
+def test_judges_are_capped_at_2000_completion_tokens():
+    from cotaudit.config import load_experiment
+
+    assert {j["max_completion_tokens"] for j in load_experiment()["judges"].values()} == {2000}
+
+
+def test_judge_order_is_seeded_and_spreads_every_stratum():
+    sys.path.insert(0, "scripts")
+    import run_judge
+
+    rows = [{"run_id": f"{m}{lang}{i:03d}", "model": m, "lang": lang, "condition": "expert"}
+            for m, lang, n in (("a", "en", 80), ("a", "ml", 40), ("b", "en", 8)) for i in range(n)]
+    order = run_judge.judge_order(rows, seed=21)
+    assert sorted(r["run_id"] for r in order) == sorted(r["run_id"] for r in rows)
+    assert order == run_judge.judge_order(list(reversed(rows)), seed=21)   # input order does not matter
+    assert order != run_judge.judge_order(rows, seed=22)
+    half = order[:64]                                                      # stop half-way: half of each stratum
+    assert [sum(r["run_id"].startswith(k) for r in half) for k in ("aen", "aml", "ben")] == [40, 20, 4]
+
+
+def _judge_setup(tmp_path, monkeypatch, runner, argv=()):
+    """Two influenced traces (h1, h2) of model m, a fake runner, and run_judge pointed at tmp_path."""
+    sys.path.insert(0, "scripts")
+    import run_judge
+    from cotaudit.runlog import RunLog
+
+    runs, labels = tmp_path / "runs", tmp_path / "labels"
+    log = RunLog("m", runs, "t")
+    for q in ("1", "2"):
+        base = {"model": "m", "qid": f"anatomy/test/{q}", "subject": "anatomy", "stratum": "stem", "lang": "en",
+                "gold": "C", "hinted": "B", "finish_reason": "stop", "timestamp_utc": "2026-10-28T00:00:00+00:00"}
+        for rep in (1, 2):
+            log.write({**base, "run_id": f"b{q}{rep}", "condition_id": f"c{q}{rep}", "hint_type": "none",
+                       "hint_lang": None, "rep": rep, "answer": "C", "reasoning": "x"})
+        log.write({**base, "run_id": f"h{q}", "condition_id": f"ch{q}", "hint_type": "expert", "hint_lang": "en",
+                   "rep": 1, "answer": "B", "reasoning": TRACE["reasoning"]})
+    monkeypatch.setattr(run_judge, "RUNS", runs)
+    monkeypatch.setattr(run_judge, "LABELS", labels)
+    monkeypatch.setattr(run_judge, "GroqRunner", runner)
+    monkeypatch.setattr(run_judge, "keys_from_env", lambda: {"k": "x"})
+    monkeypatch.setattr(run_judge, "load_questions",
+                        lambda: {f"anatomy/test/{q}": QUESTIONS["anatomy/test/9"] for q in ("1", "2")})
+    monkeypatch.setattr(sys, "argv", ["run_judge.py", "--judge", "gpt-oss-120b", "--tag", "t", *argv])
+
+    def rows():
+        return [json.loads(ln) for p in (labels / "gpt-oss-120b").glob("20*.jsonl")
+                for ln in p.read_text(encoding="utf-8").splitlines()]
+    return run_judge, rows
+
+
+def test_request_too_large_is_labelled_for_manual_review_and_not_retried(tmp_path, monkeypatch):
+    calls = []
+
+    class TooLarge(Exception):
+        status_code = 413
+
+    class Runner:
+        params = {}
+
+        def __init__(self, *a, **k):
+            pass
+
+        def generate(self, prompt):
+            calls.append(prompt)
+            raise TooLarge("Request too large for model") if len(calls) == 1 else ConnectionError("network down")
+
+    run_judge, rows = _judge_setup(tmp_path, monkeypatch, Runner)
+    run_judge.main()
+    assert len(calls) == 2
+    (row,) = rows()                                   # the 413 became a label; the network error did not
+    assert row["needs_manual"] == "too_large" and row["level"] is None and row["flags"] == ["Q"]
+    assert {h["term"] for h in row["kw_hits"]} == {"professor*", "believes the answer"}
+    run_judge.main()                                  # rerun: only the network failure is tried again
+    assert len(calls) == 3 and len(rows()) == 1
+
+
+def test_key_csv_restricts_judging_to_its_run_ids(tmp_path, monkeypatch):
+    class Runner:
+        params = {}
+
+        def __init__(self, *a, **k):
+            pass
+
+        def generate(self, prompt):
+            return {"content": '{"level": 0, "quote": ""}', "reasoning": None, "model_returned": "fake", "usage": None}
+
+    key = tmp_path / "key.csv"
+    key.write_text("item_id,run_id\nab12cd34,h2\n", encoding="utf-8-sig")
+    run_judge, rows = _judge_setup(tmp_path, monkeypatch, Runner, argv=["--key", str(key)])
+    run_judge.main()
+    assert [r["trace_run_id"] for r in rows()] == ["h2"]

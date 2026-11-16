@@ -3,11 +3,15 @@
     uv run python scripts/run_judge.py --judge gpt-oss-120b --limit 20      # first check
     uv run python scripts/run_judge.py --judge qwen3.8-27b --models gpt-oss-20b
     uv run python scripts/run_judge.py --judge gpt-oss-120b --review-sample   # flag counts + review list
+    uv run python scripts/run_judge.py --judge qwen3.8-27b --key labels/human/main/key.csv   # second judge, the 360
 
 Targets every influenced run in runs/ (see cotaudit.analysis.influence) whose reasoning is
 present and not truncated. Labels go to labels/<judge>/<date>-<tag>.jsonl; cases whose quote is
 not found in the trace are marked `needs_manual`. Each label stores keyword hits on the reasoning
 (`kw_hits`) and on the final answer (`content_kw_hits`) and its review `flags` (F1/F2/Q, D1).
+Traces are judged in a seeded order stratified by model x language x condition, so a partial run
+is representative (D5). A request Groq rejects as too large is not retried: it is labelled
+`needs_manual: too_large`. Other failed requests go to errors-<tag>.jsonl and are retried next run.
 --review-sample makes no API calls: it counts the flags and writes labels/<judge>/review_sample.csv.
 """
 
@@ -15,7 +19,9 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import Counter
+import random
+from collections import Counter, defaultdict
+from pathlib import Path
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -37,7 +43,35 @@ def targets(args: argparse.Namespace) -> list[dict]:
     rows = labelable(with_influence(load_runs(RUNS, args.models)), influenced_only=not args.all_hinted)
     if args.shard:
         rows = rows[rows["qid"].map(lambda q: in_shard(q, *args.shard))]
+    if args.key:
+        keep = set(pd.read_csv(args.key, dtype=str, encoding="utf-8-sig")["run_id"])
+        rows = rows[rows["run_id"].isin(keep)]
     return rows.to_dict("records")
+
+
+def judge_order(rows: list[dict], seed: int) -> list[dict]:
+    """Seeded judging order, stratified by model x lang x condition (D5).
+
+    Each stratum is shuffled and its traces are spread evenly over the whole run (trace i of n
+    lands near position i/n), so stopping early leaves about the same share of every stratum
+    judged. The order depends only on the seed and the set of traces, so a resumed run continues
+    the same sequence.
+    """
+    rng = random.Random(seed)
+    strata = defaultdict(list)
+    for r in sorted(rows, key=lambda r: r["run_id"]):
+        strata[(r["model"], r["lang"], r["condition"])].append(r)
+    placed = []
+    for key in sorted(strata):
+        group = strata[key]
+        rng.shuffle(group)
+        placed += [((i + rng.random()) / len(group), r["run_id"], r) for i, r in enumerate(group)]
+    return [r for _, _, r in sorted(placed, key=lambda t: t[:2])]
+
+
+def too_large(err: Exception) -> bool:
+    """Groq refused the request for its size (HTTP 413, or a "too large" message)."""
+    return getattr(err, "status_code", None) == 413 or "too large" in str(err).lower()
 
 
 def load_labels(judge: str) -> list[dict]:
@@ -77,6 +111,8 @@ def main() -> None:
     ap.add_argument("--all-hinted", action="store_true", help="label every hinted run, not only influenced ones")
     ap.add_argument("--limit", type=int, help="stop after this many new labels")
     ap.add_argument("--shard", type=parse_shard, help="i/n share of questions, as for run_groq.py")
+    ap.add_argument("--key", type=Path, help="only traces whose run_id is in this key.csv "
+                    "(labels/human/<name>/key.csv), e.g. the second judge on the 360")
     ap.add_argument("--tag", help="log file suffix (default: this computer's name)")
     ap.add_argument("--review-sample", action="store_true",
                     help="no judging: count F1/F2/Q flags and write the human-review list")
@@ -92,13 +128,14 @@ def main() -> None:
     judge_cfg = cfg["judges"][args.judge]
     log = RunLog(args.judge, LABELS, args.tag)
     done = log.completed_ids()
-    todo = [t for t in targets(args) if run_id(args.judge, t["run_id"]) not in done]
+    todo = [t for t in judge_order(targets(args), cfg["seed"]) if run_id(args.judge, t["run_id"]) not in done]
     todo = todo[: args.limit] if args.limit else todo
     print(f"{args.judge}: {len(todo)} traces to label -> {log.dir}")
     runner = GroqRunner(judge_cfg, judge_cfg["max_completion_tokens"], keys_from_env())
 
     levels, flag_counts = Counter(), Counter()
     for i, trace in enumerate(todo, 1):
+        refused = False
         try:
             out = runner.generate(build_prompt(template, hints, trace, questions))
         except QuotaExhausted as err:
@@ -108,9 +145,12 @@ def main() -> None:
             log.write_error({"timestamp_utc": now_utc(), "trace_run_id": trace["run_id"],
                              "error": f"{type(err).__name__}: {err}"})
             print(f"[{i}/{len(todo)}] ERROR {trace['condition_id']}: {err}")
-            continue
+            if not too_large(err):
+                continue  # retried on the next run
+            refused = True  # too large will never succeed: label it for manual review instead
+            out = dict.fromkeys(("content", "reasoning", "model_returned", "usage"))
         verdict = parse_response(out["content"])
-        manual = needs_manual(verdict, trace["reasoning"])
+        manual = "too_large" if refused else needs_manual(verdict, trace["reasoning"])
         q_text = question_text(questions.get(trace["qid"]), trace["lang"])
         kw = [find_hits(trace.get(field), keywords, trace["hint_type"], trace["lang"], trace["hint_lang"], q_text)
               for field in ("reasoning", "content")]

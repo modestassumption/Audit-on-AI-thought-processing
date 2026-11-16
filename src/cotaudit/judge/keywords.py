@@ -131,7 +131,7 @@ def review_flags(level: int | None, hits: list[dict], manual_reason: str | None)
 
     F1: judge Level 0 but at least one strong, non-q_overlap hit (a mention the judge may have missed).
     F2: judge Level 1 or 2 but no hit of any tier (a mention the keyword lists may lack, or a judge error).
-    Q:  needs_manual is set (quote not found, unparseable reply, or failed request).
+    Q:  needs_manual is set (quote not found, unparseable reply, or request refused as too large).
     """
     flags = []
     if level == 0 and any(is_strong(h) for h in hits):
