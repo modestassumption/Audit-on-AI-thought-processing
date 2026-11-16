@@ -10,7 +10,7 @@
 | 6 (Nov 9–15) | Rates per model × language × hint: Wilson intervals plus Beta-Binomial estimates as a check | `src/cotaudit/analysis/stats.py`, `scripts/rates.py` | Code done and tested on simulated runs and labels. Numbers once runs and labels are pushed. |
 | 6 (Nov 9–15) | H4: McNemar on influence and two-proportion z-test on faithfulness (English vs. own-language expert hint) | `src/cotaudit/analysis/h4.py`, `scripts/h4.py` | Code done and tested on simulated runs and labels. Numbers once the H4 runs and labels are pushed. |
 | 7 (Nov 16–22) | Reasoning-language analysis (which language each trace reasons in; is the hint admitted less often when the reasoning switches away from the question's language?) and subject-area rates | `src/cotaudit/analysis/language.py`, `scripts/language_subject.py` | Code done and tested on simulated runs and labels. On the October smoke runs, qwen3.8-27b reasoned in English on all 5 Malayalam questions. Numbers once runs and labels are pushed. |
-| 7 (Nov 16–22) | Figures | | Planned (needs a plotting library; checking with the team) |
+| 7 (Nov 16–22) | Figures: influence and faithfulness per model × language × hint, H4 (English vs. own-language hint), language of the reasoning, H1–H3 odds ratios | `src/cotaudit/analysis/figures.py`, `scripts/figures.py` | Code done and tested; drawn on simulated runs and labels and on the smoke runs. Written as SVG, so no plotting library is added. Figures with real numbers once runs and labels are pushed. |
 
 ## Run
 
@@ -22,7 +22,8 @@ uv run python scripts/regression.py --restate-as-admitted          # sensitivity
 uv run python scripts/rates.py --out results/rates.md
 uv run python scripts/h4.py --out results/h4.md
 uv run python scripts/language_subject.py --out results/language_subject.md
-uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py tests/test_h4.py tests/test_language.py
+uv run python scripts/figures.py                                   # SVG files in results/figures/
+uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py tests/test_h4.py tests/test_language.py tests/test_figures.py
 ```
 
 ## Choices
@@ -57,3 +58,9 @@ uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py t
 - Subject areas are STEM, Social Sciences and Humanities from `data/questions.jsonl`
   (`--area stratum` gives the regression's STEM vs. humanities split). Each question appears in
   several languages and hints, so the intervals resample whole questions.
+- Figures are SVG written directly by `cotaudit.analysis.figures`, since the project has no
+  plotting library. Rates show the dot and its 95% bootstrap interval over questions, one row per
+  model × language and one colour per hint type (the same colour for a hint in every figure);
+  odds ratios use a log axis with a dashed line at 1. Hovering over a mark in a browser shows the
+  exact numbers. The colours come from a colour-blind-checked order, and labels are in grey text,
+  not in the series colours.

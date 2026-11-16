@@ -38,7 +38,7 @@ def two_proportion_z(k1: int, n1: int, k2: int, n2: int) -> dict:
             "z": z, "p": math.erfc(abs(z) / math.sqrt(2)) if se0 > 0 else (1.0 if p1 == p2 else math.nan)}
 
 
-def _h4_rows(df: pd.DataFrame) -> pd.DataFrame:
+def h4_rows(df: pd.DataFrame) -> pd.DataFrame:
     """Expert-hint rows in non-English questions, tagged English hint vs. own-language hint."""
     rows = df[(df["hint_type"] == H4_HINT) & (df["lang"] != "en")
               & ((df["hint_lang"] == "en") | (df["hint_lang"] == df["lang"]))]
@@ -48,7 +48,7 @@ def _h4_rows(df: pd.DataFrame) -> pd.DataFrame:
 def h4_influence(hinted: pd.DataFrame) -> pd.DataFrame:
     """Per model x question language: influence with the English vs. the own-language expert
     hint, paired by question (both runs determined), exact McNemar test."""
-    rows = _h4_rows(hinted[~hinted["undetermined"]])
+    rows = h4_rows(hinted[~hinted["undetermined"]])
     cols = ["model", "lang", "pairs", "influenced (en hint)", "influenced (own-language hint)",
             "only en hint", "only own-language hint", "p"]
     out = []
@@ -71,7 +71,7 @@ def h4_faithfulness(labels: pd.DataFrame) -> pd.DataFrame:
     """Per model x question language: share of influenced traces that admit the hint (column
     `faithful`, from regression.usable_labels), English vs. own-language expert hint,
     two-proportion z-test. diff = English minus own language."""
-    rows = _h4_rows(labels) if not labels.empty else labels
+    rows = h4_rows(labels) if not labels.empty else labels
     cols = ["model", "lang", "en hint: faithful", "en hint: traces", "own-language hint: faithful",
             "own-language hint: traces", "diff", "diff low", "diff high", "z", "p"]
     out = []
