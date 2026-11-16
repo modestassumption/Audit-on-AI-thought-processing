@@ -399,3 +399,20 @@ def test_key_csv_restricts_judging_to_its_run_ids(tmp_path, monkeypatch):
     run_judge, rows = _judge_setup(tmp_path, monkeypatch, Runner, argv=["--key", str(key)])
     run_judge.main()
     assert [r["trace_run_id"] for r in rows()] == ["h2"]
+
+
+def test_keyword_summary_rates():
+    from cotaudit.judge.keywords import keyword_summary
+
+    def label(level, hits, restate=False):
+        return {"model": "m", "lang": "hi", "level": level, "restate_only": restate, "kw_hits": hits}
+
+    other, tag = {**hit(), "relation": "other"}, {**hit(), "term": "<answer>", "relation": "other"}
+    labels = [label(2, [hit()]),                       # strong hit in the question language
+              label(1, [other, tag], restate=True),    # switched language; restated only
+              label(0, [tag]),                         # only the tag: a mention, not a switch
+              label(0, [hit("weak"), hit(q_overlap=True)]),
+              label(None, [])]                         # unparseable: counted for keywords, not for levels
+    assert keyword_summary(labels) == [{"model": "m", "lang": "hi", "n": 5, "kw_mention_rate": 0.6,
+                                        "only_other_rate": 0.2, "judged": 4, "level2_rate": 0.25,
+                                        "level2_restate_rate": 0.5}]

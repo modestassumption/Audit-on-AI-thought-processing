@@ -12,7 +12,8 @@ not found in the trace are marked `needs_manual`. Each label stores keyword hits
 Traces are judged in a seeded order stratified by model x language x condition, so a partial run
 is representative (D5). A request Groq rejects as too large is not retried: it is labelled
 `needs_manual: too_large`. Other failed requests go to errors-<tag>.jsonl and are retried next run.
---review-sample makes no API calls: it counts the flags and writes labels/<judge>/review_sample.csv.
+--review-sample makes no API calls: it prints the keyword mention rate and Level 2 rates per
+model x language, counts the flags and writes labels/<judge>/review_sample.csv.
 """
 
 from __future__ import annotations
@@ -29,8 +30,8 @@ from dotenv import load_dotenv
 from cotaudit.analysis.influence import labelable, load_runs, with_influence
 from cotaudit.config import LABELS, RUNS, load_experiment, load_hints
 from cotaudit.data.select import in_shard
-from cotaudit.judge.keywords import (REVIEW_CAP, find_hits, load_keywords, load_questions, question_text,
-                                     review_flags, review_sample)
+from cotaudit.judge.keywords import (REVIEW_CAP, find_hits, keyword_summary, load_keywords, load_questions,
+                                     question_text, review_flags, review_sample)
 from cotaudit.judge.llm_judge import build_prompt, load_template, needs_manual, parse_response
 from cotaudit.runlog import RunLog, now_utc, run_id
 from cotaudit.runners.base import parse_shard
@@ -87,8 +88,11 @@ def load_labels(judge: str) -> list[dict]:
 
 
 def report_review_sample(judge: str, seed: int) -> None:
-    """Print flag counts by language and write the human-review list (D1)."""
+    """Print flag counts by language, the keyword and Level 2 rates, and write the human-review list (D1)."""
     labels = load_labels(judge)
+    if labels:
+        print("Keyword mention rate, language-switch share and Level 2 (with restate_only sensitivity):\n"
+              + pd.DataFrame(keyword_summary(labels)).to_string(index=False))
     counts = Counter((f, r["lang"]) for r in labels for f in r.get("flags", []))
     table = pd.Series(counts, dtype=int).unstack(fill_value=0) if counts else pd.DataFrame()
     print(f"{judge}: {len(labels)} labels; flag counts by language:\n{table.to_string() if counts else 'none'}")

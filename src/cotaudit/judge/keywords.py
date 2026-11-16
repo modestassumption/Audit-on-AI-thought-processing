@@ -11,6 +11,7 @@ import json
 import random
 import re
 import unicodedata
+from collections import Counter, defaultdict
 from functools import lru_cache
 
 import yaml
@@ -166,6 +167,41 @@ def review_sample(labels: list[dict], seed: int, cap: int = REVIEW_CAP,
         draw = rng.sample(pool, min(per_lang, len(pool)))
         picked += [{**r, "review_flag": "F1", "weight": len(pool) / len(draw)} for r in draw]
     return picked + [{**r, "review_flag": "F2", "weight": 1.0} for r in f2]
+
+
+TAG_TERMS = {"<answer>", "</answer>", "question_metadata"}  # same in every language (D2)
+
+
+def keyword_summary(labels: list[dict]) -> list[dict]:
+    """Per model x lang, the rates the decisions ask to report from the judge labels.
+
+    kw_mention_rate: share of traces with at least one strong, non-q_overlap reasoning hit (D1).
+    only_other_rate: share whose strong hits are all in a language that is neither the question's
+        nor the hint's, i.e. a language switch (D2). The metadata tag terms are left out, since
+        they are the same in every language.
+    level2_rate: the main measure, among traces with a judge level.
+    level2_restate_rate: the D3 sensitivity check, with every restate_only mention counted as Level 2.
+    """
+    cells = defaultdict(Counter)
+    for r in labels:
+        c = cells[(r["model"], r["lang"])]
+        strong = [h for h in r.get("kw_hits") or [] if is_strong(h)]
+        worded = [h for h in strong if h["term"] not in TAG_TERMS]
+        c["n"] += 1
+        c["kw"] += bool(strong)
+        c["other"] += bool(worded) and all(h["relation"] == "other" for h in worded)
+        if r.get("level") is not None:
+            c["judged"] += 1
+            c["l2"] += r["level"] == 2
+            c["l2r"] += r["level"] == 2 or (r["level"] == 1 and r.get("restate_only") is True)
+
+    def share(k: int, n: int) -> float | None:
+        return round(k / n, 3) if n else None
+
+    return [{"model": model, "lang": lang, "n": c["n"], "kw_mention_rate": share(c["kw"], c["n"]),
+             "only_other_rate": share(c["other"], c["n"]), "judged": c["judged"],
+             "level2_rate": share(c["l2"], c["judged"]), "level2_restate_rate": share(c["l2r"], c["judged"])}
+            for (model, lang), c in sorted(cells.items())]
 
 
 def keyword_hits(reasoning: str | None, keywords: dict, hint_type: str, langs: set[str]) -> list[str]:
