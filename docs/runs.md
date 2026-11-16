@@ -10,7 +10,9 @@ Kaggle model (vLLM) and answer extraction. Groq shard 3/7 in [`compute.md`](comp
 | vLLM run script: time limit per session, GPU-memory options, GPU hours printed | `scripts/run_vllm.py`, `src/cotaudit/runners/vllm_runner.py`, `tests/test_run_vllm.py` | Done and tested with a stand-in model (no GPU) |
 | Kaggle notebook for R1-Distill-Llama-8B | `notebooks/kaggle_r1_distill.ipynb` | Ready to run |
 | Runs logged before the dataset or a prompt changed: redo them, leave them out of the analysis | `src/cotaudit/runners/base.py`, `src/cotaudit/runlog.py`, `src/cotaudit/analysis/influence.py`, `tests/test_stale_runs.py` | Done and tested (below) |
-| R1-Distill pilot (50 questions, 1,150 runs) and main run (6,900 runs) on Kaggle T4 x2 | notebook above | To do. Main run waits for the Malayalam review (`make_conditions.py --require-reviewed`) |
+| Tokenizer fix: tokenize prompts and decode outputs from tokenizer.json, check all four languages before the model loads | `src/cotaudit/runners/vllm_runner.py`, `tests/test_run_vllm.py` | Done (below) |
+| R1-Distill pilot (50 questions, 1,150 runs) on Kaggle T4 x2 | notebook above | First attempt (Nov 16, 1 h 55 min) unusable: broken tokenizer (below). Rerun with the fix |
+| R1-Distill main run (6,900 runs) | notebook above | Waits for the Malayalam review (`make_conditions.py --require-reviewed`) |
 | Groq shard 3/7 (gpt-oss-20b, qwen3.8-27b) | `scripts/run_groq.py` | To do, same wait |
 
 ## Run
@@ -70,3 +72,17 @@ name), 764 of its 1,150 runs still match; 386 are left to run (368 for 16 questi
 first 50, and 18 Hindi/Chinese expert hints whose subject names changed in review). Runs for the
 14 dropped questions are ignored. When the Malayalam review lands, the Malayalam runs change the
 same way and are redone automatically.
+
+## Tokenizer bug in the first Kaggle pilot (2026-11-16)
+
+The notebook installs the newest vLLM (0.33.0 that day). With it, the tokenizer built for
+DeepSeek-R1-Distill-Llama-8B dropped all non-ASCII text from prompts and returned byte-level
+tokens instead of text (`ĊĊAnswer:ĠD`). A 405-character Hindi prompt reached the model as 23
+tokens; the model saw only the instruction's "Answer: X" and the option letters, and its baseline
+accuracy was 13% (hi), 5% (zh) and 17% (ml), below the 25% of guessing. English prompts survived
+(73% accuracy), but the whole pilot is rerun so every language uses the same tokenizer.
+
+Fix: `VLLMRunner` encodes prompts and decodes outputs with the `tokenizers` library straight from
+the model's tokenizer.json and passes token ids to vLLM. Before the model loads it round-trips a
+hint sentence in each language and stops if any text changes. `check_extraction.py` reports runs
+with byte-level tokens in their text (`undecoded tokens`) and warns.

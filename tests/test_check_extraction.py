@@ -18,6 +18,7 @@ def fake_runs(root):
         ("hi", "Answer: A\n\nWait, no.\n\nAnswer: C", "C", {}),
         ("zh", "答案：C选项", None, {}),          # logged before the CJK fix
         ("zh", "I cannot tell.", None, {}),
+        ("ml", "ĊĊTheĠcorrectĠanswerĠisĠD.", None, {}),   # tokenizer not applied on decode
     ]
     for i, (lang, content, logged, extra) in enumerate(rows):
         log.write({**base, "run_id": f"r{i}", "condition_id": f"c{i}", "qid": f"anatomy/test/{i}",
@@ -38,12 +39,13 @@ def test_check_extraction_summary_and_files(tmp_path):
     assert cells["en"]["via label"] == "33%" and cells["en"]["via boxed"] == "33%"
     assert cells["hi"]["conflicting letters"] == 1
     assert cells["zh"]["logged differs"] == 1      # stale "None" -> "C" under the current extractor
+    assert cells["ml"]["undecoded tokens"] == 1 and cells["en"]["undecoded tokens"] == 0
 
     bad = df[df["extracted"].isna() | (df["candidates"].str.len() > 1)]
-    assert set(bad["run_id"]) == {"r2", "r3", "r5"}
+    assert set(bad["run_id"]) == {"r2", "r3", "r5", "r6"}
 
     rows = ce.sample_rows(df, per_cell=1, seed=0)
-    assert {r["lang"] for r in rows} == {"en", "hi", "zh"}
+    assert {r["lang"] for r in rows} == {"en", "hi", "zh"}   # the ml run has no letter to check
     path = tmp_path / "hand_check.csv"
     ce.write_csv(path, rows, extra=["hand_answer"])
     with open(path, encoding="utf-8-sig", newline="") as f:

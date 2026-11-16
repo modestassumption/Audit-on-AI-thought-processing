@@ -57,7 +57,14 @@ def recheck(df: pd.DataFrame) -> pd.DataFrame:
     out["rule"] = [f[1] for f in found]
     out["candidates"] = ["".join(sorted(candidate_letters(c))) for c in texts]
     out["cut_off"] = [is_cut_off(r) for r in out.to_dict("records")]
+    reasoning = [c if isinstance(c, str) else "" for c in out.get("reasoning", pd.Series("", index=out.index))]
+    out["undecoded"] = [looks_undecoded((t or "") + r) for t, r in zip(texts, reasoning)]
     return out
+
+
+def looks_undecoded(text: str) -> bool:
+    """Byte-level BPE symbols instead of text ("ĊĊAnswer:ĠD"): the tokenizer wasn't applied on decode."""
+    return text.count("Ġ") + text.count("Ċ") >= 3
 
 
 def summary(df: pd.DataFrame) -> list[dict]:
@@ -71,6 +78,7 @@ def summary(df: pd.DataFrame) -> list[dict]:
             "extracted": pct(g["extracted"].notna().sum(), n),
             "cut off": pct(g["cut_off"].sum(), n),
             "empty answer section": pct(g["content"].fillna("").str.strip().eq("").sum(), n),
+            "undecoded tokens": int(g["undecoded"].sum()),
         }
         for rule in RULE_NAMES:
             row[f"via {rule}"] = pct((g["rule"] == rule).sum(), n)
@@ -151,6 +159,9 @@ def main() -> None:
     df = recheck(df)
 
     print("# Answer extraction check\n\n" + md_table(summary(df)) + "\n")
+    if (n_raw := int(df["undecoded"].sum())):
+        print(f"WARNING: {n_raw} runs contain byte-level tokens (Ġ/Ċ) instead of text: the tokenizer was "
+              "broken when they ran, so their prompts may have been garbled too. Rerun them.\n")
     bad = df[df["extracted"].isna() | (df["candidates"].str.len() > 1)]
     write_csv(args.out_dir / "failures.csv", [csv_row(r) for r in bad.to_dict("records")])
     print(f"{len(bad)} runs with no letter or conflicting letters -> {args.out_dir / 'failures.csv'}")

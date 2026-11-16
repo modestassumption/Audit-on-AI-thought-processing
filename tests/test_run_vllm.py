@@ -59,3 +59,21 @@ def test_max_hours_stops_before_next_batch(run_vllm, monkeypatch, capsys):
     assert RunLog("r1-distill-llama-8b", root, "t").completed_ids() == set()
     out = capsys.readouterr().out
     assert "--max-hours 1e-09 reached" in out and "0 runs, 5 left" in out
+
+
+def test_tokenizer_round_trip_check():
+    from cotaudit.runners.vllm_runner import CHECK_TEXTS, check_round_trip, decode_output
+
+    good_enc = lambda s: list(s.encode("utf-8"))                       # noqa: E731
+    good_dec = lambda ids: bytes(ids).decode("utf-8")                  # noqa: E731
+    check_round_trip(good_enc, good_dec)
+
+    # what Kaggle's tokenizer did on 2026-11-16: non-ASCII text dropped, spaces left as "Ġ"
+    broken_enc = lambda s: [ord(c) for c in s if ord(c) < 128]         # noqa: E731
+    broken_dec = lambda ids: "".join("Ġ" if i == 32 else chr(i) for i in ids)  # noqa: E731
+    with pytest.raises(RuntimeError, match="round trip failed for en"):
+        check_round_trip(broken_enc, broken_dec)
+    with pytest.raises(RuntimeError, match="round trip failed for hi"):
+        check_round_trip(broken_enc, lambda ids: "".join(map(chr, ids)), {"hi": CHECK_TEXTS["hi"]})
+
+    assert decode_output(good_dec, list("Answer: B<｜end▁of▁sentence｜>".encode())) == "Answer: B"
