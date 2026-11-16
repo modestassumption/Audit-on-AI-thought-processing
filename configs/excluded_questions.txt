@@ -1,3 +1,80 @@
 # qids (sample_id) rejected by native-speaker review, one per line.
 # Each is replaced by the next reserve question from the same stratum.
 # Example:  high_school_physics/test/12   # ml options garbled
+
+abstract_algebra/test/11              # ml symmetry and anti-symmetry options mistranslated
+abstract_algebra/test/36              # ml algebraic ring translated as a circle
+anatomy/test/1                        # ml mandible mistranslated as a protruding trunk/beak
+anatomy/test/64                       # hi neck extension mistranslated as moving the neck forward
+anatomy/test/126                      # hi Abducens and Trochlear options mistranslated; ml smell changed to thermal sensation
+astronomy/test/63                     # ml question and metallic-core terminology garbled
+college_chemistry/test/30             # hi accurate and precise translated identically, duplicating options
+college_chemistry/test/52             # hi option A is truncated
+college_chemistry/test/73             # ml mercury mistranslated as an unrelated word
+college_computer_science/test/48      # ml omits array definitions, physical addresses and loop code
+college_computer_science/test/49      # ml omits number representation statements and mistranslates answer options
+college_physics/test/38               # hi option A is empty
+college_physics/test/49               # hi GeV incorrectly translated as gigawatt
+college_physics/test/80               # source wavelength options corrupted; localized options contain inconsistent units
+computer_security/test/51             # hi duplicates the secrecy statement and changes the meaning of the question
+econometrics/test/5                   # ml asymptotically mistranslated as without symptoms
+econometrics/test/20                  # ml non-stochastic mistranslated as not stationary
+econometrics/test/27                  # ml unbiased mistranslated as biased, reversing the meaning
+econometrics/test/28                  # ml almost the entire question and statements omitted
+econometrics/test/31                  # ml maximum-likelihood question substantially truncated
+econometrics/test/71                  # ml statements iii and iv omitted; statement ii distorted
+econometrics/test/76                  # ml statements ii, iii and iv omitted
+econometrics/test/92                  # ml statements i, ii and iii omitted
+econometrics/test/103                 # ml all four defining statements omitted
+formal_logic/test/11                  # ml formulas omitted; logical equivalence mistranslated as strategic equivalence
+formal_logic/test/12                  # ml all given premises omitted
+formal_logic/test/49                  # ml tickle mistranslated as an unrelated lip/itching expression
+formal_logic/test/107                 # ml lobsters mistranslated as an unrelated word
+high_school_biology/test/12           # zh option C contains a mistranslated phrase about air movement
+high_school_biology/test/42           # ml changes the explanation of resistance and confuses susceptible with infected mosquitoes
+high_school_biology/test/186          # ml catalyst mistranslated as raw material; substrate statement garbled
+high_school_biology/test/190          # ml concentrate urine mistranslated as paying attention to urine
+high_school_biology/test/212          # ml allele terminology inconsistently and incorrectly rendered
+high_school_biology/test/267          # ml human arms mistranslated as human palms
+high_school_chemistry/test/25         # ml mercury mistranslated as an unrelated word
+high_school_chemistry/test/30         # ml nonmetal atoms and repulsive forces mistranslated
+high_school_chemistry/test/122        # hi tetrahedron mistranslated as four-legged
+high_school_chemistry/test/165        # ml confuses solute and solvent; molecules mistranslated as salts
+high_school_chemistry/test/167        # ml precipitated and precipitate mistranslated
+high_school_computer_science/test/54  # ml algorithm steps and essential question context omitted
+high_school_computer_science/test/70  # ml program code omitted
+high_school_computer_science/test/95  # ml second DISPLAY instruction omitted, changing the output question
+high_school_european_history/test/37  # ml both historical source excerpts omitted
+high_school_european_history/test/51  # ml historical passage materially shortened
+high_school_european_history/test/60  # ml historical source passage omitted
+high_school_european_history/test/66  # ml historical passage corrupted by repeated and unrelated terminology
+high_school_european_history/test/70  # ml Copernicus source passage omitted
+high_school_geography/test/94          # zh primate city translated literally as a primate/ape city
+high_school_macroeconomics/test/83    # ml full employment and short-run aggregate supply terminology mistranslated
+high_school_macroeconomics/test/148   # ml charity mistranslated as campaign
+high_school_macroeconomics/test/205   # ml frictional and cyclical unemployment terminology mistranslated
+high_school_macroeconomics/test/363   # ml inflationary gap and federal budget deficit wording corrupted
+high_school_physics/test/105          # ml string mistranslated as a rod/cane; release-angle wording garbled
+high_school_psychology/test/145       # hi statistical mode mistranslated as method
+high_school_psychology/test/313       # ml Strange Situation mistranslated as a strange adventure
+high_school_statistics/test/11        # ml facial tissues mistranslated as facial/body tissue
+high_school_statistics/test/14        # ml fair die mistranslated using an unrelated judicial expression
+high_school_statistics/test/191       # ml statistical mean mistranslated as fish
+high_school_statistics/test/27        # ml conclusion repeated three times in the question
+high_school_us_history/test/13        # ml substantial portions of the historical speech omitted
+human_sexuality/test/11               # ml intimacy mistranslated as lack of intimacy
+human_sexuality/test/31               # ml penis mistranslated as worm
+human_sexuality/test/70               # ml fellatio/oral-genital sex mistranslated as urine receiving
+human_sexuality/test/99               # ml foreskin mistranslated as skin cells
+human_sexuality/test/100              # hi luteal phase mistranslated as yellow-knot phase
+human_sexuality/test/103              # ml fantasy mistranslated as dream; treatment description materially distorted
+human_sexuality/test/126              # ml scrotum mistranslated as large intestine
+international_law/test/93             # zh jus cogens mistranslated as absolute law
+logical_fallacies/test/40             # ml anecdotal evidence mistranslated into an unintelligible term
+logical_fallacies/test/68             # ml style over substance mistranslated as style over body language
+logical_fallacies/test/137            # ml Ad lazarum mistranslated as a type of medicine
+machine_learning/test/81              # ml conditional-independence statement materially mistranslated
+machine_learning/test/109             # ml convex and concave terminology mistranslated
+moral_disputes/test/321               # ml past experience changes to influencing the future rather than behavior
+prehistory/test/18                    # hi social stratification mistranslated as social satisfaction
+professional_psychology/test/549      # ml cognitive flexibility mistranslated as emotional flexibility; other cognitive terms distorted
