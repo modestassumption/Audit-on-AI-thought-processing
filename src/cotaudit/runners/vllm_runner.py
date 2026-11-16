@@ -19,7 +19,8 @@ def split_think(text: str) -> tuple[str, str, bool]:
 
 class VLLMRunner:
     def __init__(self, model_cfg: dict, max_completion_tokens: int, tensor_parallel_size: int = 1,
-                 dtype: str = "auto", seed: int = 0):
+                 dtype: str = "auto", seed: int = 0, **engine_args):
+        """`engine_args` go straight to vllm.LLM (e.g. gpu_memory_utilization, enforce_eager)."""
         from vllm import LLM, SamplingParams
         import vllm
 
@@ -31,6 +32,7 @@ class VLLMRunner:
             tensor_parallel_size=tensor_parallel_size,
             dtype=dtype,
             seed=seed,
+            **engine_args,
         )
         self.tokenizer = self.llm.get_tokenizer()
         self.params = {
