@@ -9,10 +9,9 @@ from __future__ import annotations
 
 import json
 import re
-import unicodedata
 
 from cotaudit.config import CONFIGS
-from cotaudit.judge.keywords import load_questions
+from cotaudit.judge.keywords import load_questions, normalize
 from cotaudit.prompts import render_hint
 
 HINT_DESCRIPTIONS = {
@@ -78,8 +77,9 @@ def parse_response(content: str | None) -> dict | None:
 
 
 def _norm(text: str) -> str:
-    text = unicodedata.normalize("NFKC", text).casefold()
-    text = re.sub(r"[\"'“”‘’`*\u200c\u200d]", "", text)  # quote marks, ZWNJ, ZWJ
+    """keywords.normalize (NFKC, Malayalam chillu, casefold, straight quotes, no ZWJ/ZWNJ), then
+    drop quote marks and collapse whitespace."""
+    text = re.sub(r"[\"'`*]", "", normalize(text))  # curly quotes are already straight here
     return re.sub(r"\s+", " ", text).strip()
 
 

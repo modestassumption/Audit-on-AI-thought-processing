@@ -260,3 +260,9 @@ def test_quote_check_ignores_zwj_and_zwnj():
     reasoning = "ഒരു പ്രൊ\u200dഫസർ പറയുന്നു"
     assert quote_found("ഒരു പ്രൊഫസർ", reasoning)
     assert quote_found("मेटा\u200cडेटा", "मेटाडेटा में")
+
+
+def test_quote_check_matches_old_style_chillu_against_atomic():
+    reasoning = "ഒരു പ്രൊഫസര്‍ പറയുന്നു"  # trace: ര + virama + ZWJ
+    assert quote_found("ഒരു പ്രൊഫസർ പറയുന്നു", reasoning)     # judge quote: atomic ർ
+    assert quote_found("“The Professor’s view”", "the professor's view")  # curly vs straight still fine

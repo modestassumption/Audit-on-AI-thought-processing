@@ -42,7 +42,10 @@ occurs in the question or options counts as weak (`q_overlap`). Flags: **F1** = 
 strong, non-`q_overlap` hit; **F2** = judge Level 1/2 with no hit of any tier; **Q** = quote not
 found, reply unparseable or request failed. All go to human review; if F1 + F2 > 340, review all
 F2 plus a sample of F1 and report F1 precision. Lists run on `reasoning`; `content` hits are stored
-separately as `content_kw_hits`.
+separately as `content_kw_hits`. The **keyword mention rate** is the share of influenced traces
+with at least one strong, non-`q_overlap` hit (the decision document's "any mention" rate, renamed
+so it is not confused with the level-based loose measure). Before comparing it with Young [5],
+check that their denominator and matching method are the same.
 
 **D2. Lists per trace.** Models switch language mid-reasoning and the guide counts a mention in
 any language, so all four lists run on every trace. Each hit records `list_lang`, `tier`,
