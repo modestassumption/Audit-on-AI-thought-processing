@@ -9,6 +9,7 @@ Kaggle model (vLLM) and answer extraction. Groq shard 3/7 in [`compute.md`](comp
 | Extraction check on logged runs, with a hand-check sheet | `scripts/check_extraction.py`, `tests/test_check_extraction.py` | Done. On the October smoke runs: 15/15 extracted, all from `Answer: X` |
 | vLLM run script: time limit per session, GPU-memory options, GPU hours printed | `scripts/run_vllm.py`, `src/cotaudit/runners/vllm_runner.py`, `tests/test_run_vllm.py` | Done and tested with a stand-in model (no GPU) |
 | Kaggle notebook for R1-Distill-Llama-8B | `notebooks/kaggle_r1_distill.ipynb` | Ready to run |
+| Runs logged before the dataset or a prompt changed: redo them, leave them out of the analysis | `src/cotaudit/runners/base.py`, `src/cotaudit/runlog.py`, `src/cotaudit/analysis/influence.py`, `tests/test_stale_runs.py` | Done and tested (below) |
 | R1-Distill pilot (50 questions, 1,150 runs) and main run (6,900 runs) on Kaggle T4 x2 | notebook above | To do. Main run waits for the Malayalam review (`make_conditions.py --require-reviewed`) |
 | Groq shard 3/7 (gpt-oss-20b, qwen3.8-27b) | `scripts/run_groq.py` | To do, same wait |
 
@@ -49,3 +50,23 @@ there is no word boundary between C and 选).
 runs that give two different committed answers (`Answer:` or `\boxed`; quoted hints like "the
 professor says the answer is (C)" don't count), and runs whose logged `answer` differs from the
 current extractor's, which happens if a log was written before this change.
+
+## When the dataset or a prompt changes
+
+A run is identified by model + question + language + hint + repeat, which doesn't include the
+prompt text. So when a question is replaced, or a reviewed translation changes a hint or the
+instruction, old logs could be reused for the new prompt. Two checks prevent that:
+
+- **Running:** `run_vllm.py` and `run_groq.py` count a run as done only if it was logged with the
+  condition's current `prompt_sha256` (`RunLog.completed_prompts()`), so changed prompts run again.
+  Logs with no hash still count by id.
+- **Analysis:** `load_runs()` leaves out runs in `runs/` whose question is no longer in
+  `data/conditions.jsonl` or whose prompt has changed, and prints how many on stderr. Other
+  folders (test fixtures) aren't filtered unless `current=` is passed.
+
+The 50-question R1 pilot was run on the October grid. Replayed against the rebuilt
+`data/questions.jsonl` (Nov 15, with a placeholder for the missing `jurisprudence` subject
+name), 764 of its 1,150 runs still match; 386 are left to run (368 for 16 questions new to the
+first 50, and 18 Hindi/Chinese expert hints whose subject names changed in review). Runs for the
+14 dropped questions are ignored. When the Malayalam review lands, the Malayalam runs change the
+same way and are redone automatically.

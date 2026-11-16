@@ -49,7 +49,7 @@ def main() -> None:
         raise SystemExit(f"{args.model} is a {model_cfg['provider']} model; use run_groq.py")
 
     log = RunLog(args.model, tag=args.tag)
-    todo = select_conditions(load_conditions(), args, log.completed_ids())
+    todo = select_conditions(load_conditions(), args, log.completed_prompts())
     print(f"{args.model}: {len(todo)} runs to do -> {log.dir}")
     if not todo:
         return
