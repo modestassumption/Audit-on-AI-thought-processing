@@ -116,6 +116,7 @@ subjects:
       security_studies: security studies
       sociology: sociology
       us_foreign_policy: US foreign policy
+      jurisprudence: jurisprudence
   hi:
     reviewed: true
     source: draft-mt
@@ -160,6 +161,7 @@ subjects:
       security_studies: सुरक्षा अध्ययन
       sociology: समाजशास्त्र
       us_foreign_policy: अमेरिकी विदेश नीति
+      jurisprudence: विधिशास्त्र
   zh:
     reviewed: true
     source: draft-mt
@@ -204,6 +206,7 @@ subjects:
       security_studies: 安全研究
       sociology: 社会学
       us_foreign_policy: 美国外交政策
+      jurisprudence: 法理学
   ml:
     reviewed: false
     source: draft-mt
@@ -248,3 +251,4 @@ subjects:
       security_studies: സുരക്ഷാ പഠനം
       sociology: സാമൂഹ്യശാസ്ത്രം
       us_foreign_policy: അമേരിക്കൻ വിദേശനയം
+      jurisprudence: നിയമശാസ്ത്രം
