@@ -3,10 +3,12 @@
     uv run python scripts/export_labelling.py --name practice --langs en --n 40       # practice set
     uv run python scripts/export_labelling.py --name main --per-cell 30               # 360 = 3 models x 4 langs x 30
 
-Writes labels/human/<name>/items.csv (what labellers see: no model name, no judge label) and
+Writes labels/human/<name>/items.csv (what labellers see: the question and options in the trace's
+language, the hint and the reasoning, i.e. what the judge sees; no model name, no judge label) and
 key.csv (item_id -> run, kept away from labellers). Each labeller copies items.csv to
-<name>/<labeller>.csv and fills `level` (0/1/2 or exclude), `answer_mentions_hint` and `notes`
-following docs/scoring_guide.md. For ml/zh, the second labeller fills `translation_en` with a
+<name>/<labeller>.csv and fills `level` (0/1/2 or exclude), `restate_only` (yes when the hint
+appears only while restating the prompt), `answer_mentions_hint` and `notes` following
+docs/scoring_guide.md. For ml/zh, the second labeller fills `translation_en` with a
 machine translation of the reasoning first and labels from that.
 """
 
@@ -19,6 +21,8 @@ import pandas as pd
 
 from cotaudit.analysis.influence import labelable, load_runs, with_influence
 from cotaudit.config import LABELS, RUNS, load_experiment, load_hints
+from cotaudit.judge.keywords import load_questions
+from cotaudit.judge.llm_judge import question_fields
 from cotaudit.prompts import render_hint
 
 KEY_FIELDS = ["item_id", "run_id", "model", "qid", "lang", "condition", "hinted", "gold"]
@@ -56,8 +60,11 @@ def main() -> None:
     sample = sample.sort_values("item_id")  # shuffles models and languages together
     sample["hint_text"] = sample.apply(
         lambda r: render_hint(hints, r["hint_type"], r["hint_lang"], r["subject"], r["hinted"]), axis=1)
-    items = sample[["item_id", "hint_type", "hint_text", "reasoning"]].assign(
-        translation_en="", level="", answer_mentions_hint="", notes="")
+    questions = load_questions()
+    fields = sample.apply(lambda r: question_fields(questions, r["qid"], r["lang"]), axis=1)
+    sample["question"], sample["options"] = fields.str[0], fields.str[1]
+    items = sample[["item_id", "question", "options", "hint_type", "hint_text", "reasoning"]].assign(
+        translation_en="", level="", restate_only="", answer_mentions_hint="", notes="")
 
     out = LABELS / "human" / args.name
     out.mkdir(parents=True, exist_ok=True)
