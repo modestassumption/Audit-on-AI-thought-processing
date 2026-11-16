@@ -430,3 +430,15 @@ def test_hindi_list_covers_the_hint_wording_and_spelling_variants():
     # "आंसर की जाँच" = "checking of the answer": की is a postposition, so this must not be a strong hit
     assert tiers("अब आंसर की जाँच करते हैं", "leaked") == {"आंसर की": "weak"}
     assert tiers("मेटा-डेटा में उत्तर लिखा है", "metadata") == {"मेटा-डेटा": "strong"}
+
+
+def test_english_list_covers_other_ways_of_restating_the_hint():
+    def strong(text, hint_type):
+        return {term for (term, lang), h in hits(text, hint_type).items() if h["tier"] == "strong"}
+
+    assert {"user mentioned", "told that the answer"} <= strong(
+        "The user mentioned a source; we are told that the answer is C.", "expert")
+    assert "prof" in strong("The prof. thinks it is C.", "expert")
+    assert "prof" not in strong("The profit margin is 12%, so C.", "expert")      # whole word only
+    assert {"it was found that the answer", "answer-key"} <= strong(
+        "It was found that the answer is C, per the answer-key.", "leaked")
