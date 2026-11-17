@@ -19,7 +19,7 @@ from pathlib import Path
 import pandas as pd
 
 from cotaudit.analysis.influence import load_runs
-from cotaudit.analysis.regression import (fit_regression, hypothesis_contrasts, load_labels,
+from cotaudit.analysis.regression import (add_label_source_args, fit_regression, hypothesis_contrasts, label_source,
                                           regression_data, wald_test)
 from cotaudit.config import LABELS, RUNS, load_experiment
 
@@ -79,24 +79,25 @@ def main() -> None:
     ap.add_argument("--restate-as-admitted", action="store_true",
                     help="count level-1 traces flagged restate_only as level 2")
     ap.add_argument("--labels-root", type=Path, default=LABELS)
+    add_label_source_args(ap)
     ap.add_argument("--root", type=Path, default=RUNS,
                     help="runs the labels belong to; labels on dropped or re-run traces are left out")
     ap.add_argument("--out", type=Path, help="also write the report to this markdown file")
     args = ap.parse_args()
 
     runs = load_runs(args.root) if args.root.is_dir() else pd.DataFrame()
-    labels = load_labels(args.judge, args.labels_root, runs)
+    labels, source = label_source(args, runs)
     if not labels.empty and args.models:
         labels = labels[labels["model"].isin(args.models)]
     data = regression_data(labels, args.measure, args.restate_as_admitted)
     if data.empty:
-        raise SystemExit(f"No usable labels from {args.judge} under {args.labels_root / args.judge} yet")
+        raise SystemExit(f"No usable labels from {source} yet")
 
     outcome = "level 2" if args.measure == "main" else "level 1 or 2"
     if args.restate_as_admitted:
         outcome += ", restate-only traces counted as level 2"
     sections = [
-        f"# Regression (judge {args.judge}; faithful = {outcome})",
+        f"# Regression ({source}; faithful = {outcome})",
         "## Faithful traces per model and language\n\n" + counts_section(data),
         "## H1-H3: main-effects GEE, grouped by question\n\n" + contrasts_section(data),
         "## Model x language interaction\n\n" + interaction_section(data),

@@ -27,7 +27,8 @@ from cotaudit.analysis.figures import NEUTRAL, SERIES, interval_chart, stacked_b
 from cotaudit.analysis.h4 import h4_rows
 from cotaudit.analysis.influence import load_runs, with_influence
 from cotaudit.analysis.language import LANGS, add_reasoning_language, reasoning_language_table
-from cotaudit.analysis.regression import fit_regression, hypothesis_contrasts, load_labels, usable_labels
+from cotaudit.analysis.regression import (add_label_source_args, fit_regression, hypothesis_contrasts, label_source,
+                                          usable_labels)
 from cotaudit.analysis.stats import rate_intervals
 from cotaudit.config import LABELS, RUNS, load_experiment
 
@@ -100,6 +101,7 @@ def main() -> None:
     ap.add_argument("--root", type=Path, default=RUNS)
     ap.add_argument("--judge", default=next(iter(cfg["judges"])), help="judge whose labels to use")
     ap.add_argument("--labels-root", type=Path, default=LABELS)
+    add_label_source_args(ap)
     ap.add_argument("--models", nargs="+")
     ap.add_argument("--measure", choices=["main", "loose"], default="main")
     ap.add_argument("--threshold", type=float, default=0.6, help="reasoning-language threshold")
@@ -110,7 +112,7 @@ def main() -> None:
     seed, hints = cfg["seed"], list(cfg["hint_types"])
     outcome = "level 2" if args.measure == "main" else "level 1 or 2"
     runs = load_runs(args.root, args.models) if args.root.is_dir() else pd.DataFrame()
-    labels = load_labels(args.judge, args.labels_root, runs)
+    labels, source = label_source(args, runs)
     if not labels.empty and args.models:
         labels = labels[labels["model"].isin(args.models)]
     figures: dict[str, str | None] = {}
@@ -134,11 +136,11 @@ def main() -> None:
         same = data[data["hint_lang"] == data["lang"]]
         figures["faithfulness.svg"] = hint_rate_chart(
             same, "faithful", hints, f"Faithfulness: influenced traces that admit the hint ({outcome})",
-            f"share of influenced traces, judge {args.judge}, 95% bootstrap interval over questions",
+            f"share of influenced traces, {source}, 95% bootstrap interval over questions",
             args.n_boot, seed) if not same.empty else None
         figures["h4_faithfulness.svg"] = h4_chart(
             data, "faithful", f"H4: faithfulness with the expert hint, English vs. the question's language ({outcome})",
-            f"share of influenced traces, judge {args.judge}, 95% bootstrap interval over questions",
+            f"share of influenced traces, {source}, 95% bootstrap interval over questions",
             args.n_boot, seed)
         figures["regression.svg"] = regression_chart(same, outcome)
 

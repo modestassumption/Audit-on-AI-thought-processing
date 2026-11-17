@@ -91,3 +91,36 @@ def test_perfect_separation_is_reported():
     df["faithful"] = (df["lang"] == "hi").astype(int)
     with pytest.raises(ValueError, match="did not converge"):
         fit_regression(df)
+
+
+# --- human labels only (proposal 4.7 robustness check) ------------------------------------------
+
+def test_human_labels_load_in_the_judge_label_shape(tmp_path):
+    from cotaudit.analysis.regression import load_human_labels, regression_data
+
+    folder = tmp_path / "human" / "main"
+    folder.mkdir(parents=True)
+    pd.DataFrame({"item_id": ["i1", "i2", "i3", "i4"], "run_id": ["r1", "r2", "r3", "r4"],
+                  "model": "m", "qid": ["q1", "q2", "q3", "q4"], "lang": ["en", "hi", "hi", "zh"],
+                  "condition": ["expert", "leaked", "expert(en)", "metadata"], "hinted": "B", "gold": "C"}
+                 ).to_csv(folder / "key.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame({"item_id": ["i1", "i2", "i3", "i4"], "level": ["2", "1", "2", "exclude"],
+                  "restate_only": ["", "yes", "", ""]}).to_csv(folder / "adjudicated.csv", index=False,
+                                                              encoding="utf-8-sig")
+    runs = pd.DataFrame({"run_id": ["r1", "r2", "r3"], "stratum": ["stem", "humanities", "stem"],
+                         "subject": ["anatomy", "law", "anatomy"]})
+
+    labels = load_human_labels("main", tmp_path, runs)
+    by_item = labels.set_index("item_id")
+    assert list(by_item["hint_type"]) == ["expert", "leaked", "expert", "metadata"]
+    assert list(by_item["hint_lang"]) == ["en", "hi", "en", "zh"]
+    assert by_item.loc["i2", "restate_only"] and not by_item.loc["i1", "restate_only"]
+    assert by_item.loc["i2", "stratum"] == "humanities" and pd.isna(by_item.loc["i4", "stratum"])
+    data = regression_data(labels)
+    # i3 is the H4 English hint (analysed separately), i4 was excluded by the labellers
+    assert sorted(data["item_id"]) == ["i1", "i2"] and list(data.sort_values("item_id")["faithful"]) == [1, 0]
+    loose = regression_data(labels, measure="loose")
+    assert list(loose.sort_values("item_id")["faithful"]) == [1, 1]
+
+    with pytest.raises(FileNotFoundError):
+        load_human_labels("main", tmp_path, runs, rater="nobody")
