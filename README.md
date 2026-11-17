@@ -30,9 +30,17 @@ New team member? Follow [`docs/setup.md`](docs/setup.md) (Groq key, smoke test, 
 | 3a. Run Groq models | `uv run python scripts/run_groq.py --model qwen3.8-27b --shard 3/7` | `runs/qwen3.8-27b/<date>-<tag>.jsonl` |
 | 3b. Run the Kaggle model | see `scripts/run_vllm.py` docstring | `runs/r1-distill-llama-8b/<date>-<tag>.jsonl` |
 | 4. Health, influence, quota | `uv run python scripts/report_runs.py --out results/pilot.md` | `results/*.md` |
+| 4a. Answer extraction check | `uv run python scripts/check_extraction.py` | `results/extraction/failures.csv` |
 | 5. Judge influenced traces | `uv run python scripts/run_judge.py --judge gpt-oss-120b` | `labels/gpt-oss-120b/<date>-<tag>.jsonl` |
 | 6. Human labelling set | `uv run python scripts/export_labelling.py --name main --per-cell 30` | `labels/human/main/items.csv`, `key.csv` |
-| 7. Agreement (kappa) | `uv run python scripts/agreement.py --name main` | printed table |
+| 7. Agreement (kappa) | `uv run python scripts/agreement.py --name main` | `labels/human/main/agreement.csv` |
+| 8. Sample size, pilot rule | `uv run python scripts/sample_size.py` | printed table |
+| 9. McNemar (Holm), influence intervals | `uv run python scripts/report_stats.py --out results/stats.md` | `results/stats.md` |
+| 10. Rates: Wilson + Beta-Binomial | `uv run python scripts/rates.py --out results/rates.md` | `results/rates.md` |
+| 11. H1–H3 GEE regression | `uv run python scripts/regression.py --out results/regression.md` (also `--measure loose`, `--restate-as-admitted`) | `results/regression.md` |
+| 12. H4 tests | `uv run python scripts/h4.py --out results/h4.md` | `results/h4.md` |
+| 13. Reasoning language, subject area | `uv run python scripts/language_subject.py --out results/language_subject.md` | `results/language_subject.md` |
+| 14. Figures | `uv run python scripts/figures.py` | `results/figures/*.svg` |
 | Smoke test | `uv run python scripts/smoke_test.py --n 3` | `runs/smoke/...` |
 
 Steps 1 and 2 are deterministic: the seed, dataset revisions and hashes are in
@@ -52,6 +60,10 @@ rate limit, the script stops cleanly. Run it again later to continue.
 - A hinted run is **influenced** if it picks the hinted option and neither no-hint run did
   (`src/cotaudit/analysis/influence.py`); faithfulness is labelled only on those runs, following
   [`docs/scoring_guide.md`](docs/scoring_guide.md).
+- **Only current runs and labels count.** When the dataset is rebuilt, runs whose question was
+  dropped or whose prompt changed are left out of every report (and redone by the run scripts),
+  and judge labels on such traces are left out too; a re-run trace is judged again. Steps 8–14
+  are sub-team D's analysis ([`docs/analysis.md`](docs/analysis.md)).
 
 ## Data
 
@@ -102,10 +114,14 @@ token cap), `usage`, `latency_s`, `key_alias` (never the key itself).
 configs/      experiment.yaml (seed, models, judges), hints.yaml (prompt text), keywords.yaml,
               judge_prompt.md, excluded_questions.txt
 src/cotaudit/ data loading/matching/selection, prompts, conditions, answer extraction, run log, runners,
-              analysis (influence, agreement), judge (keywords, LLM judge)
+              analysis (influence, agreement, stats, power, regression, h4, language, figures),
+              judge (keywords, LLM judge)
 scripts/      build_dataset, make_conditions, run_groq, run_vllm, smoke_test, report_runs,
-              run_judge, export_labelling, agreement
-docs/         setup.md (team onboarding), compute.md (limits, shards), scoring_guide.md
+              check_extraction, run_judge, export_labelling, agreement, sample_size, report_stats,
+              rates, regression, h4, language_subject, figures
+docs/         setup.md (team onboarding), compute.md (limits, shards), scoring_guide.md,
+              analysis.md (statistics), runs.md (run notes), subteam_c_decisions.md,
+              translation_review.md
 data/         built dataset and prompts (committed)
 runs/         every model run (committed)
 labels/       judge labels and human labelling sets (committed)
