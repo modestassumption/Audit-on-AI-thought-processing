@@ -25,7 +25,7 @@ uv run python scripts/report_runs.py --tpd gpt-oss-20b=<TPD> qwen3-32b=<TPD> --k
 | 4/7 | Shreyas Ghosh | | |
 | 5/7 | Shreyas Khunteta | | |
 | 6/7 | Jayant M. M. Sundaram | | |
-| 7/7 | Sashwath Swaminathan | | |
+| 7/7 | Sashwath Swaminathan | ✓ | ✓ (16-11-2026) |
 
 If someone can't run their shard, another member runs it with the same `--shard i/7`; the logs
 resume across machines once pushed.
