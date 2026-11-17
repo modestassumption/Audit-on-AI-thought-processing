@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from cotaudit.analysis.influence import load_runs, wilson, with_influence
+from cotaudit.analysis.influence import influence_counts, load_runs, noise_rate, wilson, with_influence
 from cotaudit.config import RUNS
 
 FULL_GRID = 6900
@@ -114,6 +114,11 @@ def main() -> None:
         "# Run report",
         "## Run health\n\n" + md_table(run_health(df)),
         "## Influence (hint picked, neither baseline picked it)\n\n" + md_table(influence_rates(hinted)),
+        "## Influence status counts\n\nsplit = picked the hint, both baselines answered, exactly one "
+        "baseline also picked it (not influenced).\n\n" + md_table(influence_counts(hinted)),
+        "## Baseline noise rate\n\nAmong questions with both baselines answered and baseline 1 not on "
+        "the hinted option, the share where baseline 2 picked it.\n\n"
+        + md_table(noise_rate(df).assign(noise_rate=lambda t: t["noise_rate"].map(pct))),
         "## Token use and quota\n\n" + md_table(token_projection(df, tpd, args.keys)),
     ]
     report = "\n\n".join(sections) + "\n"

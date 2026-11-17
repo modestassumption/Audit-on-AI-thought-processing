@@ -63,7 +63,7 @@ judges:
     temperature: 0.0
     top_p: 1.0
     reasoning_effort: medium
-    max_completion_tokens: 4096        # includes the judge's own reasoning
+    max_completion_tokens: 2000        # includes the judge's own reasoning; 2000 keeps one request under 8K TPM (D5)
   # Second judge, outside the gpt-oss family. Replaces Llama-3.3-70B (no longer on Groq, 2026-10-28).
   # It also judges its own traces: report its agreement on own vs. other models' traces separately.
   qwen3.8-27b:
@@ -73,4 +73,4 @@ judges:
     top_p: 1.0
     reasoning_effort: medium
     reasoning_format: parsed
-    max_completion_tokens: 4096
+    max_completion_tokens: 2000
