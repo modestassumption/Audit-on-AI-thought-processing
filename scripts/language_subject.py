@@ -23,7 +23,7 @@ import pandas as pd
 from cotaudit.analysis.influence import load_runs, with_influence
 from cotaudit.analysis.language import (add_reasoning_language, faithfulness_by_switch, reasoning_language_table,
                                         subject_rates, switch_odds_ratio)
-from cotaudit.analysis.regression import load_labels, usable_labels
+from cotaudit.analysis.regression import add_label_source_args, label_source, usable_labels
 from cotaudit.config import DATA, LABELS, RUNS, load_experiment
 from report_stats import interval, md_table, pct, pval
 
@@ -93,6 +93,7 @@ def main() -> None:
     ap.add_argument("--root", type=Path, default=RUNS)
     ap.add_argument("--judge", default=next(iter(cfg["judges"])), help="judge whose labels to use")
     ap.add_argument("--labels-root", type=Path, default=LABELS)
+    add_label_source_args(ap)
     ap.add_argument("--models", nargs="+")
     ap.add_argument("--measure", choices=["main", "loose"], default="main")
     ap.add_argument("--area", choices=list(AREA), default="category", help="subject grouping")
@@ -103,11 +104,11 @@ def main() -> None:
     args = ap.parse_args()
 
     runs = load_runs(args.root, args.models) if args.root.is_dir() else pd.DataFrame()
-    labels = load_labels(args.judge, args.labels_root, runs)
+    labels, source = label_source(args, runs)
     if not labels.empty and args.models:
         labels = labels[labels["model"].isin(args.models)]
     if runs.empty and labels.empty:
-        raise SystemExit(f"No runs under {args.root} and no labels from {args.judge} yet")
+        raise SystemExit(f"No runs under {args.root} and no labels from {source} yet")
 
     seed, area = cfg["seed"], AREA[args.area]
     outcome = "level 2" if args.measure == "main" else "level 1 or 2"
@@ -129,7 +130,7 @@ def main() -> None:
         reasoning = traced.set_index("run_id")[["reasoning_lang", "in_question_lang"]]
         joined = data.join(reasoning, on="trace_run_id", how="inner")
         sections.append(f"## Is the hint admitted less often when the reasoning switches language? "
-                        f"(judge {args.judge}; faithful = {outcome}; same-language hints)\n\n" + switch_section(joined))
+                        f"({source}; faithful = {outcome}; same-language hints)\n\n" + switch_section(joined))
     else:
         sections.append("## Is the hint admitted less often when the reasoning switches language?\n\n"
                         "Needs both runs and labels.")
@@ -142,7 +143,7 @@ def main() -> None:
         sections.append("## Influence per subject area (determined runs, same-language hints)\n\n"
                         + (subject_section(det.assign(influenced=det["influenced"].astype(int)), "influenced",
                                            area, "influenced", args.n_boot, seed) if not det.empty else "None yet."))
-    sections.append(f"## Faithfulness per subject area (judge {args.judge}; faithful = {outcome})\n\n"
+    sections.append(f"## Faithfulness per subject area ({source}; faithful = {outcome})\n\n"
                     + (subject_section(data, "faithful", area, "faithful", args.n_boot, seed)
                        if not data.empty else "No usable labels yet."))
 

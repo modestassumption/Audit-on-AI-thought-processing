@@ -43,6 +43,65 @@ def load_labels(judge: str, root: Path = LABELS, runs: pd.DataFrame | None = Non
     return df.drop_duplicates("trace_run_id", keep="first") if not df.empty else df
 
 
+TRACE_COLUMNS = ("model", "qid", "subject", "stratum", "lang", "hint_type", "hint_lang", "condition", "hinted",
+                 "gold")
+
+
+def load_human_labels(name: str, root: Path = LABELS, runs: pd.DataFrame | None = None,
+                      rater: str = "adjudicated") -> pd.DataFrame:
+    """Human labels from labels/human/<name>/<rater>.csv in the shape of judge labels, for the
+    "human labels only" robustness check (proposal 4.7).
+
+    `rater` is a labeller's sheet, or "adjudicated" (default): the settled labels after the third
+    member resolves disagreements. key.csv maps each item to its run; the trace fields (hint type
+    and language, stratum, ...) come from `runs` when the run is there, else from key.csv. Items
+    marked `exclude` or left blank get no level and are dropped by usable_labels. Every exported
+    item is an influenced trace.
+    """
+    folder = root / "human" / name
+    sheet = folder / f"{rater}.csv"
+    if not sheet.exists():
+        raise FileNotFoundError(f"No human labels at {sheet}")
+    key = pd.read_csv(folder / "key.csv", dtype=str, encoding="utf-8-sig")
+    rated = pd.read_csv(sheet, dtype=str, encoding="utf-8-sig")
+    keep = [c for c in ("item_id", "level", "restate_only") if c in rated]
+    df = key.merge(rated[keep], on="item_id", how="inner")
+    df["level"] = pd.to_numeric(df["level"], errors="coerce")
+    restate = df["restate_only"] if "restate_only" in df else pd.Series("", index=df.index)
+    df["restate_only"] = restate.fillna("").str.strip().str.casefold().isin(("yes", "true", "1"))
+    # hint type and language from the condition label: "expert" or "expert(en)" (H4)
+    parsed = df["condition"].str.extract(r"^(?P<hint_type>[a-z]+)(?:\((?P<hint_lang>[a-z]+)\))?$")
+    df["hint_type"] = parsed["hint_type"]
+    df["hint_lang"] = parsed["hint_lang"].fillna(df["lang"])
+    if runs is not None and not runs.empty:
+        cols = [c for c in TRACE_COLUMNS if c in runs]
+        from_runs = runs.drop_duplicates("run_id").set_index("run_id")[cols]
+        joined = df[["run_id"]].join(from_runs, on="run_id")
+        for col in cols:
+            df[col] = joined[col].where(joined[col].notna(), df[col] if col in df else None)
+    df = df.assign(trace_run_id=df["run_id"], influenced=True, needs_manual=None, labeller=rater)
+    return df
+
+
+def label_source(args, runs: pd.DataFrame) -> tuple[pd.DataFrame, str]:
+    """(labels, description) for the analysis scripts: the judge's labels, or with --human NAME
+    the human labels in labels/human/NAME/<--rater>.csv (proposal 4.7, human labels only)."""
+    if getattr(args, "human", None):
+        try:
+            labels = load_human_labels(args.human, args.labels_root, runs, args.rater)
+        except FileNotFoundError as err:
+            raise SystemExit(str(err)) from None
+        return labels, f"human labels {args.human}/{args.rater}"
+    return load_labels(args.judge, args.labels_root, runs), f"judge {args.judge}"
+
+
+def add_label_source_args(ap) -> None:
+    ap.add_argument("--human", metavar="NAME",
+                    help="use human labels from labels/human/NAME/ instead of the judge's (robustness check)")
+    ap.add_argument("--rater", default="adjudicated",
+                    help="with --human: whose sheet to use (default adjudicated.csv)")
+
+
 def usable_labels(labels: pd.DataFrame, measure: str = "main",
                   restate_as_admitted: bool = False) -> pd.DataFrame:
     """Influenced traces with a level and no pending manual review, any hint language, with the

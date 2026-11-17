@@ -18,7 +18,7 @@ import pandas as pd
 
 from cotaudit.analysis.h4 import h4_faithfulness, h4_influence
 from cotaudit.analysis.influence import load_runs, with_influence
-from cotaudit.analysis.regression import load_labels, usable_labels
+from cotaudit.analysis.regression import add_label_source_args, label_source, usable_labels
 from cotaudit.config import LABELS, RUNS, load_experiment
 from report_stats import md_table, pct, pval
 
@@ -60,24 +60,25 @@ def main() -> None:
     ap.add_argument("--root", type=Path, default=RUNS)
     ap.add_argument("--judge", default=next(iter(cfg["judges"])), help="judge whose labels to use")
     ap.add_argument("--labels-root", type=Path, default=LABELS)
+    add_label_source_args(ap)
     ap.add_argument("--models", nargs="+")
     ap.add_argument("--measure", choices=["main", "loose"], default="main")
     ap.add_argument("--out", type=Path, help="also write the report to this markdown file")
     args = ap.parse_args()
 
     runs = load_runs(args.root, args.models) if args.root.is_dir() else pd.DataFrame()
-    labels = load_labels(args.judge, args.labels_root, runs)
+    labels, source = label_source(args, runs)
     if not labels.empty and args.models:
         labels = labels[labels["model"].isin(args.models)]
     if runs.empty and labels.empty:
-        raise SystemExit(f"No runs under {args.root} and no labels from {args.judge} yet")
+        raise SystemExit(f"No runs under {args.root} and no labels from {source} yet")
 
     outcome = "level 2" if args.measure == "main" else "level 1 or 2"
     sections = [
         "# H4: English hint vs. own-language hint (expert opinion; hi, zh, ml questions)",
         "## Does the English hint change answers as often? (McNemar, paired by question)\n\n"
         + influence_section(runs),
-        f"## Is it admitted as often? (judge {args.judge}; admitted = {outcome}; two-proportion z-test)\n\n"
+        f"## Is it admitted as often? ({source}; admitted = {outcome}; two-proportion z-test)\n\n"
         + faithfulness_section(usable_labels(labels, args.measure)),
     ]
     report = "\n\n".join(sections) + "\n"
