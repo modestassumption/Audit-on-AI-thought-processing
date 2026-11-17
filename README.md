@@ -73,19 +73,17 @@ rate limit, the script stops cleanly. Run it again later to continue.
 
 ## Open review tasks
 
-1. **Malayalam questions**: `data/review/ml_review_60.csv` has draft verdicts
-   (`reviewer: claude-draft`, 13 of 60 bad). A native speaker confirms or overrides each row and
-   sets `reviewer` to their name. Rows marked `bad` are excluded automatically when steps 1–2 are
-   rerun (as is any qid in `configs/excluded_questions.txt`); each excluded question is replaced by
-   the next reserve question from the same stratum, and the sheet keeps its verdicts.
-   Separately, every question passes a structural screen for dropped passages, premises and
-   formulas in Sarvam's Malayalam (`src/cotaudit/data/screen.py`, `ml_screen` in
-   `configs/experiment.yaml`); 25 failures are listed under `screened_out` in `data/manifest.json`.
-2. **Hint and instruction translations**: zh passed the back-translation check and is
-   `reviewed: true`. hi and ml are still drafts awaiting native speakers; notes for them are in
-   [`docs/translation_review.md`](docs/translation_review.md). Set `reviewed: true` and add
-   `reviewed_by` when done. `make_conditions.py` lists unreviewed entries; use
-   `--require-reviewed` for the main runs.
+1. **Malayalam questions** (done 2026-11-17): `data/review/ml_review_60.csv` has a verdict on all 60
+   rows (13 bad; Claude-drafted, accepted by Visakh). Rows marked `bad` are excluded automatically
+   when steps 1–2 are rerun (as is any qid in `configs/excluded_questions.txt`); each excluded
+   question is replaced by the next reserve question from the same stratum, and the sheet keeps its
+   verdicts. Separately, every question passes a structural screen for dropped passages, premises
+   and formulas in Sarvam's Malayalam (`src/cotaudit/data/screen.py`, `ml_screen` in
+   `configs/experiment.yaml`); failures are listed under `screened_out` in `data/manifest.json`.
+2. **Hint and instruction translations** (done 2026-11-17): hi and ml were checked by native
+   speakers, zh by back-translation ([`docs/translation_review.md`](docs/translation_review.md)).
+   Every entry is `reviewed: true`, so `make_conditions.py --require-reviewed` passes and the main
+   runs can start.
 3. **Keyword lists** (sub-team C + native speakers): extend hi / zh / ml terms in
    `configs/keywords.yaml` from pilot traces and set `reviewed: true`.
 4. **Groq limits and shard owners**: fill in [`docs/compute.md`](docs/compute.md).
