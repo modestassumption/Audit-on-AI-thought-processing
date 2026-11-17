@@ -9,17 +9,39 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 from pathlib import Path
 
 import pandas as pd
 
-from cotaudit.config import RUNS
+from cotaudit.config import DATA, RUNS
 
 KEY = ["model", "qid", "lang"]
 
 
-def load_runs(root: Path = RUNS, models: list[str] | None = None) -> pd.DataFrame:
-    """Every logged run under root/<model>/20*.jsonl (the smoke-test folder is not a model)."""
+def current_prompts(path: Path = DATA / "conditions.jsonl") -> dict[str, str]:
+    """condition_id -> prompt hash for the current grid in data/conditions.jsonl."""
+    rows = (json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip())
+    return {r["condition_id"]: r["prompt_sha256"] for r in rows}
+
+
+def keep_current(df: pd.DataFrame, current: dict[str, str]) -> pd.DataFrame:
+    """Runs whose condition is still in the grid with the same prompt (no hash logged: id only)."""
+    cid, sha = df["condition_id"], df.get("prompt_sha256", pd.Series(None, index=df.index))
+    expected = cid.map(current)
+    ok = expected.notna() & (sha.isna() | (sha == expected))
+    return df[ok]
+
+
+def load_runs(root: Path = RUNS, models: list[str] | None = None,
+              current: dict[str, str] | bool | None = None) -> pd.DataFrame:
+    """Every logged run under root/<model>/20*.jsonl (the smoke-test folder is not a model).
+
+    For the experiment's own runs/ folder, runs whose question was dropped from
+    data/conditions.jsonl, or whose prompt has changed since they were logged, are left out (and
+    counted on stderr). Pass `current` (condition_id -> prompt hash) to filter another folder
+    the same way, or current=False to keep everything.
+    """
     rows = []
     for model_dir in sorted(p for p in root.iterdir() if p.is_dir() and p.name != "smoke"):
         if models and model_dir.name not in models:
@@ -29,6 +51,15 @@ def load_runs(root: Path = RUNS, models: list[str] | None = None) -> pd.DataFram
     df = pd.DataFrame(rows)
     if df.empty:
         return df
+    if current is None:
+        grid = DATA / "conditions.jsonl"
+        current = current_prompts(grid) if Path(root).resolve() == RUNS.resolve() and grid.exists() else False
+    if current:
+        kept = keep_current(df, current)
+        if len(kept) < len(df):
+            print(f"load_runs: left out {len(df) - len(kept)} runs whose question or prompt is no longer "
+                  f"in data/conditions.jsonl", file=sys.stderr)
+        df = kept
     df = df.drop_duplicates("run_id", keep="first")
     df["condition"] = df.apply(condition_label, axis=1)
     return df

@@ -28,7 +28,7 @@ def run(args: argparse.Namespace, root: Path = RUNS) -> list[dict]:
         raise SystemExit(f"{args.model} is a {model_cfg['provider']} model; use run_vllm.py")
 
     log = RunLog(args.model, root, args.tag)
-    todo = select_conditions(load_conditions(), args, log.completed_ids())
+    todo = select_conditions(load_conditions(), args, log.completed_prompts())
     print(f"{args.model}: {len(todo)} runs to do -> {log.dir}")
     runner = GroqRunner(model_cfg, max_completion_tokens(cfg), keys_from_env())
 

@@ -40,7 +40,20 @@ def load_conditions() -> list[dict]:
     return [json.loads(ln) for ln in lines if ln.strip()]
 
 
-def select_conditions(rows: list[dict], args: argparse.Namespace, done: set[str],
+def is_done(cond: dict, rid: str, done: set[str] | dict[str, set]) -> bool:
+    """`done` from RunLog.completed_ids() (any record counts) or RunLog.completed_prompts().
+
+    With completed_prompts(), a run only counts if it was logged with this condition's current
+    prompt, so a changed question, hint or instruction is run again. Records with no prompt hash
+    (older logs) still count.
+    """
+    if not isinstance(done, dict):
+        return rid in done
+    hashes = done.get(rid)
+    return bool(hashes) and (cond.get("prompt_sha256") in hashes or None in hashes)
+
+
+def select_conditions(rows: list[dict], args: argparse.Namespace, done: set[str] | dict[str, set],
                       seed: int | None = None) -> list[dict]:
     if args.n_questions:
         seed = load_experiment()["seed"] if seed is None else seed
@@ -54,7 +67,7 @@ def select_conditions(rows: list[dict], args: argparse.Namespace, done: set[str]
         rows = [r for r in rows if r["hint_type"] in args.hint_types]
     if args.no_h4:
         rows = [r for r in rows if r["hint_type"] == "none" or r["hint_lang"] == r["lang"]]
-    rows = [r for r in rows if run_id(args.model, r["condition_id"]) not in done]
+    rows = [r for r in rows if not is_done(r, run_id(args.model, r["condition_id"]), done)]
     return rows[: args.limit] if args.limit else rows
 
 

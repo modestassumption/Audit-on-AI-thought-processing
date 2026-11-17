@@ -46,6 +46,16 @@ class RunLog:
                     done.add(json.loads(line)["run_id"])
         return done
 
+    def completed_prompts(self) -> dict[str, set[str | None]]:
+        """run_id -> the prompt hashes it was logged with, so a run whose prompt changed can be redone."""
+        done: dict[str, set[str | None]] = {}
+        for path in self.dir.glob("20*.jsonl"):
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if line.strip():
+                    rec = json.loads(line)
+                    done.setdefault(rec["run_id"], set()).add(rec.get("prompt_sha256"))
+        return done
+
     def _append(self, path: Path, record: dict) -> None:
         with open(path, "a", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
