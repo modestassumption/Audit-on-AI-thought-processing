@@ -55,6 +55,10 @@ def test_logs_every_run_and_resumes(run_vllm, monkeypatch, capsys):
 
 def test_max_hours_stops_before_next_batch(run_vllm, monkeypatch, capsys):
     rv, root = run_vllm
+    # Windows' clock can return the same time twice in a row, so give the script one that always advances.
+    import itertools
+    import types
+    monkeypatch.setattr(rv, "time", types.SimpleNamespace(time=itertools.count(0.0, 1.0).__next__))
     run(rv, monkeypatch, "--max-hours", "1e-9")
     assert RunLog("r1-distill-llama-8b", root, "t").completed_ids() == set()
     out = capsys.readouterr().out
