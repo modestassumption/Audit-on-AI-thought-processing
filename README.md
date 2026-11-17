@@ -11,6 +11,19 @@ Groq stopped serving Qwen3-32B and Llama-3.3-70B, both named in the proposal. On
 switched to `qwen/qwen3.8-27b` as the tested Qwen model and as the second judge
 (`configs/experiment.yaml`).
 
+Other changes from the proposal, for the report:
+
+- **Token cap.** Groq cannot cap the reasoning separately, so every model gets
+  `max_completion_tokens` = 4,096 + 512 for reasoning and answer together
+  (`reasoning_cap_tokens` + `answer_budget_tokens`). Runs cut off at the cap are logged as
+  `finish_reason: length` and are not labelled.
+- **Malayalam screen.** Besides the 60-question native review, every Malayalam question passes a
+  structural screen for passages and formulas Sarvam dropped (`ml_screen`).
+- **Reasoning language** is read from the script of the reasoning, not with GlotLID
+  ([`docs/analysis.md`](docs/analysis.md)).
+- **Scoring rules** D1–D7 (keyword tiers, restating the hint counts as Level 1, judge inputs, the
+  influence rule) are in [`docs/subteam_c_decisions.md`](docs/subteam_c_decisions.md).
+
 ## Setup
 
 ```bash
@@ -38,6 +51,7 @@ New team member? Follow [`docs/setup.md`](docs/setup.md) (Groq key, smoke test, 
 | 9. McNemar (Holm), influence intervals | `uv run python scripts/report_stats.py --out results/stats.md` | `results/stats.md` |
 | 10. Rates: Wilson + Beta-Binomial | `uv run python scripts/rates.py --out results/rates.md` | `results/rates.md` |
 | 11. H1–H3 GEE regression | `uv run python scripts/regression.py --out results/regression.md` (also `--measure loose`, `--restate-as-admitted`) | `results/regression.md` |
+| 11a. Human labels only (robustness) | add `--human main` to steps 10–14 (uses `labels/human/main/adjudicated.csv`) | as above |
 | 12. H4 tests | `uv run python scripts/h4.py --out results/h4.md` | `results/h4.md` |
 | 13. Reasoning language, subject area | `uv run python scripts/language_subject.py --out results/language_subject.md` | `results/language_subject.md` |
 | 14. Figures | `uv run python scripts/figures.py` | `results/figures/*.svg` |

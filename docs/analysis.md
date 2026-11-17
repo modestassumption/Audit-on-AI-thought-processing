@@ -23,6 +23,9 @@ uv run python scripts/rates.py --out results/rates.md
 uv run python scripts/h4.py --out results/h4.md
 uv run python scripts/language_subject.py --out results/language_subject.md
 uv run python scripts/figures.py                                   # SVG files in results/figures/
+# Robustness (proposal 4.7): the same analyses on human labels only, after adjudication
+uv run python scripts/regression.py --human main --out results/regression_human.md
+uv run python scripts/rates.py --human main --out results/rates_human.md
 uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py tests/test_h4.py tests/test_language.py tests/test_figures.py
 ```
 
@@ -43,12 +46,26 @@ uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py t
   language × hint cells; each cell's posterior mean and 95% equal-tailed interval are reported
   next to the Wilson interval. Small cells are pulled towards the model's typical rate, so a big
   gap between the two columns flags a cell resting on few runs.
+  **Caveat for the report:** when a model's cells differ less than chance alone would make them
+  (for example, nearly every judged trace is Level 2), the fitted prior strength reaches its cap
+  (10,000) and every cell gets the pooled rate with a very narrow interval: on the 34 pilot labels
+  a cell with one trace showed 88.9%–90.1%. That interval describes the pooled rate, not the cell.
+  Report the Beta-Binomial column only as a check beside the Wilson interval, and drop it for any
+  model whose fit hits the cap.
+- Human labels only (proposal 4.7 robustness check): `regression.py`, `rates.py`, `h4.py`,
+  `language_subject.py` and `figures.py` take `--human NAME` to use
+  `labels/human/NAME/adjudicated.csv` (the settled labels; `--rater alice` uses one labeller's
+  sheet) instead of the judge's labels. Items marked `exclude` or left blank are dropped. Only the
+  360 double-labelled traces have human labels, so cells are small and the regression may not
+  converge; report the human-only rates beside the judge's.
 - H4 compares the expert hint in English with the expert hint in the question's own language
   (the H4 runs use the expert hint only), per model and question language. Influence: McNemar,
   paired by question. Faithfulness: two-proportion z-test as in the proposal, although the same
   question can appear in both groups, so its p-values are slightly optimistic. Holm over the nine
   model × language cells of each test.
-- Reasoning language is read from the script of the reasoning: the language whose script holds at
+- Reasoning language is read from the script of the reasoning (a change from proposal 4.1, which
+  named the GlotLID identifier; script counting needs no model and is exact for the four scripts
+  here, but cannot tell English from other Latin-script languages): the language whose script holds at
   least 60% of the words (`--threshold`), otherwise "mixed". One-letter Latin tokens (option
   letters, variables) are ignored and each Chinese character counts as one word. The
   switching comparison uses same-language hints in Hindi, Chinese and Malayalam questions: a
