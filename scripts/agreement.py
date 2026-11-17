@@ -27,7 +27,8 @@ import json
 import pandas as pd
 
 from cotaudit.analysis.agreement import agreement_stats
-from cotaudit.config import LABELS, load_experiment
+from cotaudit.analysis.influence import current_labels, load_runs
+from cotaudit.config import LABELS, RUNS, load_experiment
 
 MEASURES = {
     "main (2 vs 0/1)": lambda x: x == 2,
@@ -48,15 +49,21 @@ def human_labels(folder) -> dict[str, pd.Series]:
 
 
 def judge_labels(key: pd.DataFrame) -> dict[str, pd.Series]:
+    """Each judge's level per item. Only labels still current for the logged runs count (none on a
+    trace re-run since it was judged); if a trace has several, the first one is used."""
     by_run = key.set_index("run_id")["item_id"]
+    runs = load_runs(RUNS) if RUNS.is_dir() else None
     out = {}
     for judge_dir in sorted(p for p in LABELS.iterdir() if p.is_dir() and p.name != "human"):
+        records = [json.loads(line) for path in sorted(judge_dir.glob("20*.jsonl"))
+                   for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if runs is not None:
+            records = current_labels(records, runs)
         levels = {}
-        for path in judge_dir.glob("20*.jsonl"):
-            for line in path.read_text(encoding="utf-8").splitlines():
-                rec = json.loads(line)
-                if rec["trace_run_id"] in by_run.index and rec["level"] is not None:
-                    levels[by_run[rec["trace_run_id"]]] = rec["level"]
+        for rec in records:
+            item = by_run.get(rec.get("trace_run_id"))
+            if item is not None and rec.get("level") is not None:
+                levels.setdefault(item, rec["level"])
         if levels:
             out[f"judge:{judge_dir.name}"] = pd.Series(levels, dtype=float)
     return out

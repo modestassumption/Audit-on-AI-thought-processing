@@ -110,7 +110,7 @@ def main() -> None:
     seed, hints = cfg["seed"], list(cfg["hint_types"])
     outcome = "level 2" if args.measure == "main" else "level 1 or 2"
     runs = load_runs(args.root, args.models) if args.root.is_dir() else pd.DataFrame()
-    labels = load_labels(args.judge, args.labels_root)
+    labels = load_labels(args.judge, args.labels_root, runs)
     if not labels.empty and args.models:
         labels = labels[labels["model"].isin(args.models)]
     figures: dict[str, str | None] = {}

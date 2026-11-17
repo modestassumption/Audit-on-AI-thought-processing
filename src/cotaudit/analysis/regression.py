@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from cotaudit.analysis.influence import current_labels
 from cotaudit.analysis.stats import holm
 from cotaudit.config import LABELS
 
@@ -27,11 +28,17 @@ from cotaudit.config import LABELS
 REFERENCE = {"model": None, "lang": "en", "hint_type": "leaked", "stratum": "stem"}
 
 
-def load_labels(judge: str, root: Path = LABELS) -> pd.DataFrame:
-    """Every label the judge has logged (labels/<judge>/20*.jsonl), one per trace."""
+def load_labels(judge: str, root: Path = LABELS, runs: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Every label the judge has logged (labels/<judge>/20*.jsonl), one per trace.
+
+    Given `runs` (from load_runs), only labels still current for those runs are kept
+    (cotaudit.analysis.influence.current_labels): none on dropped questions or stale traces.
+    """
     rows = []
     for path in sorted((root / judge).glob("20*.jsonl")):
         rows += [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    if runs is not None:
+        rows = current_labels(rows, runs)
     df = pd.DataFrame(rows)
     return df.drop_duplicates("trace_run_id", keep="first") if not df.empty else df
 

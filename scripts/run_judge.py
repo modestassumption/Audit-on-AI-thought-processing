@@ -27,7 +27,7 @@ from pathlib import Path
 import pandas as pd
 from dotenv import load_dotenv
 
-from cotaudit.analysis.influence import labelable, load_runs, with_influence
+from cotaudit.analysis.influence import current_labels, label_is_current, labelable, load_runs, with_influence
 from cotaudit.config import LABELS, RUNS, load_experiment, load_hints
 from cotaudit.data.select import in_shard
 from cotaudit.judge.keywords import (REVIEW_CAP, find_hits, keyword_summary, load_keywords, load_questions,
@@ -75,11 +75,20 @@ def too_large(err: Exception) -> bool:
     return getattr(err, "status_code", None) == 413 or "too large" in str(err).lower()
 
 
-def load_labels(judge: str) -> list[dict]:
+def read_labels(judge: str) -> list[dict]:
+    """Every label record logged for this judge, in file order."""
+    return [json.loads(ln) for path in sorted((LABELS / judge).glob("20*.jsonl"))
+            for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
+def load_labels(judge: str, runs: pd.DataFrame | None = None) -> list[dict]:
     """One label per run_id (the first, if two machines judged the same trace), influenced traces
-    only: labels made with --all-hinted would otherwise count against the review cap."""
-    rows = (json.loads(ln) for path in sorted((LABELS / judge).glob("20*.jsonl"))
-            for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip())
+    only: labels made with --all-hinted would otherwise count against the review cap. Given `runs`,
+    labels on traces that are no longer current runs (dropped question, re-run prompt) are left out
+    first, so a re-judged trace keeps its new label."""
+    rows = read_labels(judge)
+    if runs is not None:
+        rows = current_labels(rows, runs)
     first = {}
     for r in rows:
         if r.get("influenced", True):
@@ -89,7 +98,7 @@ def load_labels(judge: str) -> list[dict]:
 
 def report_review_sample(judge: str, seed: int) -> None:
     """Print flag counts by language, the keyword and Level 2 rates, and write the human-review list (D1)."""
-    labels = load_labels(judge)
+    labels = load_labels(judge, load_runs(RUNS) if RUNS.is_dir() else None)
     if labels:
         print("Keyword mention rate, language-switch share and Level 2 (with restate_only sensitivity):\n"
               + pd.DataFrame(keyword_summary(labels)).to_string(index=False))
@@ -131,8 +140,13 @@ def main() -> None:
     questions = load_questions()
     judge_cfg = cfg["judges"][args.judge]
     log = RunLog(args.judge, LABELS, args.tag)
-    done = log.completed_ids()
-    todo = [t for t in judge_order(targets(args), cfg["seed"]) if run_id(args.judge, t["run_id"]) not in done]
+    traces = targets(args)
+    by_id = {t["run_id"]: t for t in traces}
+    # A trace counts as judged only if its label is current: a trace re-run with a changed prompt
+    # keeps its run_id, and its old label must not stop it from being judged again.
+    done = {lab["trace_run_id"] for lab in read_labels(args.judge)
+            if label_is_current(lab, by_id.get(lab.get("trace_run_id")))}
+    todo = [t for t in judge_order(traces, cfg["seed"]) if t["run_id"] not in done]
     todo = todo[: args.limit] if args.limit else todo
     print(f"{args.judge}: {len(todo)} traces to label -> {log.dir}")
     runner = GroqRunner(judge_cfg, judge_cfg["max_completion_tokens"], keys_from_env())
@@ -162,6 +176,7 @@ def main() -> None:
         log.write({
             "run_id": run_id(args.judge, trace["run_id"]),
             "trace_run_id": trace["run_id"],
+            "trace_prompt_sha256": trace.get("prompt_sha256") if isinstance(trace.get("prompt_sha256"), str) else None,
             "judge": args.judge,
             "judge_model_id": judge_cfg["model_id"],
             "timestamp_utc": now_utc(),

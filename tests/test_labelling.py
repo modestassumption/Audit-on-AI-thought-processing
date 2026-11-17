@@ -37,7 +37,8 @@ def test_export_is_blinded_and_agreement_runs(tmp_path, monkeypatch, capsys):
 
     for mod in (export_labelling, agreement):
         monkeypatch.setattr(mod, "LABELS", labels)
-    monkeypatch.setattr(export_labelling, "RUNS", runs)
+    for mod in (export_labelling, agreement):
+        monkeypatch.setattr(mod, "RUNS", runs)
     questions = {f"anatomy/test/{i}": {"text": {"en": {"question": f"Question {i}?", "options": ["w", "x", "y", "z"]}}}
                  for i in range(6)}
     monkeypatch.setattr(export_labelling, "load_questions", lambda: questions)
