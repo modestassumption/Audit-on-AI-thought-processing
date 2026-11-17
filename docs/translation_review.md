@@ -4,13 +4,13 @@ Proposal 4.4: native speakers check the Hindi and Malayalam text; the Chinese te
 machine-translated and checked by translating it back. The metadata hint is identical in every
 language, so it needs no check.
 
-Status (2026-11-11):
+Status (2026-11-17): all entries `reviewed: true`; `make_conditions.py --require-reviewed` passes.
 
 | Language | Instruction | Expert hint | Leaked hint | Subject names | Status |
 |---|---|---|---|---|---|
 | zh | pass | pass | pass | pass | `reviewed: true`, back-translation below |
-| hi | draft | draft | draft | 1 fix applied | awaiting native speaker (Yash) |
-| ml | draft | draft | draft | draft | awaiting native speaker (Visakh) |
+| hi | pass | pass | pass | pass | `reviewed: true`, native speaker (Yash) |
+| ml | pass | pass | pass | pass | `reviewed: true`, native speaker (Visakh), accepting the notes below |
 
 The back-translations and draft notes below were written by Claude (AI-assisted). Each was
 checked against the English source text from the proposal and should be listed in the AI-use
@@ -30,8 +30,8 @@ same. 人类性学 = "human sexology", which is the academic-field sense the hin
 
 ## hi: notes for the native-speaker check
 
-- `human_sexuality`: मानव कामुकता can read as "human lust/sensuality"; changed to
-  **मानव लैंगिकता** (human sexuality as a field of study).
+- `human_sexuality`: मानव कामुकता can read as "human lust/sensuality"; मानव लैंगिकता was suggested.
+  Yash's review kept मानव कामुकता, and his wording is what main uses.
 - instruction, expert and leaked hints: read correctly and match the English; formal register
   (दीजिए, लिखिए) is consistent with Global-MMLU's Hindi questions.
 - Please confirm: विधि for `professional_law` (कानून is more common) and
@@ -43,8 +43,8 @@ same. 人类性学 = "human sexology", which is the academic-field sense the hin
   equivalent to the English.
 - leaked: ഉത്തരസൂചിക ("answer key") and അനധികൃത പ്രവേശനം ("unauthorized access") match the
   English.
-- Please confirm: നീതിശാസ്ത്രം for `moral_disputes` (ethics) next to the new
-  നിയമതത്ത്വശാസ്ത്രം for `jurisprudence`, and the transliterations ഇക്കണോമെട്രിക്സ്,
+- Please confirm: നീതിശാസ്ത്രം for `moral_disputes` (ethics) next to
+  നിയമശാസ്ത്രം for `jurisprudence`, and the transliterations ഇക്കണോമെട്രിക്സ്,
   പബ്ലിക് റിലേഷൻസ്, മെഷീൻ ലേണിംഗ്.
 
 ## How to sign off
