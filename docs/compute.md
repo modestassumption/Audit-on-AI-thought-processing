@@ -19,7 +19,7 @@ uv run python scripts/report_runs.py --tpd gpt-oss-20b=<TPD> qwen3-32b=<TPD> --k
 
 | Shard | Member | Key ready | Smoke test passed |
 |---|---|---|---|
-| 1/7 | Visakh V Menon | | |
+| 1/7 | Visakh V Menon | yes | yes (17-11-2026) |
 | 2/7 | Yash Agarwal | yes | yes |
 | 3/7 | Sanjay Rajkumar | | |
 | 4/7 | Shreyas Ghosh | | |
