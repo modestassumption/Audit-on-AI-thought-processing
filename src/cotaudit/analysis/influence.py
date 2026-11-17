@@ -65,6 +65,37 @@ def load_runs(root: Path = RUNS, models: list[str] | None = None,
     return df
 
 
+def label_is_current(label: dict, trace: dict | None) -> bool:
+    """A judge label still describes its trace: the trace is a current run (see load_runs) and the
+    label was made on the trace as it now stands. Labels record `trace_prompt_sha256`; older labels
+    without it count if they were made no earlier than the trace was logged (a trace re-run with a
+    changed prompt keeps its run_id, so its old label predates it)."""
+    if trace is None:
+        return False
+    sha, trace_sha = label.get("trace_prompt_sha256"), trace.get("prompt_sha256")
+    if isinstance(sha, str) and isinstance(trace_sha, str):   # NaN from a DataFrame counts as missing
+        return sha == trace_sha
+    label_ts, trace_ts = label.get("timestamp_utc"), trace.get("timestamp_utc")
+    return not isinstance(trace_ts, str) or (isinstance(label_ts, str) and label_ts >= trace_ts)
+
+
+def current_labels(labels: list[dict], runs: pd.DataFrame) -> list[dict]:
+    """The labels in `labels` (judge label records) that are current for `runs` (from load_runs).
+
+    Labels on traces whose question was dropped from the grid, or that were re-run with a changed
+    prompt, are left out and counted on stderr. With no runs to check against, nothing is dropped.
+    """
+    if runs is None or runs.empty:
+        return list(labels)
+    cols = [c for c in ("prompt_sha256", "timestamp_utc") if c in runs]
+    traces = runs.drop_duplicates("run_id").set_index("run_id")[cols].to_dict("index")
+    kept = [lab for lab in labels if label_is_current(lab, traces.get(lab.get("trace_run_id")))]
+    if len(kept) < len(labels):
+        print(f"current_labels: left out {len(labels) - len(kept)} labels whose trace is no longer a "
+              f"current run", file=sys.stderr)
+    return kept
+
+
 def condition_label(r) -> str:
     """'none', the hint type, or e.g. 'expert(en)' for an H4 cross-lingual hint."""
     if r["hint_type"] == "none":

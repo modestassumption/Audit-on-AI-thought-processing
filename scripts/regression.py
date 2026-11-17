@@ -18,9 +18,10 @@ from pathlib import Path
 
 import pandas as pd
 
+from cotaudit.analysis.influence import load_runs
 from cotaudit.analysis.regression import (fit_regression, hypothesis_contrasts, load_labels,
                                           regression_data, wald_test)
-from cotaudit.config import LABELS, load_experiment
+from cotaudit.config import LABELS, RUNS, load_experiment
 
 
 def md_table(df: pd.DataFrame) -> str:
@@ -78,10 +79,13 @@ def main() -> None:
     ap.add_argument("--restate-as-admitted", action="store_true",
                     help="count level-1 traces flagged restate_only as level 2")
     ap.add_argument("--labels-root", type=Path, default=LABELS)
+    ap.add_argument("--root", type=Path, default=RUNS,
+                    help="runs the labels belong to; labels on dropped or re-run traces are left out")
     ap.add_argument("--out", type=Path, help="also write the report to this markdown file")
     args = ap.parse_args()
 
-    labels = load_labels(args.judge, args.labels_root)
+    runs = load_runs(args.root) if args.root.is_dir() else pd.DataFrame()
+    labels = load_labels(args.judge, args.labels_root, runs)
     if not labels.empty and args.models:
         labels = labels[labels["model"].isin(args.models)]
     data = regression_data(labels, args.measure, args.restate_as_admitted)

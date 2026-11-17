@@ -228,6 +228,8 @@ def test_run_judge_review_sample_mode(tmp_path, monkeypatch, capsys):
         log.write({**r, "trace_run_id": "tr" + r["run_id"], "model": "m", "condition": "expert",
                    "level": 0 if "F1" in r["flags"] else 2, "timestamp_utc": "2026-11-13T00:00:00+00:00"})
     monkeypatch.setattr(run_judge, "LABELS", tmp_path)
+    (tmp_path / "runs").mkdir()
+    monkeypatch.setattr(run_judge, "RUNS", tmp_path / "runs")  # no runs to check labels against: all kept
     monkeypatch.setattr(sys, "argv", ["run_judge.py", "--judge", "gpt-oss-120b", "--review-sample"])
     run_judge.main()  # no runner, no keys
     out = capsys.readouterr().out
@@ -442,3 +444,63 @@ def test_english_list_covers_other_ways_of_restating_the_hint():
     assert "prof" not in strong("The profit margin is 12%, so C.", "expert")      # whole word only
     assert {"it was found that the answer", "answer-key"} <= strong(
         "It was found that the answer is C, per the answer-key.", "leaked")
+
+
+# --- labels on dropped or re-run traces -----------------------------------------------------------
+
+def test_current_labels_drop_dropped_and_rerun_traces():
+    import pandas as pd
+    from cotaudit.analysis.influence import current_labels, label_is_current
+
+    runs = pd.DataFrame([
+        {"run_id": "t1", "prompt_sha256": "new", "timestamp_utc": "2026-11-17T00:00:00+00:00"},
+        {"run_id": "t2", "prompt_sha256": None, "timestamp_utc": "2026-11-10T00:00:00+00:00"},
+    ])
+    labels = [
+        {"trace_run_id": "t1", "trace_prompt_sha256": "new", "timestamp_utc": "2026-11-17T01:00:00+00:00"},
+        {"trace_run_id": "t1", "trace_prompt_sha256": "old", "timestamp_utc": "2026-11-18T00:00:00+00:00"},
+        {"trace_run_id": "t1", "timestamp_utc": "2026-11-16T00:00:00+00:00"},  # no hash, made before the re-run
+        {"trace_run_id": "t2", "timestamp_utc": "2026-11-11T00:00:00+00:00"},  # no hash, made after the trace
+        {"trace_run_id": "gone", "timestamp_utc": "2026-11-11T00:00:00+00:00"},  # question dropped
+    ]
+    kept = current_labels(labels, runs)
+    assert [(lab["trace_run_id"], lab.get("trace_prompt_sha256")) for lab in kept] == [("t1", "new"), ("t2", None)]
+    assert label_is_current({"trace_prompt_sha256": "x"}, {"prompt_sha256": float("nan"), "timestamp_utc": None})
+    assert current_labels(labels, pd.DataFrame()) == labels  # nothing to check against: keep all
+
+
+def test_run_judge_rejudges_a_trace_rerun_with_a_new_prompt(tmp_path, monkeypatch):
+    class Runner:
+        params = {}
+
+        def __init__(self, *a, **k):
+            pass
+
+        def generate(self, prompt):
+            return {"content": '{"level": 2, "quote": "the Professor believes", "restate_only": false}',
+                    "reasoning": None, "model_returned": "fake", "usage": None}
+
+    run_judge, rows = _judge_setup(tmp_path, monkeypatch, Runner)
+    run_judge.main()
+    assert len(rows()) == 2
+    run_judge.main()                                   # resume: nothing new
+    assert len(rows()) == 2
+
+    # Trace h1 is re-run with a changed prompt (same run_id, later timestamp); its old label is stale.
+    from cotaudit.runlog import RunLog
+    log_dir = tmp_path / "runs" / "m"
+    lines = [json.loads(ln) for p in log_dir.glob("20*.jsonl") for ln in p.read_text(encoding="utf-8").splitlines()]
+    for p in log_dir.glob("20*.jsonl"):
+        p.unlink()
+    log = RunLog("m", tmp_path / "runs", "t")
+    for r in lines:
+        if r["run_id"] == "h1":
+            r = {**r, "prompt_sha256": "changed", "timestamp_utc": "2099-01-01T00:00:00+00:00"}
+        log.write(r)
+    run_judge.main()
+    labels = rows()
+    assert len(labels) == 3 and labels[-1]["trace_run_id"] == "h1"
+    assert labels[-1]["trace_prompt_sha256"] == "changed"
+    run_judge.main()                                   # the new label is current: nothing new
+    assert len(rows()) == 3
+    assert {lab["trace_run_id"] for lab in run_judge.load_labels("gpt-oss-120b", run_judge.load_runs(tmp_path / "runs"))} == {"h1", "h2"}
