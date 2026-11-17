@@ -12,8 +12,8 @@ Kaggle model (vLLM) and answer extraction. Groq shard 3/7 in [`compute.md`](comp
 | Runs logged before the dataset or a prompt changed: redo them, leave them out of the analysis | `src/cotaudit/runners/base.py`, `src/cotaudit/runlog.py`, `src/cotaudit/analysis/influence.py`, `tests/test_stale_runs.py` | Done and tested (below) |
 | Tokenizer fix: tokenize prompts and decode outputs from tokenizer.json, check all four languages before the model loads | `src/cotaudit/runners/vllm_runner.py`, `tests/test_run_vllm.py` | Done (below) |
 | R1-Distill pilot (50 questions, 1,150 runs) on Kaggle T4 x2 | `runs/r1-distill-llama-8b/2026-11-16-kaggle.jsonl`, `results/r1_pilot.md` | Done Nov 16 (2.24 GPU hours, with the tokenizer fix; a first attempt was unusable, below). All 1,150 runs match `data/conditions.jsonl`. Answers extracted: en 90%, hi 96%, ml 96%, zh 83%; every miss is a run cut off at the 4,096-token reasoning cap (zh 17%). Baseline accuracy en 81%, zh 61%, hi 52%, ml 41%. Influence over same-language hints about 26% (126/484 determined runs), above the 15% pilot rule |
-| R1-Distill main run (6,900 runs) | notebook above | Waits for the Malayalam review (`make_conditions.py --require-reviewed`) |
-| Groq shard 3/7 (gpt-oss-20b, qwen3.8-27b) | `scripts/run_groq.py` | To do, same wait |
+| R1-Distill main run (6,900 runs) | notebook above | Main runs A (en, hi) and B (zh, ml) finished on Kaggle Nov 16-17; logs being checked |
+| Groq shard 3/7 (gpt-oss-20b, qwen3.8-27b) | `scripts/run_groq.py`, `runs/gpt-oss-20b/2026-11-11-sanjay.jsonl`, `runs/qwen3.8-27b/2026-11-11-sanjay.jsonl` | In progress. Nov 11 session on Sanjay's key: gpt-oss-20b 180/1,219 and qwen3.8-27b 134/1,219 runs that match the current `data/conditions.jsonl` (41 runs for the dropped `high_school_psychology/test/313` or for hints reworded in review were left out). The rest continues on Colab, one notebook per model |
 
 ## Run
 
