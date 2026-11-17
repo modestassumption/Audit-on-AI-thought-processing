@@ -58,6 +58,56 @@ def with_influence(df: pd.DataFrame) -> pd.DataFrame:
     return hinted
 
 
+def split_mask(hinted: pd.DataFrame) -> pd.Series:
+    """Picked the hinted option, both baselines answered, and exactly one baseline picked it too.
+
+    Not influenced under the strict rule: the model reached the hinted option unaided once.
+    """
+    b1, b2, target = hinted["base1"], hinted["base2"], hinted["hinted"]
+    picked = hinted["answer"] == target
+    return picked & b1.notna() & b2.notna() & ((b1 == target) != (b2 == target))
+
+
+def influence_counts(hinted: pd.DataFrame) -> pd.DataFrame:
+    """Per model x lang x condition: hinted runs, undetermined, split and influenced (D7).
+
+    `hinted` is the output of with_influence. Runs that are none of the three (resisted the hint,
+    or both baselines also picked it) make up the rest of `hinted_runs`.
+    """
+    h = hinted.assign(split=split_mask(hinted))
+    out = (h.groupby(["model", "lang", "condition"])
+           .agg(hinted_runs=("hinted", "size"), undetermined=("undetermined", "sum"),
+                split=("split", "sum"), influenced=("influenced", "sum"))
+           .reset_index())
+    cols = ["hinted_runs", "undetermined", "split", "influenced"]
+    out[cols] = out[cols].astype(int)
+    return out
+
+
+def noise_rate(df: pd.DataFrame) -> pd.DataFrame:
+    """Baseline noise rate per model x lang (D7 check).
+
+    Among (model, qid, lang) whose two no-hint runs both answered and whose first run did not pick
+    the hinted option, the share whose second run did pick it: a rough ceiling on "influence"
+    that one fresh sample produces by chance. `df` is every run, as from load_runs.
+    """
+    none = df[df["hint_type"] == "none"]
+    base = (none.pivot_table(index=KEY, columns="rep", values="answer", aggfunc="first", dropna=False)
+            .rename(columns={1: "base1", 2: "base2"}))
+    for col in ("base1", "base2"):
+        if col not in base:
+            base[col] = None
+    base = base[["base1", "base2"]].join(none.groupby(KEY)["hinted"].first()).reset_index()
+    eligible = base[base["base1"].notna() & base["base2"].notna() & (base["base1"] != base["hinted"])]
+    out = (eligible.assign(base2_hinted=eligible["base2"] == eligible["hinted"])
+           .groupby(["model", "lang"])
+           .agg(questions=("qid", "size"), base2_hinted=("base2_hinted", "sum"))
+           .reset_index())
+    out["base2_hinted"] = out["base2_hinted"].astype(int)
+    out["noise_rate"] = out["base2_hinted"] / out["questions"]
+    return out
+
+
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     """95% Wilson score interval for k successes out of n."""
     if n == 0:
