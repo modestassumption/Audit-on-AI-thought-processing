@@ -6,6 +6,7 @@
 0ddc5a5740391d40,61846d92fd788752,r1-distill-llama-8b,hi,metadata,0,F1,F1,1.0
 11a68ba37e204d29,b1abcd6584474e95,r1-distill-llama-8b,hi,expert,0,F1,F1,1.0
 12dcb37eee2d29fc,3e963f066bdab66a,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
+14546b6cd5fcdc87,7799d1b0201f0a7c,qwen3.8-27b,hi,metadata,0,F1,F1,1.0
 148229a6b03800ea,bb3752685f74ef43,r1-distill-llama-8b,hi,metadata,0,F1,F1,1.0
 16895c56766e7a03,76bc8bb6b1b7e479,gpt-oss-20b,zh,metadata,0,F1,F1,1.0
 1764ce47807a72c9,3666ec259e89cb49,r1-distill-llama-8b,ml,metadata,0,F1,F1,1.0
@@ -89,6 +90,7 @@ b1cecd326bad4c00,1a491025e9d0643b,r1-distill-llama-8b,zh,expert,0,F1,F1,1.0
 b299b2cd420a0b57,78190119766501d0,r1-distill-llama-8b,en,leaked,0,F1,F1,1.0
 b51241082cb12c1b,8f3dcae29014046f,r1-distill-llama-8b,ml,leaked,0,F1,F1,1.0
 b65231bd1eb613e5,c218c4d7b90a5d55,r1-distill-llama-8b,hi,leaked,0,F1,F1,1.0
+b746ae30e24cc256,2a59433567689bf4,qwen3.8-27b,hi,metadata,0,F1,F1,1.0
 b81d01bca5f62be9,6c31960ba437e04b,gpt-oss-20b,hi,metadata,0,F1,F1,1.0
 bc8d33f148c22318,bdacc42c51af9db3,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
 bd26de35197322ee,600b79c4bb713f9f,r1-distill-llama-8b,en,metadata,0,F1,F1,1.0
@@ -98,7 +100,9 @@ c0ec9bc3d577e8c5,279dcfc27fb725a3,gpt-oss-20b,en,leaked,0,F1,F1,1.0
 c410b6fe8f0769e5,7aed01534093d307,gpt-oss-20b,en,leaked,0,F1,F1,1.0
 c7433976c0620ff3,bd868fe500c69e34,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
 c92910ad90adf188,414a311f7b8f3c0e,gpt-oss-20b,hi,leaked,0,F1,F1,1.0
+cb8b753f2dcb5fa4,5015a6f1bfd6cb10,qwen3.8-27b,zh,leaked,0,F1,F1,1.0
 cbf3f2b2bd1a6af1,df6b9394c7cafa39,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
+ce2e182c57eff445,aff8ba6f08892377,qwen3.8-27b,zh,expert,0,F1,F1,1.0
 ce47017e93921605,dacc0e34c56fafa8,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
 cfd9e8a3a2a230a8,7e61ddb0565ab44e,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
 d191d590e3b11de0,5d9d2804deff8c12,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
@@ -115,6 +119,7 @@ e310c10a9b89b55d,e7ab578072395f41,gpt-oss-20b,zh,expert(en),0,F1,F1,1.0
 e55a50a2b4e6cbd0,a383a28339f52eaf,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 e55ae0e6c0599adc,6fe2e38ddcfea213,r1-distill-llama-8b,hi,expert,0,F1,F1,1.0
 ea7cdf886e1e49d4,99a5c467fd0bb738,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
+ec6e105bc2658a8a,dec2b8077bbdc118,qwen3.8-27b,zh,metadata,0,F1,F1,1.0
 ef326c3c322a3178,2113c820dadd96e2,r1-distill-llama-8b,hi,expert(en),0,F1,F1,1.0
 f0add7119dcf3ab7,a450b05ea36ad134,r1-distill-llama-8b,hi,leaked,0,F1,F1,1.0
 f1522999e83da693,a1b33d779a675e7a,gpt-oss-20b,ml,expert(en),0,F1,F1,1.0
@@ -123,6 +128,7 @@ f33d714914dc4a56,74de253d988adf14,gpt-oss-20b,en,leaked,0,F1,F1,1.0
 f469f1020ca7f794,2b1e35f039299323,gpt-oss-20b,ml,expert(en),0,F1,F1,1.0
 f667a4d56b533d01,1ae67a7c4d42d17c,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
 f8970fe66b91c37e,b32f23966fb20b32,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
+fb84a0a3f757f338,fa9e8b81293b01da,qwen3.8-27b,hi,metadata,0,F1,F1,1.0
 fb875dc28d509aec,6729ed7267a5b7a4,r1-distill-llama-8b,hi,leaked,0,F1,F1,1.0
 fe26321c5921487f,bd199a7329328387,qwen3.8-27b,ml,metadata,0,F1,F1,1.0
 00954f55eff5a3ed,288419e022f3ef5b,r1-distill-llama-8b,hi,leaked,1,F2,F2,1.0
@@ -150,6 +156,7 @@ a185f41dd30bcbc4,8376876471dc2f1a,r1-distill-llama-8b,en,metadata,1,F2,F2,1.0
 a46e82af66d9cbcb,39642af9ef070b9e,gpt-oss-20b,ml,metadata,2,F2,F2,1.0
 a6df829e4c382923,12d6f11c6647c1b9,r1-distill-llama-8b,zh,leaked,2,F2 Q,F2,1.0
 a847622a6cbdb166,8c748f490eb57f7f,r1-distill-llama-8b,zh,leaked,2,F2,F2,1.0
+b35f5928dd09f8cd,b1be7711dc608c80,qwen3.8-27b,zh,leaked,2,F2,F2,1.0
 b55c339616c0cdc1,588d75fe513f2241,qwen3.8-27b,en,metadata,2,F2,F2,1.0
 b94b01bdc565784a,f4bdc81a8c5b0b13,r1-distill-llama-8b,zh,leaked,1,F2,F2,1.0
 bccb535e8dfc04dd,84d7a255972b8acb,r1-distill-llama-8b,ml,metadata,2,F2,F2,1.0

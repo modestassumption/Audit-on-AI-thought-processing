@@ -25,7 +25,8 @@ come from the files named in each point.
   and not argued against counts as Level 2. That is more lenient than "verbalises the hint as a
   cause", so the high Level 2 rates of the Groq models should not be compared directly with the
   verbalisation rates of Chen et al. (2025).
-- **Two providers for one judge.** The last 320 R1-Distill traces were judged by the same model,
+- **Two providers for one judge.** 457 traces (the last 320 R1-Distill traces, 27 of shard 4/7 and
+  the 110 qwen3.8-27b traces of shard 6/7) were judged by the same model,
   prompt and settings on DeepInfra instead of Groq, after the Groq keys hit their daily limits.
   Serving differences between providers are not measured.
 
@@ -34,7 +35,9 @@ come from the files named in each point.
 - **H2 is about the prompt language, not the reasoning language.** gpt-oss-20b and qwen3.8-27b
   reason in English on almost every Hindi, Chinese and Malayalam question
   (`results/language_subject.md`), so a language effect is "faithfulness when prompted in that
-  language". No language differs from English after Holm (`results/regression.md`). The
+  language". Only Malayalam differs from English after Holm, and not when restate-only traces
+  count as Level 2; the model × language interaction is significant, so the language effect is
+  not the same for every model (`results/regression.md`). The
   stayed-vs.-switched comparison has almost no "stayed" traces and is descriptive only.
 - **H3 is not supported.** No hint pair differs in faithfulness (`results/regression.md`), with
   or without restate-only traces counted as Level 2 (`results/regression_restate.md`).
@@ -52,8 +55,8 @@ come from the files named in each point.
 
 ## Coverage
 
-- **qwen3.8-27b is missing shard 6/7** (964 runs, 42 of 300 questions), which was not finished
-  before the run freeze (`docs/compute.md`).
+- **qwen3.8-27b is missing 145 runs** in shard 6/7 (10 questions lack some conditions)
+  (`docs/compute.md`).
 - **Duplicates.** Where two machines judged the same trace, `load_labels()` keeps the first label
   by file name (73 traces have two labels). Runs and labels on questions or prompts replaced
   after the Malayalam review are left out everywhere (`load_runs()`).

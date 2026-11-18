@@ -22,8 +22,9 @@ because otherwise a copied prompt would count as an admission. Such traces are m
 `restate_only`, and the main measure is also reported with them counted as Level 2.
 
 **LLM judge.** All influenced traces were scored by gpt-oss-120b (temperature 0, medium
-reasoning effort, at most 2,000 output tokens), on Groq except 347 traces (the last 320
-R1-Distill traces and 27 shard 4/7 traces of gpt-oss-20b and qwen3.8-27b), which ran on DeepInfra
+reasoning effort, at most 2,000 output tokens), on Groq except 457 traces (the last 320
+R1-Distill traces, 27 shard 4/7 traces of gpt-oss-20b and qwen3.8-27b, and the 110 shard 6/7
+qwen3.8-27b traces), which ran on DeepInfra
 with the same model, prompt, settings and parsing (each label records `provider: deepinfra`). The judge saw the question and options, the hint
 type and text, the hinted letter and the reasoning, all in the trace's language and without
 translation. It did not see the correct answer, the model name, whether the run was influenced
@@ -59,7 +60,7 @@ levels. English and Hindi are reported apart from Chinese and Malayalam.
 accounts in rotation. Groq's per-account limits (for example 200,000 tokens a day and, for
 qwen3.8-27b, 1,000 output tokens a minute) set the pace. A request rejected as too large was
 sent to manual review rather than retried. When every key had hit its daily limit, the last 320
-R1-Distill traces and 27 shard 4/7 traces were judged on DeepInfra
+R1-Distill traces, 27 shard 4/7 traces and the 110 shard 6/7 qwen3.8-27b traces were judged on DeepInfra
 (`scripts/run_judge_deepinfra.py`).
 
 ## Results
@@ -67,30 +68,30 @@ R1-Distill traces and 27 shard 4/7 traces were judged on DeepInfra
 All numbers come from `labels/gpt-oss-120b/` (main judge) and `labels/qwen3.8-27b/` (second
 judge) as committed on 18 November; one label per trace.
 
-**Traces scored.** The main judge scored all 2,392 influenced traces that could be scored. One
+**Traces scored.** The main judge scored all 2,502 influenced traces that could be scored. One
 influenced trace (r1-distill-llama-8b) was excluded because its reasoning was cut off at the
-token cap. 37 traces (1.5%) went to manual review: 36 because the judge's quote was not found in
+token cap. 39 traces (1.6%) went to manual review: 38 because the judge's quote was not found in
 the reasoning and one because the reply could not be parsed (no level).
 
 | Model | en | hi | ml | zh | Total |
 |---|---|---|---|---|---|
 | gpt-oss-20b | 91 | 262 | 166 | 177 | 696 |
-| qwen3.8-27b | 116 | 221 | 248 | 202 | 787 |
+| qwen3.8-27b | 133 | 251 | 284 | 229 | 897 |
 | r1-distill-llama-8b | 88 | 313 | 396 | 112 | 909 |
-| Total | 295 | 796 | 810 | 491 | 2,392 |
+| Total | 312 | 826 | 846 | 518 | 2,502 |
 
-**Levels.** Across the 2,391 traces with a level, the judge gave Level 2 (the reasoning admits
-using the hint) to 71.2%, Level 1 to 12.0% and Level 0 to 16.8%.
+**Levels.** Across the 2,501 traces with a level, the judge gave Level 2 (the reasoning admits
+using the hint) to 72.1%, Level 1 to 11.7% and Level 0 to 16.3%.
 
 | | Level 0 | Level 1 | Level 2 |
 |---|---|---|---|
 | gpt-oss-20b | 9.1% | 12.2% | 78.7% |
-| qwen3.8-27b | 1.4% | 3.6% | 95.0% |
+| qwen3.8-27b | 1.9% | 3.6% | 94.5% |
 | r1-distill-llama-8b | 36.0% | 19.3% | 44.8% |
-| English | 10.5% | 15.0% | 74.5% |
-| Hindi | 13.1% | 11.6% | 75.4% |
-| Malayalam | 23.0% | 12.1% | 64.9% |
-| Chinese | 16.3% | 11.0% | 72.7% |
+| English | 10.0% | 14.1% | 75.9% |
+| Hindi | 13.0% | 11.3% | 75.8% |
+| Malayalam | 22.0% | 11.8% | 66.2% |
+| Chinese | 16.0% | 10.6% | 73.4% |
 
 The language rows pool the three models, and r1-distill-llama-8b has the most Hindi and
 Malayalam traces, which pulls those rows down; compare languages within a model
@@ -99,16 +100,16 @@ Level 1 ones as Level 2 (the sensitivity check) raises the Level 2 rate by at mo
 any model × language cell (r1-distill-llama-8b, Malayalam).
 
 **Keyword mention rate** (share of influenced traces with at least one strong keyword that is not
-in the question). gpt-oss-20b: 93–99% across languages. qwen3.8-27b: 96–99%. r1-distill-llama-8b:
+in the question). gpt-oss-20b: 93–99% across languages. qwen3.8-27b: 96–100%. r1-distill-llama-8b:
 47–71%. Far fewer of r1-distill-llama-8b's traces mention the hint in words, which matches its
 lower Level 2 rate. For gpt-oss-20b and qwen3.8-27b, most hits in Hindi, Chinese and Malayalam
-traces come only from lists in another language (mostly English): 44–74% of traces. The models
+traces come only from lists in another language (mostly English): 44–73% of traces. The models
 often reason in English about a question asked in another language. r1-distill-llama-8b does so
 less (Hindi 51%, Malayalam 26%, Chinese 0%).
 
-**Review flags.** F1 (judge Level 0 with a strong keyword): 126 traces. F2 (judge Level 1 or 2
-with no keyword): 43. Q (quote not found or unparseable reply): 37. F1 + F2 = 169 is under the
-review cap of 340, so all 169 are on the review list (`labels/gpt-oss-120b/review_sample.csv`).
+**Review flags.** F1 (judge Level 0 with a strong keyword): 132 traces. F2 (judge Level 1 or 2
+with no keyword): 44. Q (quote not found or unparseable reply): 39. F1 + F2 = 176 is under the
+review cap of 340, so all 176 are on the review list (`labels/gpt-oss-120b/review_sample.csv`).
 
 **Judge vs. judge agreement** (`uv run python scripts/agreement.py --name main`). On the 329
 traces of the 338-trace sample that both judges have a current label for, the two judges agreed

@@ -8,10 +8,10 @@
 | gpt-oss-20b | hi | 1800 | 300 | 100% | 99% | 0% | 83% | 90% | 7% |
 | gpt-oss-20b | ml | 1800 | 300 | 100% | 100% | 0% | 78% | 85% | 8% |
 | gpt-oss-20b | zh | 1800 | 300 | 100% | 100% | 0% | 84% | 92% | 5% |
-| qwen3.8-27b | en | 1292 | 259 | 100% | 99% | 0% | 91% | 96% | 3% |
-| qwen3.8-27b | hi | 1548 | 258 | 100% | 99% | 1% | 88% | 96% | 4% |
-| qwen3.8-27b | ml | 1548 | 258 | 100% | 99% | 1% | 84% | 90% | 7% |
-| qwen3.8-27b | zh | 1548 | 258 | 100% | 99% | 1% | 89% | 98% | 4% |
+| qwen3.8-27b | en | 1465 | 294 | 100% | 100% | 0% | 91% | 97% | 3% |
+| qwen3.8-27b | hi | 1763 | 295 | 100% | 99% | 1% | 87% | 96% | 4% |
+| qwen3.8-27b | ml | 1762 | 294 | 100% | 99% | 1% | 83% | 90% | 6% |
+| qwen3.8-27b | zh | 1765 | 295 | 100% | 99% | 1% | 89% | 97% | 3% |
 | r1-distill-llama-8b | en | 1500 | 300 | 100% | 88% | 13% | 72% | 89% | 6% |
 | r1-distill-llama-8b | hi | 1800 | 300 | 100% | 92% | 7% | 50% | 61% | 14% |
 | r1-distill-llama-8b | ml | 1800 | 300 | 100% | 94% | 6% | 38% | 44% | 15% |
@@ -36,21 +36,21 @@
 | gpt-oss-20b | zh | expert(en) | 300 | 297 | 12% | 24 | 8% | 5%-12% | 27 |
 | gpt-oss-20b | zh | leaked | 300 | 292 | 25% | 60 | 21% | 16%-26% | 64 |
 | gpt-oss-20b | zh | metadata | 300 | 297 | 25% | 59 | 20% | 16%-25% | 62 |
-| qwen3.8-27b | en | expert | 258 | 255 | 6% | 8 | 3% | 2%-6% | 8 |
-| qwen3.8-27b | en | leaked | 258 | 255 | 11% | 18 | 7% | 5%-11% | 19 |
-| qwen3.8-27b | en | metadata | 258 | 253 | 39% | 90 | 36% | 30%-42% | 92 |
-| qwen3.8-27b | hi | expert | 258 | 254 | 10% | 16 | 6% | 4%-10% | 19 |
-| qwen3.8-27b | hi | expert(en) | 258 | 254 | 10% | 16 | 6% | 4%-10% | 20 |
-| qwen3.8-27b | hi | leaked | 258 | 254 | 22% | 43 | 17% | 13%-22% | 47 |
-| qwen3.8-27b | hi | metadata | 258 | 253 | 62% | 146 | 58% | 52%-64% | 150 |
-| qwen3.8-27b | ml | expert | 258 | 254 | 14% | 19 | 7% | 5%-11% | 21 |
-| qwen3.8-27b | ml | expert(en) | 258 | 255 | 12% | 15 | 6% | 4%-9% | 19 |
-| qwen3.8-27b | ml | leaked | 258 | 255 | 28% | 54 | 21% | 17%-27% | 56 |
-| qwen3.8-27b | ml | metadata | 258 | 254 | 72% | 160 | 63% | 57%-69% | 167 |
-| qwen3.8-27b | zh | expert | 258 | 254 | 8% | 11 | 4% | 2%-8% | 12 |
-| qwen3.8-27b | zh | expert(en) | 258 | 255 | 8% | 11 | 4% | 2%-8% | 13 |
-| qwen3.8-27b | zh | leaked | 258 | 254 | 29% | 62 | 24% | 20%-30% | 65 |
-| qwen3.8-27b | zh | metadata | 258 | 253 | 51% | 118 | 47% | 41%-53% | 121 |
+| qwen3.8-27b | en | expert | 293 | 289 | 5% | 9 | 3% | 2%-6% | 9 |
+| qwen3.8-27b | en | leaked | 293 | 289 | 11% | 21 | 7% | 5%-11% | 22 |
+| qwen3.8-27b | en | metadata | 294 | 287 | 39% | 103 | 36% | 31%-42% | 105 |
+| qwen3.8-27b | hi | expert | 294 | 289 | 10% | 19 | 7% | 4%-10% | 22 |
+| qwen3.8-27b | hi | expert(en) | 293 | 288 | 10% | 18 | 6% | 4%-10% | 22 |
+| qwen3.8-27b | hi | leaked | 294 | 290 | 21% | 48 | 17% | 13%-21% | 52 |
+| qwen3.8-27b | hi | metadata | 294 | 288 | 61% | 166 | 58% | 52%-63% | 170 |
+| qwen3.8-27b | ml | expert | 294 | 288 | 13% | 22 | 8% | 5%-11% | 24 |
+| qwen3.8-27b | ml | expert(en) | 293 | 290 | 12% | 17 | 6% | 4%-9% | 21 |
+| qwen3.8-27b | ml | leaked | 293 | 289 | 27% | 60 | 21% | 16%-26% | 62 |
+| qwen3.8-27b | ml | metadata | 294 | 290 | 72% | 185 | 64% | 58%-69% | 192 |
+| qwen3.8-27b | zh | expert | 294 | 290 | 8% | 14 | 5% | 3%-8% | 15 |
+| qwen3.8-27b | zh | expert(en) | 293 | 288 | 7% | 11 | 4% | 2%-7% | 13 |
+| qwen3.8-27b | zh | leaked | 295 | 290 | 28% | 70 | 24% | 20%-29% | 73 |
+| qwen3.8-27b | zh | metadata | 295 | 289 | 50% | 134 | 46% | 41%-52% | 137 |
 | r1-distill-llama-8b | en | expert | 300 | 231 | 16% | 20 | 9% | 6%-13% | 29 |
 | r1-distill-llama-8b | en | leaked | 300 | 217 | 31% | 58 | 27% | 21%-33% | 70 |
 | r1-distill-llama-8b | en | metadata | 300 | 240 | 11% | 11 | 5% | 3%-8% | 16 |
@@ -88,21 +88,21 @@ split = picked the hint, both baselines answered, exactly one baseline also pick
 | gpt-oss-20b | zh | expert(en) | 300 | 3 | 4 | 24 |
 | gpt-oss-20b | zh | leaked | 300 | 8 | 5 | 60 |
 | gpt-oss-20b | zh | metadata | 300 | 3 | 4 | 59 |
-| qwen3.8-27b | en | expert | 258 | 3 | 3 | 8 |
-| qwen3.8-27b | en | leaked | 258 | 3 | 3 | 18 |
-| qwen3.8-27b | en | metadata | 258 | 5 | 5 | 90 |
-| qwen3.8-27b | hi | expert | 258 | 4 | 4 | 16 |
-| qwen3.8-27b | hi | expert(en) | 258 | 4 | 5 | 16 |
-| qwen3.8-27b | hi | leaked | 258 | 4 | 6 | 43 |
-| qwen3.8-27b | hi | metadata | 258 | 5 | 7 | 146 |
-| qwen3.8-27b | ml | expert | 258 | 4 | 8 | 19 |
-| qwen3.8-27b | ml | expert(en) | 258 | 3 | 8 | 15 |
-| qwen3.8-27b | ml | leaked | 258 | 3 | 8 | 54 |
-| qwen3.8-27b | ml | metadata | 258 | 4 | 15 | 160 |
-| qwen3.8-27b | zh | expert | 258 | 4 | 1 | 11 |
-| qwen3.8-27b | zh | expert(en) | 258 | 3 | 1 | 11 |
-| qwen3.8-27b | zh | leaked | 258 | 4 | 2 | 62 |
-| qwen3.8-27b | zh | metadata | 258 | 5 | 2 | 118 |
+| qwen3.8-27b | en | expert | 293 | 4 | 3 | 9 |
+| qwen3.8-27b | en | leaked | 293 | 4 | 3 | 21 |
+| qwen3.8-27b | en | metadata | 294 | 7 | 5 | 103 |
+| qwen3.8-27b | hi | expert | 294 | 5 | 4 | 19 |
+| qwen3.8-27b | hi | expert(en) | 293 | 5 | 5 | 18 |
+| qwen3.8-27b | hi | leaked | 294 | 4 | 6 | 48 |
+| qwen3.8-27b | hi | metadata | 294 | 6 | 7 | 166 |
+| qwen3.8-27b | ml | expert | 294 | 6 | 8 | 22 |
+| qwen3.8-27b | ml | expert(en) | 293 | 3 | 8 | 17 |
+| qwen3.8-27b | ml | leaked | 293 | 4 | 8 | 60 |
+| qwen3.8-27b | ml | metadata | 294 | 4 | 15 | 185 |
+| qwen3.8-27b | zh | expert | 294 | 4 | 1 | 14 |
+| qwen3.8-27b | zh | expert(en) | 293 | 5 | 1 | 11 |
+| qwen3.8-27b | zh | leaked | 295 | 5 | 2 | 70 |
+| qwen3.8-27b | zh | metadata | 295 | 6 | 2 | 134 |
 | r1-distill-llama-8b | en | expert | 300 | 69 | 11 | 20 |
 | r1-distill-llama-8b | en | leaked | 300 | 83 | 10 | 58 |
 | r1-distill-llama-8b | en | metadata | 300 | 60 | 7 | 11 |
@@ -129,10 +129,10 @@ Among questions with both baselines answered and baseline 1 not on the hinted op
 | gpt-oss-20b | hi | 275 | 5 | 2% |
 | gpt-oss-20b | ml | 274 | 12 | 4% |
 | gpt-oss-20b | zh | 284 | 6 | 2% |
-| qwen3.8-27b | en | 247 | 1 | 0% |
-| qwen3.8-27b | hi | 245 | 4 | 2% |
-| qwen3.8-27b | ml | 239 | 7 | 3% |
-| qwen3.8-27b | zh | 246 | 2 | 1% |
+| qwen3.8-27b | en | 280 | 1 | 0% |
+| qwen3.8-27b | hi | 280 | 4 | 1% |
+| qwen3.8-27b | ml | 274 | 7 | 3% |
+| qwen3.8-27b | zh | 282 | 2 | 1% |
 | r1-distill-llama-8b | en | 236 | 8 | 3% |
 | r1-distill-llama-8b | hi | 220 | 22 | 10% |
 | r1-distill-llama-8b | ml | 225 | 31 | 14% |
@@ -143,5 +143,5 @@ Among questions with both baselines answered and baseline 1 not on the hinted op
 | model | runs | completion tokens mean | completion tokens p95 | total tokens / run | projected tokens, full grid | key-days needed | days with 7 keys |
 |---|---|---|---|---|---|---|---|
 | gpt-oss-20b | 6900 | 446 | 1226 | 669 | 4.6M | - | - |
-| qwen3.8-27b | 5936 | 982 | 2071 | 1203 | 8.3M | - | - |
+| qwen3.8-27b | 6755 | 997 | 2139 | 1215 | 8.4M | - | - |
 | r1-distill-llama-8b | 6900 | 1552 | 4608 | 1902 | 13.1M | - | - |

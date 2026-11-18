@@ -147,39 +147,40 @@ an association, not a causal effect.
 ### Results
 
 **Coverage** (`results/runs.md`, `results/rates.md`). The final data hold 6,900 runs for
-gpt-oss-20b, 5,936 for qwen3.8-27b and 6,900 for R1-Distill-Llama-8B, out of 6,900 each
-(qwen3.8-27b shard 6/7 was not finished before the run freeze). All 23 conditions are complete
-for 300, 258 and 300 questions respectively. Reasoning was returned in 100.0% of runs and an
-answer extracted in 95.7%; 4.1% hit the token limit (almost all R1-Distill). The judge labelled
-all 2,392 influenced traces that can be judged (696 for gpt-oss-20b, 787 for qwen3.8-27b and 909
+gpt-oss-20b, 6,755 for qwen3.8-27b and 6,900 for R1-Distill-Llama-8B, out of 6,900 each
+(145 qwen3.8-27b runs in shard 6/7 were not finished). All 23 conditions are complete
+for 300, 290 and 300 questions respectively. Reasoning was returned in 100.0% of runs and an
+answer extracted in 95.9%; 4.0% hit the token limit (almost all R1-Distill). The judge labelled
+all 2,502 influenced traces that can be judged (696 for gpt-oss-20b, 897 for qwen3.8-27b and 909
 for R1-Distill, whose one other influenced trace hit the token limit).
-347 traces (the last 320 R1-Distill traces and 27 shard 4/7 traces of gpt-oss-20b and
-qwen3.8-27b) were judged by the same model, gpt-oss-120b, served by DeepInfra instead of Groq,
+457 traces (the last 320 R1-Distill traces, 27 shard 4/7 traces of gpt-oss-20b and
+qwen3.8-27b, and the 110 shard 6/7 qwen3.8-27b traces) were judged by the same model, gpt-oss-120b, served by DeepInfra instead of Groq,
 with the same prompt and parsing.
 
 **Do hints change answers?** (`results/stats.md`). Without a hint, models picked the hinted option
-in 7.5% of runs, and the two no-hint runs of a question disagreed in 15.5%. With a hint,
+in 7.3% of runs, and the two no-hint runs of a question disagreed in 15.1%. With a hint,
 answers moved towards the hinted option in 43 of 45 model × language × hint cells
 (McNemar, Holm-adjusted p < 0.05). Pooled over languages and same-language hints, the influence
-rate was 17.5% (95% CI 15.6–19.5) for gpt-oss-20b, 24.4% (21.9–27.2) for qwen3.8-27b and
-24.2% (21.9–26.5) for R1-Distill. Across cells it ranged from 3.1% to 63.0%, highest for
+rate was 17.5% (95% CI 15.6–19.5) for gpt-oss-20b, 24.5% (22.1–27.1) for qwen3.8-27b and
+24.2% (21.9–26.5) for R1-Distill. Across cells it ranged from 3.1% to 63.8%, highest for
 qwen3.8-27b with the Malayalam metadata hint (`results/rates.md`).
 
 **How often is the hint admitted?** (`results/rates.md`, `results/rates_loose.md`). Of the
-influenced traces, 78.5% of gpt-oss-20b's (95% CI 74.6–82.1), 95.0% of qwen3.8-27b's
-(93.3–96.5) and 38.3% of R1-Distill's (33.9–42.6) present the hint as a reason for the answer
-(Level 2). Under the loose measure (Level 1 or 2) the rates are 91.1%, 98.5% and 56.4%.
+influenced traces, 78.5% of gpt-oss-20b's (95% CI 74.6–82.1), 94.4% of qwen3.8-27b's
+(92.5–96.0) and 38.3% of R1-Distill's (33.9–42.6) present the hint as a reason for the answer
+(Level 2). Under the loose measure (Level 1 or 2) the rates are 91.1%, 98.0% and 56.4%.
 
-**H1–H3** (`results/regression.md`). The GEE model uses 2,021 traces from 270 questions.
-*H1, model:* against gpt-oss-20b, the odds of a faithful trace are 5.62 times as high for
-qwen3.8-27b (95% CI 3.80–8.30, Holm p < 0.001) and 0.17 for R1-Distill (0.13–0.23, p < 0.001).
-*H2, language:* against English, the odds ratio is 1.54 for Hindi (1.01–2.34, p 0.086), 0.75
-for Chinese (0.50–1.15, p 0.188) and 0.60 for Malayalam (0.40–0.91, p 0.045). *H3, hint type:*
-against the leaked key, the odds ratio is 0.93 for the expert hint (0.67–1.28, p 1.000) and 1.09
-for metadata (0.84–1.41, p 1.000). Humanities against STEM: 1.43 (1.06–1.94, p 0.021). The joint
-test of the model × language interaction gives χ² = 12.43 on 6 df, p = 0.053. Counting
+**H1–H3** (`results/regression.md`). The GEE model uses 2,125 traces from 273 questions.
+*H1, model:* against gpt-oss-20b, the odds of a faithful trace are 5.02 times as high for
+qwen3.8-27b (95% CI 3.42–7.36, Holm p < 0.001) and 0.17 for R1-Distill (0.13–0.23, p < 0.001).
+*H2, language:* against English, the odds ratio is 1.45 for Hindi (0.96–2.20, p 0.156), 0.72
+for Chinese (0.48–1.08, p 0.156) and 0.60 for Malayalam (0.40–0.89, p 0.033). *H3, hint type:*
+against the leaked key, the odds ratio is 0.91 for the expert hint (0.66–1.25, p 1.000) and 1.07
+for metadata (0.83–1.37, p 1.000). Humanities against STEM: 1.42 (1.05–1.91, p 0.023). The joint
+test of the model × language interaction gives χ² = 14.64 on 6 df, p = 0.023, so the language effect
+differs between models. Counting
 restate-only traces as Level 2, 4 of the 5 comparisons that were significant (Holm p < 0.05) stay
-significant; Malayalam against English does not (p 0.175), and no other becomes significant
+significant; Malayalam against English does not (p 0.133), and no other becomes significant
 (`results/regression_restate.md`).
 
 **H4, hint language** (`results/h4.md`). For Hindi, Chinese and Malayalam questions, the English
@@ -191,11 +192,11 @@ p < 0.05).
 **Reasoning language** (`results/language_subject.md`). For Hindi, Chinese and Malayalam questions,
 1.6% of gpt-oss-20b's traces, 6.0% of qwen3.8-27b's and 33.8% of R1-Distill's reason in the
 question's language (for R1-Distill, almost all of them Chinese); the rest are in English or
-mixed. Traces that switch away from the question's language have 1.31 times the odds of
-admitting the hint (GEE odds ratio, 95% CI 0.78–2.18, p 0.31).
+mixed. Traces that switch away from the question's language have 1.26 times the odds of
+admitting the hint (GEE odds ratio, 95% CI 0.77–2.08, p 0.36).
 
-**Subject area** (`results/language_subject.md`). The influence rate is 16.4% for STEM and
-26.7% for humanities questions. Faithfulness is 67.4% and 73.2%.
+**Subject area** (`results/language_subject.md`). The influence rate is 16.6% for STEM and
+26.8% for humanities questions. Faithfulness is 68.8% and 73.9%.
 
 **Human labels.** No human labels were collected, so the human-labels-only check (proposal 4.7)
 was not run. All faithfulness results rest on the gpt-oss-120b judge. Its agreement with a

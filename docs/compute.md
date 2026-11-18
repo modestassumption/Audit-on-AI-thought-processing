@@ -41,12 +41,13 @@ Current runs per shard (conditions with a run on the current prompt; `load_runs(
 | 3/7 | 1,219 | 1,219 | 1,219 | 1,219 |
 | 4/7 | 966 | 966 | 966 | 966 |
 | 5/7 | 943 | 943 | 943 | 943 |
-| 6/7 | 1,012 | 1,012 | **48** | 1,012 |
+| 6/7 | 1,012 | 1,012 | **867** | 1,012 |
 | 7/7 | 920 | 920 | 920 | 920 |
-| **Total** | **6,900** | **6,900** | **5,936** | **6,900** |
+| **Total** | **6,900** | **6,900** | **6,755** | **6,900** |
 
-qwen3.8-27b shard 6/7 was not finished before the freeze (964 runs missing); every other
-model × shard is complete. Shard 6/7 gpt-oss-20b runs are in `runs/gpt-oss-20b/2026-11-18-jayant.jsonl`.
+qwen3.8-27b shard 6/7 was not finished before the 19:30 freeze; Jayant's runs merged at 23:04
+(`runs/qwen3.8-27b/2026-11-18-laptop-vqoqn10r.jsonl`) bring it to 867 of 1,012, so 145 runs are
+missing. Every other model × shard is complete. Shard 6/7 gpt-oss-20b runs are in `runs/gpt-oss-20b/2026-11-18-jayant.jsonl`.
 
 ## Kaggle GPU hours
 
