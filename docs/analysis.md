@@ -148,7 +148,7 @@ an association, not a causal effect.
 
 **Coverage** (`results/runs.md`, `results/rates.md`). The final data hold 6,900 runs for
 gpt-oss-20b, 6,755 for qwen3.8-27b and 6,900 for R1-Distill-Llama-8B, out of 6,900 each
-(145 qwen3.8-27b runs in shard 6/7 were not finished). All 23 conditions are complete
+(145 qwen3.8-27b runs in shard 6/7, on 10 questions, were not finished). All 23 conditions are complete
 for 300, 290 and 300 questions respectively. Reasoning was returned in 100.0% of runs and an
 answer extracted in 95.9%; 4.0% hit the token limit (almost all R1-Distill). The judge labelled
 all 2,502 influenced traces that can be judged (696 for gpt-oss-20b, 897 for qwen3.8-27b and 909

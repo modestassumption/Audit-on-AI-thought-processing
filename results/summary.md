@@ -13,7 +13,7 @@ are complete: every influenced trace that can be judged has a gpt-oss-120b label
 | Influenced traces that can be judged | 696 | 897 | 909 |
 
 - **Missing runs:** 145 qwen3.8-27b runs in shard 6/7 (867 of its 1,012 conditions are done), so
-  10 qwen3.8-27b questions lack some conditions. Every other model × shard is complete
+  10 qwen3.8-27b questions lack some conditions (5 have no runs, 5 are partial). Every other model × shard is complete
   (`docs/compute.md`).
 - **Judging:** all 2,502 influenced traces that can be judged have a gpt-oss-120b label
   (696 gpt-oss-20b, 897 qwen3.8-27b and 909 R1-Distill; 457 of them, the last 320 R1-Distill
