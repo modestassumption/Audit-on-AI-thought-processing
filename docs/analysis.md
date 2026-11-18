@@ -86,8 +86,8 @@ uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py t
 
 ## Report text (draft)
 
-Sub-team D's sections for the report. Numbers marked **[TBD]** come from the scripts above once
-the runs and judge labels are complete.
+Sub-team D's sections for the report, ready to paste. Only the numbers marked **[TBD]** are
+left. Each comes from the `results/` file named in its paragraph, after the final regeneration.
 
 ### Methods
 
@@ -121,8 +121,10 @@ humanities) with generalised estimating equations: independence working correlat
 by question, robust (sandwich) standard errors with a G/(G−1) correction. Reference levels are
 English, the leaked-key hint, STEM and gpt-oss-20b. Holm is applied within each family of
 contrasts. The model × language interaction is tested jointly on a separate fit. Sensitivity
-checks: the loose measure (Level 1 or 2), restate-only traces counted as Level 2, and the
-same models on human labels only (the 360 double-labelled traces).
+checks: faithfulness rates under the loose measure (Level 1 or 2), and the regression with
+restate-only traces counted as Level 2. The
+planned check on human labels only (proposal 4.7) could not be run, because no human labels
+were collected.
 
 **H4 (hint language).** The expert hint was also given in English for Hindi, Chinese and
 Malayalam questions. Influence under the English and the own-language expert hint is compared
@@ -139,19 +141,59 @@ from it: a two-proportion z-test per model × language (Holm) and one GEE odds r
 model, language, hint type and subject area. The model chooses its reasoning language, so this is
 an association, not a causal effect.
 
-### Results (to fill in)
+### Results
 
-Interim numbers from the runs and labels pushed by 2026-11-18, with the headline findings and
-caveats: [`results/summary.md`](../results/summary.md). Regenerate every table with the commands
-under "Run" once more runs and labels are in.
+**Coverage** (`results/runs.md`, `results/rates.md`). The final data hold **[TBD]** runs for
+gpt-oss-20b, **[TBD]** for qwen3.8-27b and **[TBD]** for R1-Distill-Llama-8B, out of 6,900 each.
+All 23 conditions are complete for **[TBD]**, **[TBD]** and **[TBD]** questions respectively.
+Reasoning was returned in **[TBD]**% of runs and an answer extracted in **[TBD]**%;
+**[TBD]**% hit the token limit. The judge labelled **[TBD]** of the **[TBD]** influenced
+traces.
 
+**Do hints change answers?** (`results/stats.md`). Without a hint, models picked the hinted option
+in **[TBD]**% of runs, and the two no-hint runs of a question disagreed in **[TBD]**%. With a hint,
+answers moved towards the hinted option in **[TBD]** of **[TBD]** model × language × hint cells
+(McNemar, Holm-adjusted p < 0.05). Pooled over languages and same-language hints, the influence
+rate was **[TBD]**% (95% CI **[TBD]**–**[TBD]**) for gpt-oss-20b, **[TBD]**%
+(**[TBD]**–**[TBD]**) for qwen3.8-27b and **[TBD]**% (**[TBD]**–**[TBD]**) for R1-Distill.
+Across cells it ranged from **[TBD]**% to **[TBD]**%, highest for **[TBD]** (`results/rates.md`).
 
-- Influence per model × language × hint, McNemar p-values (Holm): **[TBD]** (`results/stats.md`)
-- Faithfulness rates with Wilson and bootstrap intervals: **[TBD]** (`results/rates.md`)
-- H1–H3 odds ratios and the interaction test: **[TBD]** (`results/regression.md`)
-- H4, English vs. own-language expert hint: **[TBD]** (`results/h4.md`)
-- Reasoning language and subject areas: **[TBD]** (`results/language_subject.md`)
-- Human-labels-only robustness check: **[TBD]** (`results/regression_human.md`, `results/rates_human.md`)
+**How often is the hint admitted?** (`results/rates.md`, `results/rates_loose.md`). Of the
+influenced traces, **[TBD]**% of gpt-oss-20b's (95% CI **[TBD]**–**[TBD]**), **[TBD]**% of
+qwen3.8-27b's (**[TBD]**–**[TBD]**) and **[TBD]**% of R1-Distill's (**[TBD]**–**[TBD]**) present
+the hint as a reason for the answer (Level 2). Under the loose measure (Level 1 or 2) the rates
+are **[TBD]**%, **[TBD]**% and **[TBD]**%.
+
+**H1–H3** (`results/regression.md`). The GEE model uses **[TBD]** traces from **[TBD]**
+questions. *H1, model:* against gpt-oss-20b, the odds of a faithful trace are **[TBD]** times as
+high for qwen3.8-27b (95% CI **[TBD]**–**[TBD]**, Holm p **[TBD]**) and **[TBD]** for R1-Distill
+(**[TBD]**–**[TBD]**, p **[TBD]**). *H2, language:* against English, the odds ratio is **[TBD]**
+for Hindi (**[TBD]**–**[TBD]**, p **[TBD]**), **[TBD]** for Chinese (**[TBD]**–**[TBD]**, p
+**[TBD]**) and **[TBD]** for Malayalam (**[TBD]**–**[TBD]**, p **[TBD]**). *H3, hint type:*
+against the leaked key, the odds ratio is **[TBD]** for the expert hint (**[TBD]**–**[TBD]**, p
+**[TBD]**) and **[TBD]** for metadata (**[TBD]**–**[TBD]**, p **[TBD]**). Humanities against STEM:
+**[TBD]** (**[TBD]**–**[TBD]**, p **[TBD]**). The joint test of the model × language interaction
+gives χ² = **[TBD]** on **[TBD]** df, p = **[TBD]**. Counting restate-only traces as Level 2,
+**[TBD]** of the **[TBD]** comparisons that were significant (Holm p < 0.05) stay significant
+(`results/regression_restate.md`).
+
+**H4, hint language** (`results/h4.md`). For Hindi, Chinese and Malayalam questions, the English
+expert hint changed answers at a different rate from the own-language hint in **[TBD]** of the 9
+model × language cells (McNemar, Holm p < 0.05). The admission rate differed in **[TBD]** of 9
+(two-proportion z-test, Holm p < 0.05).
+
+**Reasoning language** (`results/language_subject.md`). For Hindi, Chinese and Malayalam questions,
+**[TBD]**% of gpt-oss-20b's traces, **[TBD]**% of qwen3.8-27b's and **[TBD]**% of R1-Distill's
+reason in the question's language; the rest are in English or mixed. Traces that switch away
+from the question's language have **[TBD]** times the odds of admitting the hint (GEE odds
+ratio, 95% CI **[TBD]**–**[TBD]**, p **[TBD]**).
+
+**Subject area** (`results/language_subject.md`). The influence rate is **[TBD]**% for STEM and
+**[TBD]**% for humanities questions. Faithfulness is **[TBD]**% and **[TBD]**%.
+
+**Human labels.** No human labels were collected, so the human-labels-only check (proposal 4.7)
+was not run. All faithfulness results rest on the gpt-oss-120b judge. Its agreement with a
+second judge (qwen3.8-27b) on a 338-trace sample is given in sub-team C's section.
 
 ### Figure captions
 
