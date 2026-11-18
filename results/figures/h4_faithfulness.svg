@@ -39,20 +39,20 @@
 <line x1='359.1' y1='172.0' x2='571.0' y2='172.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
 <circle cx='465.1' cy='172.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, own-language hint: 47% (95% interval 26% to 68%), n = 19</title></circle>
 <text x='216.6' y='207.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Hindi</text>
-<line x1='635.6' y1='196.0' x2='730.0' y2='196.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='698.5' cy='196.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, English hint: 94% (95% interval 81% to 100%), n = 16</title></circle>
-<line x1='635.6' y1='210.0' x2='730.0' y2='210.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='698.5' cy='210.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, own-language hint: 94% (95% interval 81% to 100%), n = 16</title></circle>
+<line x1='646.1' y1='196.0' x2='730.0' y2='196.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='702.0' cy='196.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, English hint: 94% (95% interval 83% to 100%), n = 18</title></circle>
+<line x1='650.5' y1='210.0' x2='730.0' y2='210.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='703.5' cy='210.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, own-language hint: 95% (95% interval 84% to 100%), n = 19</title></circle>
 <text x='216.6' y='245.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Chinese</text>
 <line x1='592.7' y1='234.0' x2='730.0' y2='234.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
 <circle cx='684.2' cy='234.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, English hint: 91% (95% interval 73% to 100%), n = 11</title></circle>
-<line x1='730.0' y1='248.0' x2='730.0' y2='248.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='730.0' cy='248.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, own-language hint: 100% (95% interval 100% to 100%), n = 11</title></circle>
+<line x1='550.2' y1='248.0' x2='730.0' y2='248.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='658.1' cy='248.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, own-language hint: 86% (95% interval 64% to 100%), n = 14</title></circle>
 <text x='216.6' y='283.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Malayalam</text>
 <line x1='730.0' y1='272.0' x2='730.0' y2='272.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='730.0' cy='272.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, English hint: 100% (95% interval 100% to 100%), n = 15</title></circle>
-<line x1='491.5' y1='286.0' x2='677.0' y2='286.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='597.5' cy='286.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, own-language hint: 74% (95% interval 53% to 89%), n = 19</title></circle>
+<circle cx='730.0' cy='272.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, English hint: 100% (95% interval 100% to 100%), n = 17</title></circle>
+<line x1='524.1' y1='286.0' x2='684.2' y2='286.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='615.6' cy='286.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, own-language hint: 77% (95% interval 59% to 91%), n = 22</title></circle>
 <text x='216.6' y='321.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Hindi</text>
 <line x1='454.2' y1='310.0' x2='571.4' y2='310.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
 <circle cx='509.3' cy='310.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Hindi, English hint: 56% (95% interval 45% to 68%), n = 73</title></circle>
