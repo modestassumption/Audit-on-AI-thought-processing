@@ -13,64 +13,67 @@
 <rect x='608.5999999999999' y='43' width='10' height='10' rx='2' fill='#a3a29c'/>
 <text x='623.6' y='52.0' font-size='12' fill='#52514e' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>mixed</text>
 <text x='282.6' y='86.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · English questions</text>
-<text x='688.0' y='86.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 885</text>
-<rect x='293.6' y='70' width='385.4' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · English questions: 885 of 885 in English (100%)</title></rect>
+<text x='688.0' y='86.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1500</text>
+<rect x='293.6' y='70' width='385.4' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · English questions: 1500 of 1500 in English (100%)</title></rect>
 <text x='299.6' y='86.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
 <text x='282.6' y='122.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Hindi questions</text>
-<text x='688.0' y='122.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1060</text>
-<rect x='293.6' y='106' width='350.3' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · Hindi questions: 964 of 1060 in English (91%)</title></rect>
+<text x='688.0' y='122.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1800</text>
+<rect x='293.6' y='106' width='350.3' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · Hindi questions: 1637 of 1800 in English (91%)</title></rect>
 <text x='299.6' y='122.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>91%</text>
-<rect x='645.9' y='106' width='2.8' height='24' rx='4' fill='#eb6834'><title>gpt-oss-20b · Hindi questions: 13 of 1060 in Hindi (1%)</title></rect>
-<rect x='650.7' y='106' width='28.3' height='24' rx='4' fill='#a3a29c'><title>gpt-oss-20b · Hindi questions: 83 of 1060 in mixed (8%)</title></rect>
+<rect x='645.9' y='106' width='2.3' height='24' rx='4' fill='#eb6834'><title>gpt-oss-20b · Hindi questions: 20 of 1800 in Hindi (1%)</title></rect>
+<rect x='650.2' y='106' width='28.8' height='24' rx='4' fill='#a3a29c'><title>gpt-oss-20b · Hindi questions: 143 of 1800 in mixed (8%)</title></rect>
 <text x='282.6' y='158.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Chinese questions</text>
-<text x='688.0' y='158.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1056</text>
-<rect x='293.6' y='142' width='295.5' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · Chinese questions: 811 of 1056 in English (77%)</title></rect>
+<text x='688.0' y='158.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1800</text>
+<rect x='293.6' y='142' width='295.2' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · Chinese questions: 1381 of 1800 in English (77%)</title></rect>
 <text x='299.6' y='158.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>77%</text>
-<rect x='591.1' y='142' width='11.6' height='24' rx='4' fill='#1baf7a'><title>gpt-oss-20b · Chinese questions: 37 of 1056 in Chinese (4%)</title></rect>
-<rect x='604.7' y='142' width='74.3' height='24' rx='4' fill='#a3a29c'><title>gpt-oss-20b · Chinese questions: 208 of 1056 in mixed (20%)</title></rect>
-<text x='610.7' y='158.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>20%</text>
+<rect x='590.8' y='142' width='12.4' height='24' rx='4' fill='#1baf7a'><title>gpt-oss-20b · Chinese questions: 67 of 1800 in Chinese (4%)</title></rect>
+<rect x='605.2' y='142' width='73.8' height='24' rx='4' fill='#a3a29c'><title>gpt-oss-20b · Chinese questions: 352 of 1800 in mixed (20%)</title></rect>
+<text x='611.2' y='158.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>20%</text>
 <text x='282.6' y='194.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Malayalam questions</text>
-<text x='688.0' y='194.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1056</text>
-<rect x='293.6' y='178' width='374.4' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · Malayalam questions: 1026 of 1056 in English (97%)</title></rect>
-<text x='299.6' y='194.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>97%</text>
-<rect x='670.0' y='178' width='9.0' height='24' rx='4' fill='#a3a29c'><title>gpt-oss-20b · Malayalam questions: 30 of 1056 in mixed (3%)</title></rect>
+<text x='688.0' y='194.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1800</text>
+<rect x='293.6' y='178' width='376.6' height='24' rx='4' fill='#2a78d6'><title>gpt-oss-20b · Malayalam questions: 1759 of 1800 in English (98%)</title></rect>
+<text x='299.6' y='194.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>98%</text>
+<rect x='672.2' y='178' width='6.8' height='24' rx='4' fill='#a3a29c'><title>gpt-oss-20b · Malayalam questions: 41 of 1800 in mixed (2%)</title></rect>
 <text x='282.6' y='230.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · English questions</text>
-<text x='688.0' y='230.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 865</text>
-<rect x='293.6' y='214' width='385.4' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · English questions: 865 of 865 in English (100%)</title></rect>
+<text x='688.0' y='230.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1292</text>
+<rect x='293.6' y='214' width='385.4' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · English questions: 1292 of 1292 in English (100%)</title></rect>
 <text x='299.6' y='230.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
 <text x='282.6' y='266.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Hindi questions</text>
-<text x='688.0' y='266.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1037</text>
-<rect x='293.6' y='250' width='383.2' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · Hindi questions: 1031 of 1037 in English (99%)</title></rect>
+<text x='688.0' y='266.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1548</text>
+<rect x='293.6' y='250' width='382.9' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · Hindi questions: 1538 of 1548 in English (99%)</title></rect>
 <text x='299.6' y='266.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>99%</text>
-<rect x='678.8' y='250' width='0.5' height='24' rx='4' fill='#a3a29c'><title>qwen3.8-27b · Hindi questions: 6 of 1037 in mixed (1%)</title></rect>
+<rect x='678.5' y='250' width='0.5' height='24' rx='4' fill='#a3a29c'><title>qwen3.8-27b · Hindi questions: 10 of 1548 in mixed (1%)</title></rect>
 <text x='282.6' y='302.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Chinese questions</text>
-<text x='688.0' y='302.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1032</text>
-<rect x='293.6' y='286' width='308.4' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · Chinese questions: 827 of 1032 in English (80%)</title></rect>
-<text x='299.6' y='302.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>80%</text>
-<rect x='604.0' y='286' width='70.4' height='24' rx='4' fill='#1baf7a'><title>qwen3.8-27b · Chinese questions: 193 of 1032 in Chinese (19%)</title></rect>
-<text x='610.0' y='302.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>19%</text>
-<rect x='676.5' y='286' width='2.5' height='24' rx='4' fill='#a3a29c'><title>qwen3.8-27b · Chinese questions: 12 of 1032 in mixed (1%)</title></rect>
+<text x='688.0' y='302.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1548</text>
+<rect x='293.6' y='286' width='311.1' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · Chinese questions: 1251 of 1548 in English (81%)</title></rect>
+<text x='299.6' y='302.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>81%</text>
+<rect x='606.7' y='286' width='67.8' height='24' rx='4' fill='#1baf7a'><title>qwen3.8-27b · Chinese questions: 279 of 1548 in Chinese (18%)</title></rect>
+<text x='612.7' y='302.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>18%</text>
+<rect x='676.5' y='286' width='2.5' height='24' rx='4' fill='#a3a29c'><title>qwen3.8-27b · Chinese questions: 18 of 1548 in mixed (1%)</title></rect>
 <text x='282.6' y='338.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Malayalam questions</text>
-<text x='688.0' y='338.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1032</text>
-<rect x='293.6' y='322' width='385.0' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · Malayalam questions: 1031 of 1032 in English (100%)</title></rect>
+<text x='688.0' y='338.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1548</text>
+<rect x='293.6' y='322' width='385.1' height='24' rx='4' fill='#2a78d6'><title>qwen3.8-27b · Malayalam questions: 1547 of 1548 in English (100%)</title></rect>
 <text x='299.6' y='338.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
-<rect x='680.6' y='322' width='0.5' height='24' rx='4' fill='#a3a29c'><title>qwen3.8-27b · Malayalam questions: 1 of 1032 in mixed (0%)</title></rect>
+<rect x='680.7' y='322' width='0.5' height='24' rx='4' fill='#a3a29c'><title>qwen3.8-27b · Malayalam questions: 1 of 1548 in mixed (0%)</title></rect>
 <text x='282.6' y='374.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · English questions</text>
-<text x='688.0' y='374.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 225</text>
-<rect x='293.6' y='358' width='385.4' height='24' rx='4' fill='#2a78d6'><title>r1-distill-llama-8b · English questions: 225 of 225 in English (100%)</title></rect>
+<text x='688.0' y='374.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1500</text>
+<rect x='293.6' y='358' width='385.4' height='24' rx='4' fill='#2a78d6'><title>r1-distill-llama-8b · English questions: 1500 of 1500 in English (100%)</title></rect>
 <text x='299.6' y='374.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
 <text x='282.6' y='410.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Hindi questions</text>
-<text x='688.0' y='410.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 270</text>
-<rect x='293.6' y='394' width='313.7' height='24' rx='4' fill='#2a78d6'><title>r1-distill-llama-8b · Hindi questions: 220 of 270 in English (81%)</title></rect>
-<text x='299.6' y='410.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>81%</text>
-<rect x='609.3' y='394' width='69.7' height='24' rx='4' fill='#1baf7a'><title>r1-distill-llama-8b · Hindi questions: 50 of 270 in Chinese (19%)</title></rect>
-<text x='615.3' y='410.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>19%</text>
+<text x='688.0' y='410.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1800</text>
+<rect x='293.6' y='394' width='294.1' height='24' rx='4' fill='#2a78d6'><title>r1-distill-llama-8b · Hindi questions: 1376 of 1800 in English (76%)</title></rect>
+<text x='299.6' y='410.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>76%</text>
+<rect x='589.7' y='394' width='0.5' height='24' rx='4' fill='#eb6834'><title>r1-distill-llama-8b · Hindi questions: 8 of 1800 in Hindi (0%)</title></rect>
+<rect x='591.5' y='394' width='87.5' height='24' rx='4' fill='#1baf7a'><title>r1-distill-llama-8b · Hindi questions: 416 of 1800 in Chinese (23%)</title></rect>
+<text x='597.5' y='410.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>23%</text>
 <text x='282.6' y='446.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Chinese questions</text>
-<text x='688.0' y='446.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 270</text>
-<rect x='293.6' y='430' width='385.4' height='24' rx='4' fill='#1baf7a'><title>r1-distill-llama-8b · Chinese questions: 270 of 270 in Chinese (100%)</title></rect>
+<text x='688.0' y='446.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1800</text>
+<rect x='293.6' y='430' width='385.4' height='24' rx='4' fill='#1baf7a'><title>r1-distill-llama-8b · Chinese questions: 1800 of 1800 in Chinese (100%)</title></rect>
 <text x='299.6' y='446.0' font-size='11' fill='#0b0b0b' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
 <text x='282.6' y='482.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Malayalam questions</text>
-<text x='688.0' y='482.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 270</text>
-<rect x='293.6' y='466' width='385.4' height='24' rx='4' fill='#2a78d6'><title>r1-distill-llama-8b · Malayalam questions: 270 of 270 in English (100%)</title></rect>
-<text x='299.6' y='482.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
+<text x='688.0' y='482.0' font-size='11' fill='#8a8984' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>n = 1800</text>
+<rect x='293.6' y='466' width='381.3' height='24' rx='4' fill='#2a78d6'><title>r1-distill-llama-8b · Malayalam questions: 1781 of 1800 in English (99%)</title></rect>
+<text x='299.6' y='482.0' font-size='11' fill='#ffffff' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>99%</text>
+<rect x='676.9' y='466' width='0.5' height='24' rx='4' fill='#1baf7a'><title>r1-distill-llama-8b · Malayalam questions: 1 of 1800 in Chinese (0%)</title></rect>
+<rect x='677.1' y='466' width='1.9' height='24' rx='4' fill='#eda100'><title>r1-distill-llama-8b · Malayalam questions: 18 of 1800 in Malayalam (1%)</title></rect>
 </svg>
