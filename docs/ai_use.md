@@ -15,6 +15,7 @@ of the method, not assistance, and are described in the methods section.
 | Notes on the Hindi and Malayalam prompt text (instructions, hints, subject names) | `docs/translation_review.md` | Hindi: Yash Agarwal reviewed the text directly. Malayalam: Visakh V Menon accepted the notes |
 | Chinese prompt check by back-translation | `docs/translation_review.md` | Compared against the English source text |
 | Review of the traces flagged by the keyword filter (F1/F2) | `labels/gpt-oss-120b/flag_review.csv` | Draft verdicts; a team member must confirm them |
+| Faithfulness levels for the 226 influenced shard 7/7 traces (gpt-oss-20b, qwen3.8-27b), scored for sub-team D. **AI labels, not human labels:** kept outside `labels/`, so no result uses them | `results/shard7_claude_scoring/` | Sashwath Swaminathan. 5 of the traces agree with Jayant's own hand audit |
 | Tentative levels for the 60-item interim labelling set, as a reading aid. **Not human labels:** kept out of `agreement.py` and every result | `labels/human/interim/drafts/Visakh-draft.csv` | Not yet checked |
 
 ## Code, runs and analysis carried out with Claude
