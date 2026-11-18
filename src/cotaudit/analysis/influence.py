@@ -96,6 +96,42 @@ def current_labels(labels: list[dict], runs: pd.DataFrame) -> list[dict]:
     return kept
 
 
+def _trace_text(text) -> str:
+    """Reasoning as compared between items.csv and the run log: CSV round trips may turn \\n into
+    \\r\\n, and blank cells read back as NaN."""
+    if not isinstance(text, str):
+        return ""
+    return text.replace("\r\n", "\n").replace("\r", "\n").strip()
+
+
+def current_items(folder: Path, runs: pd.DataFrame | None) -> pd.Series:
+    """item_id -> True when a human-labelling item still describes a current trace.
+
+    `folder` is labels/human/<name>/ with key.csv (item_id -> run_id) and items.csv (the reasoning
+    the labellers saw). An item counts only if its run is a current run in `runs` (from load_runs)
+    and that run's reasoning is the text that was exported. Items on dropped questions, or on
+    traces re-run since export (with or without a prompt change), are counted on stderr and get
+    False, so human labels are never paired with reasoning nobody labelled.
+    """
+    if runs is None or runs.empty or "reasoning" not in runs:
+        raise ValueError("human labels need the run logs (runs/) to check that each item is still current")
+    key = pd.read_csv(folder / "key.csv", dtype=str, encoding="utf-8-sig")
+    items = pd.read_csv(folder / "items.csv", dtype=str, encoding="utf-8-sig", keep_default_na=False)
+    exported = items.drop_duplicates("item_id").set_index("item_id")["reasoning"].map(_trace_text)
+    logged = runs.drop_duplicates("run_id").set_index("run_id")["reasoning"].map(_trace_text)
+    key = key.drop_duplicates("item_id").set_index("item_id")
+    now = key["run_id"].map(logged)
+    missing = now.isna()
+    changed = ~missing & (now != exported.reindex(key.index))
+    if missing.any():
+        print(f"current_items: left out {int(missing.sum())} items whose run is no longer a current run",
+              file=sys.stderr)
+    if changed.any():
+        print(f"current_items: left out {int(changed.sum())} items whose trace was re-run after export",
+              file=sys.stderr)
+    return ~(missing | changed)
+
+
 def condition_label(r) -> str:
     """'none', the hint type, or e.g. 'expert(en)' for an H4 cross-lingual hint."""
     if r["hint_type"] == "none":

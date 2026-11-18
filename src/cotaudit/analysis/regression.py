@@ -15,12 +15,13 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-from cotaudit.analysis.influence import current_labels
+from cotaudit.analysis.influence import current_items, current_labels
 from cotaudit.analysis.stats import holm
 from cotaudit.config import LABELS
 
@@ -53,17 +54,25 @@ def load_human_labels(name: str, root: Path = LABELS, runs: pd.DataFrame | None 
     "human labels only" robustness check (proposal 4.7).
 
     `rater` is a labeller's sheet, or "adjudicated" (default): the settled labels after the third
-    member resolves disagreements. key.csv maps each item to its run; the trace fields (hint type
-    and language, stratum, ...) come from `runs` when the run is there, else from key.csv. Items
-    marked `exclude` or left blank get no level and are dropped by usable_labels. Every exported
-    item is an influenced trace.
+    member resolves disagreements. key.csv maps each item to its run. `runs` (from load_runs) is
+    required: only items whose run is still current, with the reasoning the labellers saw, are
+    kept (cotaudit.analysis.influence.current_items), the same rule judge labels follow. The trace
+    fields (stratum, subject, ...) then come from the run. Items marked `exclude` or left blank
+    get no level and are dropped by usable_labels. Every exported item is an influenced trace. A
+    row repeated in the sheet counts once (the first).
     """
     folder = root / "human" / name
     sheet = folder / f"{rater}.csv"
     if not sheet.exists():
         raise FileNotFoundError(f"No human labels at {sheet}")
-    key = pd.read_csv(folder / "key.csv", dtype=str, encoding="utf-8-sig")
+    current = current_items(folder, runs)
+    key = pd.read_csv(folder / "key.csv", dtype=str, encoding="utf-8-sig").drop_duplicates("item_id")
+    key = key[key["item_id"].map(current).fillna(False).astype(bool)]
     rated = pd.read_csv(sheet, dtype=str, encoding="utf-8-sig")
+    if rated["item_id"].duplicated().any():
+        print(f"load_human_labels: {int(rated['item_id'].duplicated().sum())} repeated rows in {sheet.name}; "
+              f"the first of each counts", file=sys.stderr)
+        rated = rated.drop_duplicates("item_id")
     keep = [c for c in ("item_id", "level", "restate_only") if c in rated]
     df = key.merge(rated[keep], on="item_id", how="inner")
     df["level"] = pd.to_numeric(df["level"], errors="coerce")
@@ -89,7 +98,7 @@ def label_source(args, runs: pd.DataFrame) -> tuple[pd.DataFrame, str]:
     if getattr(args, "human", None):
         try:
             labels = load_human_labels(args.human, args.labels_root, runs, args.rater)
-        except FileNotFoundError as err:
+        except (FileNotFoundError, ValueError) as err:
             raise SystemExit(str(err)) from None
         return labels, f"human labels {args.human}/{args.rater}"
     return load_labels(args.judge, args.labels_root, runs), f"judge {args.judge}"
