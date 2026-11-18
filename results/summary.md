@@ -99,8 +99,8 @@ Level 2 means the reasoning presents the hint as a reason for its answer
   is `labels/gpt-oss-120b/review_sample.csv`.
 - **Flag review:** on the first 11 flagged traces (`labels/gpt-oss-120b/flag_review.csv`), 9 of
   the 10 F1 cases quote the hint and use it, so the judge's rare Level 0 labels are mostly wrong.
-  These verdicts are drafts until a team member confirms them; the main tables use the judge's
-  levels.
+  Reviewed by Visakh Vivek. The main tables use the judge's levels; the review is reported as a
+  check on the judge.
 - **No human labels** were collected, so the human-labels-only check was not run.
 
 ## Limitations
