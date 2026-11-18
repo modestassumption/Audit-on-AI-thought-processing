@@ -1,9 +1,9 @@
-# Results summary (status 2026-11-18, 20:30 IST)
+# Results summary (status 2026-11-18, 21:30 IST)
 
 Every table in `results/` is regenerated from the runs and judge labels on `main` with
 `bash scripts/regenerate_results.sh`. Runs are final (Groq runs frozen at 19:30 IST). Judge labels
-were still coming in when this page was written, so rerun the script after the last labels are
-merged and update the faithfulness numbers below.
+are complete except gpt-oss-20b and qwen3.8-27b shard 4/7 (203 traces), so rerun the script after
+those are merged and update the faithfulness numbers below.
 
 ## Coverage
 
@@ -15,7 +15,9 @@ merged and update the faithfulness numbers below.
 
 - **Missing runs:** qwen3.8-27b shard 6/7 (964 runs, 42 questions) was not finished before the
   freeze. Every other model × shard is complete (`docs/compute.md`).
-- **Judging:** 1,872 of the 2,392 influenced traces have a gpt-oss-120b label. Traces are judged
+- **Judging:** 2,189 of the 2,392 influenced traces have a gpt-oss-120b label (all 909
+  R1-Distill traces; the last 320 judged by the same model on DeepInfra after the Groq keys hit
+  their daily cap). The 203 left are gpt-oss-20b and qwen3.8-27b shard 4/7. Traces are judged
   in a seeded order stratified by model × language × condition, so a partial set is
   representative (D5).
 - **Stale runs:** 662 logged runs are left out everywhere because their question or prompt was
@@ -53,25 +55,27 @@ Level 2 means the reasoning presents the hint as a reason for its answer
 |---|---|---|---|
 | gpt-oss-20b | 415 / 532 = 78.0% | 73.9–81.9 | 91.0% |
 | qwen3.8-27b | 606 / 635 = 95.4% | 93.7–97.0 | 98.4% |
-| R1-Distill | 177 / 442 = 40.0% | 35.1–45.2 | 58.8% |
+| R1-Distill | 258 / 674 = 38.3% | 33.9–42.6 | 56.4% |
 
-- **H1, model (GEE, 1,609 traces, 260 questions):** qwen3.8-27b admits the hint far more often
-  than gpt-oss-20b (OR 6.40, 95% CI 4.21–9.74) and R1-Distill far less (OR 0.20, 0.14–0.27); both
+- **H1, model (GEE, 1,841 traces, 266 questions):** qwen3.8-27b admits the hint far more often
+  than gpt-oss-20b (OR 6.61, 95% CI 4.35–10.03) and R1-Distill far less (OR 0.17, 0.13–0.23); both
   Holm p < 0.001.
-- **H2, language:** only Hindi differs from English (OR 1.74, 1.11–2.72, Holm p = 0.046), and
-  not when restate-only traces count as Level 2 (Holm p = 0.073). Chinese 0.97, Malayalam 0.71,
-  both n.s.
-- **H3, hint type:** no difference (expert vs. leaked OR 0.76, metadata vs. leaked 1.04, both n.s.).
-- **Subject area:** humanities traces admit the hint more often than STEM (OR 1.62, 1.17–2.25,
-  Holm p = 0.004).
-- **Model × language interaction:** not significant (χ² = 4.51, 6 df, p = 0.608).
+- **H2, language:** no language differs significantly from English after Holm: Hindi OR 1.59
+  (1.03–2.45), Malayalam 0.63 (0.41–0.97), both Holm p = 0.105; Chinese 0.72 (0.46–1.11),
+  Holm p = 0.134.
+- **H3, hint type:** no difference (expert vs. leaked OR 0.97, metadata vs. leaked 1.00, both Holm p = 1.0).
+- **Subject area:** humanities traces admit the hint more often than STEM (OR 1.49, 1.09–2.05,
+  Holm p = 0.013).
+- **Model × language interaction:** not significant (χ² = 10.72, 6 df, p = 0.097).
+- **Restate-only as Level 2** (`regression_restate.md`): the same four comparisons are significant
+  (the three model pairs and subject area); no other becomes significant.
 
 ## H4: English hint inside a non-English question (`h4.md`)
 
 - **Influence:** the English and own-language expert hints differ in 1 of 9 model × language
   cells: R1-Distill in Malayalam, where the English hint moves more answers (127 vs. 86,
   Holm p < 0.001).
-- **Admission:** differs in 1 of 9 cells, again R1-Distill in Malayalam (68.4% vs. 34.5% admitted,
+- **Admission:** differs in 1 of 9 cells, again R1-Distill in Malayalam (73.8% vs. 31.8% admitted,
   Holm p < 0.001).
 
 ## Reasoning language (`language_subject.md`, `figures/reasoning_language.svg`)
@@ -80,7 +84,7 @@ Level 2 means the reasoning presents the hint as a reason for its answer
   in the question's language in 1.6% of Hindi, Chinese and Malayalam traces, qwen3.8-27b in 6.0%
   (all Chinese). R1-Distill reasons in Chinese on every Chinese question and on 23% of Hindi ones.
 - **Switching and admission:** traces that switch away from the question's language are not
-  significantly less faithful (GEE OR 0.84, 95% CI 0.47–1.50, p = 0.56). Few traces stay in the
+  significantly different in faithfulness (GEE OR 1.27, 95% CI 0.75–2.17, p = 0.37). Few traces stay in the
   question's language, so this comparison is weak.
 
 ## Judge reliability
@@ -89,8 +93,8 @@ Level 2 means the reasoning presents the hint as a reason for its answer
   agreement, n = 329) on Level 2 vs. not, and κ = 0.72 on the loose measure
   (`labels/human/main/agreement.csv`). This shows the two judges are consistent, not that they
   are correct.
-- **Keyword-filter flags:** 98 F1 (judge Level 0 with a strong keyword hit), 30 F2 (judge Level 2
-  with no hit) and 29 Q (quote not found in the trace) among the current labels. The review list
+- **Keyword-filter flags:** 121 F1 (judge Level 0 with a strong keyword hit), 42 F2 (judge Level 2
+  with no hit) and 34 Q (quote not found in the trace) among the current labels. The review list
   is `labels/gpt-oss-120b/review_sample.csv`.
 - **Flag review:** on the first 11 flagged traces (`labels/gpt-oss-120b/flag_review.csv`), 9 of
   the 10 F1 cases quote the hint and use it, so the judge's rare Level 0 labels are mostly wrong.
