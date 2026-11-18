@@ -138,5 +138,5 @@ Jayant scored the 5 influenced runs in `runs/gpt-oss-20b/2026-11-16-sashwath.jso
 ## Files
 
 First uploaded in PR #20 as `shard7_scoring.zip`, then kept in `results/shard7_claude_scoring/`.
-On 2026-11-18 they moved to `ai_use/` so that AI-made material sits apart from the study's data and
+On 2026-11-18 they moved to `sashwath_runs/` so that AI-made material sits apart from the study's data and
 results. See [`README.md`](README.md) for what each file is.
