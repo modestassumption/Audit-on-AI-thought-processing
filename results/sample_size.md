@@ -17,7 +17,7 @@
 | 450 | two languages within one model | 338 | 1 | 10.8 points |
 | 450 | one model, language and hint type | 112 | - | +/-9.2 points (95% CI, descriptive) |
 
-## Pilot rule on the logged runs (D:\Claude works\Audit-on-AI-thought-processing\runs)
+## Pilot rule on the logged runs (runs)
 
 Same-language hints, determined runs only. A model below 15% influence is raised to 450 questions.
 

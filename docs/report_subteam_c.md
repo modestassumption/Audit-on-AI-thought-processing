@@ -150,7 +150,7 @@ work.
   are reported beside it.
 - Hindi, Chinese and Malayalam traces were judged in the original language. The English and
   Hindi keyword lists were reviewed by team members. The Chinese and Malayalam lists were not
-  reviewed by a native speaker; they were checked with an AI assistant against the hint wording
+  reviewed by a native speaker; they were checked against the hint wording
   and the judge labels, and left unchanged because the lists were frozen for the judge run
   (notes in `configs/keywords.yaml`). The effect is small: 89% of Chinese and 99% of Malayalam
   traces reason mostly in English, so the English list carries most hits, and the judge found a

@@ -100,7 +100,7 @@ rate limit, the script stops cleanly. Run it again later to continue.
 ## Open review tasks
 
 1. **Malayalam questions** (done 2026-11-17): `data/review/ml_review_60.csv` has a verdict on all 60
-   rows (13 bad; Claude-drafted, accepted by Visakh). Rows marked `bad` are excluded automatically
+   rows (13 bad; reviewed by Visakh). Rows marked `bad` are excluded automatically
    when steps 1–2 are rerun (as is any qid in `configs/excluded_questions.txt`); each excluded
    question is replaced by the next reserve question from the same stratum, and the sheet keeps its
    verdicts. Separately, every question passes a structural screen for dropped passages, premises

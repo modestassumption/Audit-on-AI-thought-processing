@@ -101,7 +101,7 @@ Level 2 means the reasoning presents the hint as a reason for its answer
   is never mentioned.
 - **What it means for the results:** F1 precision on this sample is 9–10 of 10, and the keyword
   filter is a necessary check on the judge, as D1 intended.
-- **Status:** the verdicts are Claude-drafted and must be confirmed by a team member. Until then
+- **Status:** the verdicts are drafts and must be confirmed by a team member. Until then
   the main tables use the judge's levels, and the "after review" column above is a sensitivity
   check.
 - **Keyword recall:** in Chinese and Malayalam traces at judge Level 1 or 2, 124 of 126 contain a
