@@ -15,9 +15,10 @@ are complete: every influenced trace that can be judged has a gpt-oss-120b label
 - **Missing runs:** qwen3.8-27b shard 6/7 (964 runs, 42 questions) was not finished before the
   freeze. Every other model × shard is complete (`docs/compute.md`).
 - **Judging:** all 2,392 influenced traces that can be judged have a gpt-oss-120b label
-  (696 gpt-oss-20b, 787 qwen3.8-27b and 909 R1-Distill; the last 320 R1-Distill traces judged by
-  the same model on DeepInfra after the Groq keys hit their daily cap; one more R1-Distill
-  influenced trace hit the token limit, so `runs.md` counts 910).
+  (696 gpt-oss-20b, 787 qwen3.8-27b and 909 R1-Distill; 347 of them, the last 320 R1-Distill
+  traces and 27 shard 4/7 traces of gpt-oss-20b and qwen3.8-27b, judged by the same model on
+  DeepInfra after the Groq keys hit their daily cap; one more R1-Distill influenced trace hit the
+  token limit, so `runs.md` counts 910).
 - **Stale runs:** 662 logged runs are left out everywhere because their question or prompt was
   replaced after the Malayalam review (`load_runs`).
 - **Run health:** reasoning returned in 100% of runs, an answer extracted in 95.7%; 4.1% hit the
