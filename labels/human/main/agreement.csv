@@ -1,0 +1,37 @@
+﻿pair,slice,measure,n,excluded,pct_agree,prev_a,prev_b,kappa,ci_low,ci_high,boot_dropped
+judge:gpt-oss-120b vs judge:qwen3.8-27b,pooled,main (2 vs 0/1),336,2,89.6,0:0.26 1:0.74,0:0.18 1:0.82,0.699,0.599,0.787,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,pooled,loose (1/2 vs 0),336,2,93.8,0:0.16 1:0.84,0:0.10 1:0.90,0.725,0.603,0.831,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,pooled,3-level,336,2,88.1,0:0.16 1:0.10 2:0.74,0:0.10 1:0.08 2:0.82,0.676,0.584,0.761,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,group: direct (en+hi),main (2 vs 0/1),167,1,88.6,0:0.25 1:0.75,0:0.16 1:0.84,0.65,0.499,0.786,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,group: direct (en+hi),loose (1/2 vs 0),167,1,94.0,0:0.15 1:0.85,0:0.09 1:0.91,0.718,0.519,0.872,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,group: direct (en+hi),3-level,167,1,88.0,0:0.15 1:0.10 2:0.75,0:0.09 1:0.07 2:0.84,0.651,0.5,0.782,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,group: translation-mediated (zh+ml),main (2 vs 0/1),169,1,90.5,0:0.28 1:0.72,0:0.20 1:0.80,0.74,0.621,0.852,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,group: translation-mediated (zh+ml),loose (1/2 vs 0),169,1,93.5,0:0.17 1:0.83,0:0.11 1:0.89,0.731,0.568,0.867,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,group: translation-mediated (zh+ml),3-level,169,1,88.2,0:0.17 1:0.11 2:0.72,0:0.11 1:0.09 2:0.80,0.698,0.576,0.812,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: en,main (2 vs 0/1),78,0,82.1,0:0.31 1:0.69,0:0.18 1:0.82,0.524,0.292,0.714,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: en,loose (1/2 vs 0),78,0,91.0,0:0.17 1:0.83,0:0.08 1:0.92,0.588,0.276,0.843,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: en,3-level,78,0,82.1,0:0.17 1:0.14 2:0.69,0:0.08 1:0.10 2:0.82,0.556,0.327,0.737,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: hi,main (2 vs 0/1),89,1,94.4,0:0.19 1:0.81,0:0.13 1:0.87,0.795,0.59,0.953,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: hi,loose (1/2 vs 0),89,1,96.6,0:0.13 1:0.87,0:0.10 1:0.90,0.838,0.621,1.0,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: hi,3-level,89,1,93.3,0:0.13 1:0.06 2:0.81,0:0.10 1:0.03 2:0.87,0.763,0.554,0.928,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: ml,main (2 vs 0/1),90,0,88.9,0:0.27 1:0.73,0:0.18 1:0.82,0.682,0.479,0.843,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: ml,loose (1/2 vs 0),90,0,90.0,0:0.18 1:0.82,0:0.08 1:0.92,0.561,0.275,0.794,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: ml,3-level,90,0,84.4,0:0.18 1:0.09 2:0.73,0:0.08 1:0.10 2:0.82,0.584,0.394,0.749,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: zh,main (2 vs 0/1),79,1,92.4,0:0.29 1:0.71,0:0.22 1:0.78,0.801,0.622,0.937,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: zh,loose (1/2 vs 0),79,1,97.5,0:0.16 1:0.84,0:0.14 1:0.86,0.902,0.728,1.0,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,lang: zh,3-level,79,1,92.4,0:0.16 1:0.13 2:0.71,0:0.14 1:0.08 2:0.78,0.815,0.646,0.942,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: gpt-oss-20b,main (2 vs 0/1),120,0,84.2,0:0.23 1:0.78,0:0.10 1:0.90,0.435,0.22,0.626,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: gpt-oss-20b,loose (1/2 vs 0),120,0,91.7,0:0.10 1:0.90,0:0.02 1:0.98,0.265,0.0,0.562,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: gpt-oss-20b,3-level,120,0,83.3,0:0.10 1:0.12 2:0.78,0:0.02 1:0.08 2:0.90,0.426,0.224,0.613,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: qwen3.8-27b,main (2 vs 0/1),118,2,96.6,0:0.05 1:0.95,0:0.03 1:0.97,0.583,-0.013,0.919,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: qwen3.8-27b,loose (1/2 vs 0),118,2,97.5,0:0.03 1:0.97,1:1.00,0.0,0.0,0.0,108
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: qwen3.8-27b,3-level,118,2,95.8,0:0.03 1:0.03 2:0.95,1:0.03 2:0.97,0.484,-0.009,0.838,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: r1-distill-llama-8b,main (2 vs 0/1),98,0,87.8,0:0.56 1:0.44,0:0.44 1:0.56,0.759,0.626,0.878,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: r1-distill-llama-8b,loose (1/2 vs 0),98,0,91.8,0:0.40 1:0.60,0:0.32 1:0.68,0.824,0.692,0.933,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,model: r1-distill-llama-8b,3-level,98,0,84.7,0:0.40 1:0.16 2:0.44,0:0.32 1:0.12 2:0.56,0.748,0.635,0.855,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,qwen3.8-27b own traces,main (2 vs 0/1),118,2,96.6,0:0.05 1:0.95,0:0.03 1:0.97,0.583,-0.013,0.919,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,qwen3.8-27b own traces,loose (1/2 vs 0),118,2,97.5,0:0.03 1:0.97,1:1.00,0.0,0.0,0.0,108
+judge:gpt-oss-120b vs judge:qwen3.8-27b,qwen3.8-27b own traces,3-level,118,2,95.8,0:0.03 1:0.03 2:0.95,1:0.03 2:0.97,0.484,-0.009,0.838,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,qwen3.8-27b other models' traces,main (2 vs 0/1),218,0,85.8,0:0.38 1:0.62,0:0.25 1:0.75,0.676,0.575,0.773,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,qwen3.8-27b other models' traces,loose (1/2 vs 0),218,0,91.7,0:0.23 1:0.77,0:0.15 1:0.85,0.737,0.617,0.843,0
+judge:gpt-oss-120b vs judge:qwen3.8-27b,qwen3.8-27b other models' traces,3-level,218,0,83.9,0:0.23 1:0.14 2:0.62,0:0.15 1:0.10 2:0.75,0.668,0.572,0.76,0
