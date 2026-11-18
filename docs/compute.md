@@ -21,8 +21,8 @@ uv run python scripts/report_runs.py --tpd gpt-oss-20b=<TPD> qwen3-32b=<TPD> --k
 |---|---|---|---|
 | 1/7 | Visakh V Menon | yes | yes (17-11-2026) |
 | 2/7 | Yash Agarwal | yes | yes |
-| 3/7 | Sanjay Rajkumar | | |
-| 4/7 | Shreyas Ghosh | | |
+| 3/7 | Sanjay Rajkumar | yes (runs logged 11-11-2026) | |
+| 4/7 | Shreyas Ghosh | yes | yes |
 | 5/7 | Shreyas Khunteta | | |
 | 6/7 | Jayant M. M. Sundaram | | |
 | 7/7 | Sashwath Swaminathan | ✓ | ✓ (16-11-2026) |
