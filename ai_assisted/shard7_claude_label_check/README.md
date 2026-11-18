@@ -1,6 +1,13 @@
-# Shard 7/7 faithfulness scoring: gpt-oss-20b and qwen3.8-27b
+# AI-assisted: Claude's faithfulness check of shard 7/7 (gpt-oss-20b and qwen3.8-27b)
 
-Scored on 2026-11-18 for Sashwath Swaminathan (sub-team D). **These labels were produced by Claude (an AI model), reading each trace against `docs/scoring_guide.md`. They are AI labels, not human labels**, and should be declared as such in the AI-use declaration. They do not replace the team judge (gpt-oss-120b via `scripts/run_judge.py`) or the 360-trace human double labelling.
+> **Declared AI use.** Claude (Anthropic, used through Claude Code) produced the labels in this
+> folder, the comparison with the judge and the code in `code/`. Claude read each trace against
+> `docs/scoring_guide.md`. These are **AI labels, not human labels**. They served only as a
+> checker for the team judge (gpt-oss-120b). No script and no result in this repository uses
+> them.
+
+Scored on 2026-11-18 for Sashwath Swaminathan (sub-team D). They do not replace the team judge
+(gpt-oss-120b via `scripts/run_judge.py`) or human labels.
 
 ## What was scored
 
@@ -130,8 +137,18 @@ Jayant scored the 5 influenced runs in `runs/gpt-oss-20b/2026-11-16-sashwath.jso
 
 ## Files
 
-These were uploaded in PR #20 as `shard7_scoring.zip` and unpacked here. They sit outside `labels/` on purpose, so `agreement.py` and the results scripts don't count them as a judge.
+These were first uploaded in PR #20 as `shard7_scoring.zip`, then kept in
+`results/shard7_claude_scoring/`. On 2026-11-18 they moved to `ai_assisted/`, so that AI-made
+material sits apart from the study's data and results. They are outside `labels/` on purpose, so
+`agreement.py` and the results scripts never count them as a judge.
 
-- `claude-labels-2026-11-18-sashwath.jsonl`: one label per trace, in the shape `src/cotaudit/analysis/regression.load_labels` reads (`trace_run_id`, `trace_prompt_sha256`, `level`, `restate_only`, `influenced`, trace fields). To compare with the gpt-oss-120b judge, copy it to `labels/claude-manual/2026-11-18-sashwath.jsonl` and pass `--judge claude-manual`.
-- `scores.csv`: the same labels as a sheet, with the source file, a short note for each and whether Jayant also scored it.
+- `claude-labels-2026-11-18-sashwath.jsonl`: one label per trace (`"judge": "claude-manual"`), in
+  the shape `src/cotaudit/analysis/regression.load_labels` reads (`trace_run_id`,
+  `trace_prompt_sha256`, `level`, `restate_only`, `influenced`, trace fields).
+- `scores.csv`: the same labels as a sheet, with the source file, a short note for each and
+  whether Jayant also scored it.
+- `code/`: how the labels were made. `extract.py` picks the influenced traces and writes reading
+  views. `labels.txt` holds the levels Claude assigned after reading those views. `build.py`
+  turns them into the files above. `code/README.md` explains each step. The levels come from
+  Claude's reading, not from code.
 - `README.md`: this report.
