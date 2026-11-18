@@ -37,3 +37,8 @@ All by Visakh V Menon's sub-team A, committed under his name with Claude's assis
   - the changes-from-proposal list in `README.md`;
   - the Kaggle hours log;
   - this page.
+
+## Sub-team C (Shreyas Khunteta)
+
+Claude (via Claude Code) helped draft sub-team C's scoring and judging code and documents and ran
+the shard 5/7 and judge scripts; all of it was reviewed and committed by Shreyas Khunteta.

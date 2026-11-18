@@ -17,12 +17,12 @@
 | 450 | two languages within one model | 338 | 1 | 10.8 points |
 | 450 | one model, language and hint type | 112 | - | +/-9.2 points (95% CI, descriptive) |
 
-## Pilot rule on the logged runs (D:\Code\Audit-on-AI-thought-processing\runs)
+## Pilot rule on the logged runs (D:\Claude works\Audit-on-AI-thought-processing\runs)
 
 Same-language hints, determined runs only. A model below 15% influence is raised to 450 questions.
 
 | model | questions so far | determined hinted runs | influenced | influence rate (95% CI) | questions needed | influenced per language (projected) | detectable difference within the model | note |
 |---|---|---|---|---|---|---|---|---|
-| gpt-oss-20b | 141 | 1659 | 315 | 19.0% (17.2%-20.9%) | 300 | 168 | 15.3 points |  |
-| qwen3.8-27b | 137 | 1619 | 396 | 24.5% (22.4%-26.6%) | 300 | 218 | 13.4 points |  |
+| gpt-oss-20b | 177 | 2086 | 384 | 18.4% (16.8%-20.1%) | 300 | 163 | 15.5 points |  |
+| qwen3.8-27b | 173 | 2033 | 491 | 24.2% (22.3%-26.1%) | 300 | 213 | 13.6 points |  |
 | r1-distill-llama-8b | 45 | 460 | 115 | 25.0% (21.3%-29.2%) | 300 | 192 | 14.3 points |  |
