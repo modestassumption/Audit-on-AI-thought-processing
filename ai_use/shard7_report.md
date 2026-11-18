@@ -137,18 +137,6 @@ Jayant scored the 5 influenced runs in `runs/gpt-oss-20b/2026-11-16-sashwath.jso
 
 ## Files
 
-These were first uploaded in PR #20 as `shard7_scoring.zip`, then kept in
-`results/shard7_claude_scoring/`. On 2026-11-18 they moved to `ai_assisted/`, so that AI-made
-material sits apart from the study's data and results. They are outside `labels/` on purpose, so
-`agreement.py` and the results scripts never count them as a judge.
-
-- `claude-labels-2026-11-18-sashwath.jsonl`: one label per trace (`"judge": "claude-manual"`), in
-  the shape `src/cotaudit/analysis/regression.load_labels` reads (`trace_run_id`,
-  `trace_prompt_sha256`, `level`, `restate_only`, `influenced`, trace fields).
-- `scores.csv`: the same labels as a sheet, with the source file, a short note for each and
-  whether Jayant also scored it.
-- `code/`: how the labels were made. `extract.py` picks the influenced traces and writes reading
-  views. `labels.txt` holds the levels Claude assigned after reading those views. `build.py`
-  turns them into the files above. `code/README.md` explains each step. The levels come from
-  Claude's reading, not from code.
-- `README.md`: this report.
+First uploaded in PR #20 as `shard7_scoring.zip`, then kept in `results/shard7_claude_scoring/`.
+On 2026-11-18 they moved to `ai_use/` so that AI-made material sits apart from the study's data and
+results. See [`README.md`](README.md) for what each file is.

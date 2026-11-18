@@ -1,7 +1,7 @@
 # How the shard 7/7 scoring was done (declared AI use)
 
 > Claude (Anthropic, through Claude Code) wrote this code and assigned the levels in
-> `labels.txt`. See [`../../README.md`](../../README.md).
+> `labels.txt`. See [`../README.md`](../README.md).
 
 The levels themselves were **not computed by code**. Claude (an AI model) read each trace and
 assigned a level using `docs/scoring_guide.md`. The code only picks out the traces to score, makes them
