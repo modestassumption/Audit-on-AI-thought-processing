@@ -1,6 +1,6 @@
 # Claude draft labels for the interim set (not human labels)
 
-`claude-draft.csv` holds tentative levels for the 60 items in `../items.csv`, written by Claude
+`Visakh-draft.csv` holds tentative levels for the 60 items in `../items.csv`, written by Claude
 on 2026-11-18 following `docs/scoring_guide.md`. The team asked for them as a starting point to
 read and correct.
 
