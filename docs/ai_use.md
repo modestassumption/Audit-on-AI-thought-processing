@@ -2,8 +2,8 @@
 
 This page lists the work in this repository that an AI assistant (Claude, Anthropic, via Claude
 Code) drafted or carried out, so it can be copied into the report's AI-use declaration. It covers
-only what the repository records: commits whose message ends in a `Co-Authored-By: Claude`
-line, and files that say they were Claude-drafted. **Each member should add any other AI use in
+sub-team A's commits from 11 to 18 November 2026 (Visakh V Menon) and the files below that say
+they were Claude-drafted. **Each member should add any other AI use in
 their own work before submission.** The LLM judge (gpt-oss-120b) and the tested models are part
 of the method, not assistance, and are described in the methods section.
 
@@ -19,7 +19,7 @@ of the method, not assistance, and are described in the methods section.
 
 ## Code, runs and analysis carried out with Claude
 
-All by Visakh V Menon's sub-team A, with Claude as co-author (`git log --grep "Co-Authored-By: Claude"`):
+All by Visakh V Menon's sub-team A, committed under his name with Claude's assistance (11–18 November 2026):
 
 - **Malayalam data quality:** a structural screen for passages, premises and formulas dropped in
   translation (`src/cotaudit/data/screen.py`), and review verdicts kept across dataset rebuilds
