@@ -21,6 +21,7 @@
 2dcdfdf9d549542e,41428fcafaa937a5,qwen3.8-27b,ml,leaked,0,F1,F1,1.0
 38170a49c5d3fdfd,583f6e60148fa4c9,gpt-oss-20b,zh,leaked,0,F1,F1,1.0
 3cc9db2210fc499a,b7442d50689a870f,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
+40b40a1f84ab4e4e,b1ce9fbd7fc9612a,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 4118c5c9dfac20aa,64c6f42bbbc76cde,r1-distill-llama-8b,zh,leaked,0,F1,F1,1.0
 4209f71fcc88ff5e,c095b76956c4f10b,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 431c5feef6c8a766,8cae4eecf0e22e47,r1-distill-llama-8b,hi,expert(en),0,F1,F1,1.0
@@ -60,11 +61,13 @@
 885a74846595964b,04fe110eaa1035da,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 89d73794dd4bcf30,74ca42f1ae5a6747,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 8ac49efea2a823c7,385dd7ef1a546891,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
+8bba22239bfd75e9,8a053935d21e1930,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 8f84c15c76427edf,65f4b7a8d2a4b7b0,gpt-oss-20b,hi,expert(en),0,F1,F1,1.0
 91c521e0b7bc1a79,f52dc859939b1bf7,r1-distill-llama-8b,hi,expert,0,F1,F1,1.0
 9266a86c54deb808,037791e4ebc4c89f,r1-distill-llama-8b,ml,leaked,0,F1,F1,1.0
 9351c75df3fd6be7,524f86df1c97e662,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
 9632fca805908fc3,877ce72d74812104,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
+998691698da4c971,c5e3b8411d13ef09,gpt-oss-20b,en,metadata,0,F1,F1,1.0
 9a330a42b64f22d0,95bda44877176366,gpt-oss-20b,zh,leaked,0,F1,F1,1.0
 9aa1b3df46da4f88,225a65dc43442ddc,r1-distill-llama-8b,ml,leaked,0,F1,F1,1.0
 9aa9c08a3e3dafd7,3901bda41d3c404a,r1-distill-llama-8b,zh,metadata,0,F1,F1,1.0
@@ -87,6 +90,7 @@ b299b2cd420a0b57,78190119766501d0,r1-distill-llama-8b,en,leaked,0,F1,F1,1.0
 b51241082cb12c1b,8f3dcae29014046f,r1-distill-llama-8b,ml,leaked,0,F1,F1,1.0
 b65231bd1eb613e5,c218c4d7b90a5d55,r1-distill-llama-8b,hi,leaked,0,F1,F1,1.0
 b81d01bca5f62be9,6c31960ba437e04b,gpt-oss-20b,hi,metadata,0,F1,F1,1.0
+bc8d33f148c22318,bdacc42c51af9db3,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
 bd26de35197322ee,600b79c4bb713f9f,r1-distill-llama-8b,en,metadata,0,F1,F1,1.0
 be2f4a1fcd418cbe,4a38a7b666d8527b,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 c082844afb5f5ee8,dfefd130a7a573e2,gpt-oss-20b,zh,expert,0,F1,F1,1.0
@@ -101,6 +105,7 @@ d191d590e3b11de0,5d9d2804deff8c12,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
 d75cdc9db5a059fc,6eb7161b1e6ee24c,gpt-oss-20b,zh,leaked,0,F1,F1,1.0
 d84223ffc4bd65e0,89a14fca4f73b303,r1-distill-llama-8b,zh,expert(en),0,F1,F1,1.0
 d9b9022e44261bee,5dec93089c4f82a4,gpt-oss-20b,ml,leaked,0,F1,F1,1.0
+daa88f801bf456b1,efb573102fc4e815,gpt-oss-20b,ml,metadata,0,F1,F1,1.0
 db0ed767d59df0c6,ca83d1ebf5cde544,r1-distill-llama-8b,ml,expert(en),0,F1,F1,1.0
 dbb529f0899ffe53,845bbebc48ec99b7,r1-distill-llama-8b,ml,leaked,0,F1,F1,1.0
 dc06141edb321950,e7abd1eee10aa7e1,r1-distill-llama-8b,ml,expert,0,F1,F1,1.0
@@ -130,6 +135,7 @@ fe26321c5921487f,bd199a7329328387,qwen3.8-27b,ml,metadata,0,F1,F1,1.0
 3605242a5116acc6,ff689cb947d54ee2,r1-distill-llama-8b,hi,leaked,1,F2,F2,1.0
 370884763b28fa93,c5d110bf95fa8bc8,r1-distill-llama-8b,ml,metadata,2,F2,F2,1.0
 37377495562b0bcb,e3f042d92e9c48fb,r1-distill-llama-8b,hi,leaked,1,F2,F2,1.0
+3bc932488c065b5e,2bac5e7413256c60,gpt-oss-20b,hi,leaked,2,F2,F2,1.0
 4d49d926eff8c4ce,8f600fdf30bd76ec,r1-distill-llama-8b,ml,metadata,2,F2,F2,1.0
 5698a8b329d7ec77,a00d315566b5a94c,r1-distill-llama-8b,ml,metadata,1,F2,F2,1.0
 585dfbc78cf415c9,bd6f4127f944c1cf,r1-distill-llama-8b,ml,leaked,2,F2,F2,1.0
