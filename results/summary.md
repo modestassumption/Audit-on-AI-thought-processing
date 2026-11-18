@@ -1,4 +1,4 @@
-# Results summary (status 2026-11-18, 21:30 IST)
+# Results summary (status 2026-11-18, 22:45 IST)
 
 Every table in `results/` is regenerated from the runs and judge labels on `main` with
 `bash scripts/regenerate_results.sh`. Runs are final (Groq runs frozen at 19:30 IST). Judge labels
