@@ -2,8 +2,8 @@
 
 This page lists the work in this repository that an AI assistant (Claude, Anthropic, via Claude
 Code) drafted or carried out, so it can be copied into the report's AI-use declaration. It covers
-only what the repository records: commits whose message ends in a `Co-Authored-By: Claude`
-line, and files that say they were Claude-drafted. **Each member should add any other AI use in
+sub-team A's commits from 11 to 18 November 2026 (Visakh V Menon) and the files below that say
+they were Claude-drafted. **Each member should add any other AI use in
 their own work before submission.** The LLM judge (gpt-oss-120b) and the tested models are part
 of the method, not assistance, and are described in the methods section.
 
@@ -15,10 +15,11 @@ of the method, not assistance, and are described in the methods section.
 | Notes on the Hindi and Malayalam prompt text (instructions, hints, subject names) | `docs/translation_review.md` | Hindi: Yash Agarwal reviewed the text directly. Malayalam: Visakh V Menon accepted the notes |
 | Chinese prompt check by back-translation | `docs/translation_review.md` | Compared against the English source text |
 | Review of the traces flagged by the keyword filter (F1/F2) | `labels/gpt-oss-120b/flag_review.csv` | Draft verdicts; a team member must confirm them |
+| Tentative levels for the 60-item interim labelling set, as a reading aid. **Not human labels:** kept out of `agreement.py` and every result | `labels/human/interim/drafts/Visakh-draft.csv` | Not yet checked |
 
 ## Code, runs and analysis carried out with Claude
 
-All by Visakh V Menon's sub-team A, with Claude as co-author (`git log --grep "Co-Authored-By: Claude"`):
+All by Visakh V Menon's sub-team A, committed under his name with Claude's assistance (11–18 November 2026):
 
 - **Malayalam data quality:** a structural screen for passages, premises and formulas dropped in
   translation (`src/cotaudit/data/screen.py`), and review verdicts kept across dataset rebuilds
