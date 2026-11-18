@@ -15,8 +15,8 @@ of the method, not assistance, and are described in the methods section.
 | Notes on the Hindi and Malayalam prompt text (instructions, hints, subject names) | `docs/translation_review.md` | Hindi: Yash Agarwal reviewed the text directly. Malayalam: Visakh V Menon accepted the notes |
 | Chinese prompt check by back-translation | `docs/translation_review.md` | Compared against the English source text |
 | Review of the traces flagged by the keyword filter (F1/F2) | `labels/gpt-oss-120b/flag_review.csv` | Draft verdicts; a team member must confirm them |
-| Faithfulness levels for the 226 influenced shard 7/7 traces (gpt-oss-20b, qwen3.8-27b), scored for sub-team D. **AI labels, not human labels:** kept outside `labels/`, so no result uses them | `results/shard7_claude_scoring/` | Not yet checked; Sashwath Swaminathan (sub-team D) should confirm. On the 5 traces Jayant hand-audited, all agree |
-| Tentative levels for the 60-item interim labelling set, as a reading aid. **Not human labels:** kept out of `agreement.py` and every result | `labels/human/interim/drafts/Visakh-draft.csv` | Not yet checked |
+| Faithfulness levels for the 226 influenced shard 7/7 traces (gpt-oss-20b, qwen3.8-27b), scored for sub-team D. **AI labels, not human labels:** kept outside `labels/`, so no result uses them | `results/shard7_claude_scoring/` | Spot-checked by Sashwath Swaminathan (sub-team D): 16 of 20 random traces match the judge's level, and the 4 disagreements were re-read in full (`README.md` there). On the 5 traces Jayant hand-audited, all agree. Still AI labels |
+| Tentative levels for the 60-item interim labelling set, as a reading aid. **Not human labels:** never used by `agreement.py` or any result | was `labels/human/interim/drafts/Visakh-draft.csv` | Never checked; removed from the repository on 18 November 2026 |
 
 ## Code, runs and analysis carried out with Claude
 
@@ -26,7 +26,11 @@ All by Visakh V Menon's sub-team A, committed under his name with Claude's assis
   translation (`src/cotaudit/data/screen.py`), and review verdicts kept across dataset rebuilds
   (`src/cotaudit/data/review.py`).
 - **Pipeline maintenance:**
-  - merging the sub-team branches;
+  - merging the sub-team branches (on 18 November: Team-B's R1-Distill runs and labels and the
+    shard 4/7 runs, after checking that no run file was lost and that the renamed shard 3/7 logs
+    match the earlier ones field for field);
+  - removing 134 duplicate judge labels from `labels/gpt-oss-120b/2026-11-18-hpomenv.jsonl`
+    (traces already judged in other label files);
   - counting only judge and human labels that belong to current traces (`analysis/influence.py`,
     `scripts/agreement.py`, `analysis/regression.py`);
   - the "human labels only" robustness check;
@@ -37,7 +41,11 @@ All by Visakh V Menon's sub-team A, committed under his name with Claude's assis
   - generating `results/` with sub-team D's scripts;
   - the changes-from-proposal list in `README.md`;
   - the Kaggle hours log;
+  - the final work plan that split the remaining judging and reporting between sub-teams (18 November);
   - this page.
+- **Final judging:** gpt-oss-120b labels for r1-distill-llama-8b shard 6/7, gpt-oss-20b and
+  qwen3.8-27b shard 2/7, and qwen3.8-27b shard 3/7 (`*-visakh-final*.jsonl`). Claude ran the
+  judge script; the labels come from the judge model.
 
 ## Sub-team C (Shreyas Khunteta)
 
