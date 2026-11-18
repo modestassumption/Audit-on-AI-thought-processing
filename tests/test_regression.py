@@ -98,24 +98,17 @@ def test_perfect_separation_is_reported():
 def test_human_labels_load_in_the_judge_label_shape(tmp_path):
     from cotaudit.analysis.regression import load_human_labels, regression_data
 
-    folder = tmp_path / "human" / "main"
-    folder.mkdir(parents=True)
-    pd.DataFrame({"item_id": ["i1", "i2", "i3", "i4"], "run_id": ["r1", "r2", "r3", "r4"],
-                  "model": "m", "qid": ["q1", "q2", "q3", "q4"], "lang": ["en", "hi", "hi", "zh"],
-                  "condition": ["expert", "leaked", "expert(en)", "metadata"], "hinted": "B", "gold": "C"}
-                 ).to_csv(folder / "key.csv", index=False, encoding="utf-8-sig")
-    pd.DataFrame({"item_id": ["i1", "i2", "i3", "i4"], "level": ["2", "1", "2", "exclude"],
-                  "restate_only": ["", "yes", "", ""]}).to_csv(folder / "adjudicated.csv", index=False,
-                                                              encoding="utf-8-sig")
-    runs = pd.DataFrame({"run_id": ["r1", "r2", "r3"], "stratum": ["stem", "humanities", "stem"],
-                         "subject": ["anatomy", "law", "anatomy"]})
+    folder = human_set(tmp_path)
+    runs = human_set_runs()
 
     labels = load_human_labels("main", tmp_path, runs)
     by_item = labels.set_index("item_id")
+    assert list(by_item.index) == ["i1", "i2", "i3", "i4"]          # i5's run is gone, i6 was re-run
     assert list(by_item["hint_type"]) == ["expert", "leaked", "expert", "metadata"]
     assert list(by_item["hint_lang"]) == ["en", "hi", "en", "zh"]
     assert by_item.loc["i2", "restate_only"] and not by_item.loc["i1", "restate_only"]
-    assert by_item.loc["i2", "stratum"] == "humanities" and pd.isna(by_item.loc["i4", "stratum"])
+    assert list(by_item["stratum"]) == ["stem", "humanities", "stem", "stem"]   # always from the run
+    assert by_item.loc["i1", "level"] == 2                         # repeated row: the first counts
     data = regression_data(labels)
     # i3 is the H4 English hint (analysed separately), i4 was excluded by the labellers
     assert sorted(data["item_id"]) == ["i1", "i2"] and list(data.sort_values("item_id")["faithful"]) == [1, 0]
@@ -124,3 +117,43 @@ def test_human_labels_load_in_the_judge_label_shape(tmp_path):
 
     with pytest.raises(FileNotFoundError):
         load_human_labels("main", tmp_path, runs, rater="nobody")
+    with pytest.raises(ValueError, match="run logs"):
+        load_human_labels("main", tmp_path, pd.DataFrame())
+    assert folder.exists()
+
+
+def human_set(tmp_path):
+    """labels/human/main with six items: i5's run no longer exists, i6's trace was re-run after
+    export, i1's reasoning came back from the spreadsheet with Windows line endings, and i1 appears
+    twice in the adjudicated sheet."""
+    folder = tmp_path / "human" / "main"
+    folder.mkdir(parents=True)
+    ids = ["i1", "i2", "i3", "i4", "i5", "i6"]
+    pd.DataFrame({"item_id": ids, "run_id": ["r1", "r2", "r3", "r4", "r5", "r6"], "model": "m",
+                  "qid": ["q1", "q2", "q3", "q4", "q5", "q6"], "lang": ["en", "hi", "hi", "zh", "en", "en"],
+                  "condition": ["expert", "leaked", "expert(en)", "metadata", "expert", "expert"],
+                  "hinted": "B", "gold": "C"}).to_csv(folder / "key.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame({"item_id": ids, "reasoning": ["step one\r\nstep two", "b", "c", "d", "e", "old text"]}
+                 ).to_csv(folder / "items.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame({"item_id": ["i1", "i2", "i3", "i4", "i5", "i6", "i1"],
+                  "level": ["2", "1", "2", "exclude", "2", "2", "0"],
+                  "restate_only": ["", "yes", "", "", "", "", ""]}).to_csv(
+        folder / "adjudicated.csv", index=False, encoding="utf-8-sig")
+    return folder
+
+
+def human_set_runs():
+    return pd.DataFrame({"run_id": ["r1", "r2", "r3", "r4", "r6"],
+                         "reasoning": ["step one\nstep two\n", "b", "c", "d", "new text"],
+                         "stratum": ["stem", "humanities", "stem", "stem", "stem"],
+                         "subject": ["anatomy", "law", "anatomy", "anatomy", "anatomy"]})
+
+
+def test_current_items_drops_missing_and_rerun_traces(tmp_path, capsys):
+    from cotaudit.analysis.influence import current_items
+
+    current = current_items(human_set(tmp_path), human_set_runs())
+    assert current.to_dict() == {"i1": True, "i2": True, "i3": True, "i4": True, "i5": False, "i6": False}
+    err = capsys.readouterr().err
+    assert "1 items whose run is no longer a current run" in err
+    assert "1 items whose trace was re-run after export" in err
