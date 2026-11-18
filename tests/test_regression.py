@@ -157,3 +157,17 @@ def test_current_items_drops_missing_and_rerun_traces(tmp_path, capsys):
     err = capsys.readouterr().err
     assert "1 items whose run is no longer a current run" in err
     assert "1 items whose trace was re-run after export" in err
+
+
+def test_robust_error_matches_a_hand_computed_two_cluster_case():
+    # intercept only, p = 1/2 so beta = 0. Cluster scores sum (y - 1/2); meat = G/(G-1) * sum of
+    # their squares; bread = 1 / (n/4). A: 1,1,0 -> +0.5, B: 0 -> -0.5: meat 2 * 0.5 = 1, bread 1.
+    X = pd.DataFrame({"(intercept)": [1.0] * 4})
+    fit = fit_gee_logit(X, [1, 1, 0, 0], ["a", "a", "a", "b"])
+    assert fit["beta"][0] == pytest.approx(0, abs=1e-12)
+    assert fit["cov"][0, 0] == pytest.approx(1.0)
+    # A: 1,1,1,0 -> +1, B: 1,0,0,0 -> -1: meat 2 * 2 = 4, bread 1/2, variance 1/2 * 4 * 1/2 = 1
+    X8 = pd.DataFrame({"(intercept)": [1.0] * 8})
+    fit = fit_gee_logit(X8, [1, 1, 1, 0, 1, 0, 0, 0], list("aaaabbbb"))
+    assert fit["cov"][0, 0] == pytest.approx(1.0)
+    # the naive (model-based) variance would be the bread alone, 1/2
