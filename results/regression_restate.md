@@ -4,34 +4,36 @@
 
 | model | lang | traces | faithful | rate |
 |---|---|---|---|---|
-| gpt-oss-20b | en | 12 | 9 | 75.0% |
-| gpt-oss-20b | hi | 38 | 34 | 89.5% |
-| gpt-oss-20b | ml | 19 | 15 | 78.9% |
-| gpt-oss-20b | zh | 21 | 19 | 90.5% |
-| qwen3.8-27b | en | 16 | 16 | 100.0% |
-| qwen3.8-27b | hi | 32 | 31 | 96.9% |
-| qwen3.8-27b | ml | 39 | 36 | 92.3% |
-| qwen3.8-27b | zh | 29 | 27 | 93.1% |
-| r1-distill-llama-8b | hi | 2 | 2 | 100.0% |
-| r1-distill-llama-8b | ml | 4 | 0 | 0.0% |
+| gpt-oss-20b | en | 56 | 41 | 73.2% |
+| gpt-oss-20b | hi | 150 | 131 | 87.3% |
+| gpt-oss-20b | ml | 81 | 60 | 74.1% |
+| gpt-oss-20b | zh | 88 | 71 | 80.7% |
+| qwen3.8-27b | en | 72 | 69 | 95.8% |
+| qwen3.8-27b | hi | 132 | 130 | 98.5% |
+| qwen3.8-27b | ml | 154 | 145 | 94.2% |
+| qwen3.8-27b | zh | 124 | 121 | 97.6% |
+| r1-distill-llama-8b | en | 18 | 5 | 27.8% |
+| r1-distill-llama-8b | hi | 45 | 29 | 64.4% |
+| r1-distill-llama-8b | ml | 36 | 12 | 33.3% |
+| r1-distill-llama-8b | zh | 14 | 5 | 35.7% |
 
 ## H1-H3: main-effects GEE, grouped by question
 
-212 traces, 39 questions. Odds ratio > 1: more often faithful than the comparison level.
+970 traces, 169 questions. Odds ratio > 1: more often faithful than the comparison level.
 
 | family | comparison | odds ratio | 95% CI | p | p (Holm) |
 |---|---|---|---|---|---|
-| H2 language vs. English | hi vs. en | 2.70 | 0.22-33.19 | 0.437 | 1.000 |
-| H2 language vs. English | ml vs. en | 0.38 | 0.03-4.10 | 0.423 | 1.000 |
-| H2 language vs. English | zh vs. en | 1.26 | 0.11-14.44 | 0.854 | 1.000 |
-| H1 model pairs | qwen3.8-27b vs. gpt-oss-20b | 2.89 | 0.64-13.01 | 0.167 | 0.333 |
-| H1 model pairs | r1-distill-llama-8b vs. gpt-oss-20b | 0.17 | 0.01-2.17 | 0.171 | 0.333 |
-| H1 model pairs | qwen3.8-27b vs. r1-distill-llama-8b | 17.49 | 1.23-249.55 | 0.035 | 0.105 |
-| H3 hint pairs | expert vs. leaked | 0.92 | 0.23-3.64 | 0.907 | 0.907 |
-| H3 hint pairs | metadata vs. leaked | 7.18 | 1.72-29.93 | 0.007 | 0.014 |
-| H3 hint pairs | expert vs. metadata | 0.13 | 0.04-0.43 | <0.001 | 0.003 |
-| subject area | humanities vs. stem | 1.31 | 0.49-3.52 | 0.595 | 0.595 |
+| H2 language vs. English | hi vs. en | 3.26 | 1.81-5.87 | <0.001 | <0.001 |
+| H2 language vs. English | ml vs. en | 1.03 | 0.56-1.89 | 0.927 | 0.927 |
+| H2 language vs. English | zh vs. en | 1.69 | 0.92-3.09 | 0.090 | 0.180 |
+| H1 model pairs | qwen3.8-27b vs. gpt-oss-20b | 7.35 | 4.22-12.82 | <0.001 | <0.001 |
+| H1 model pairs | r1-distill-llama-8b vs. gpt-oss-20b | 0.21 | 0.11-0.38 | <0.001 | <0.001 |
+| H1 model pairs | qwen3.8-27b vs. r1-distill-llama-8b | 35.44 | 16.17-77.67 | <0.001 | <0.001 |
+| H3 hint pairs | expert vs. leaked | 0.56 | 0.33-0.97 | 0.039 | 0.078 |
+| H3 hint pairs | metadata vs. leaked | 1.05 | 0.66-1.68 | 0.823 | 0.823 |
+| H3 hint pairs | expert vs. metadata | 0.53 | 0.32-0.91 | 0.020 | 0.060 |
+| subject area | humanities vs. stem | 1.84 | 1.12-3.03 | 0.017 | 0.017 |
 
 ## Model x language interaction
 
-Interaction model not fitted: regression did not converge: some level (or model x language cell) has all or no faithful traces, or no traces at all.
+Joint Wald test of the 6 model x language terms: chi2 = 2.75, p = 0.839.
