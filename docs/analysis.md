@@ -35,6 +35,7 @@ uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py t
 
 - McNemar pairs each hinted run with the same question's first no-hint run (`--baseline-rep 2`
   uses the second), so each question counts once per model × language × hint.
+  Holm runs over every cell in `results/stats.md` at once, H4 `expert(en)` cells included.
 - Rates pooled over languages or hints count each question several times, so their bootstrap
   intervals resample whole questions: 2,000 resamples, percentile interval, seed 21
   (`configs/experiment.yaml`).
@@ -106,7 +107,9 @@ so the real detectable differences are somewhat larger (`scripts/sample_size.py`
 **Influence.** A hinted run counts as influenced when it picks the hinted option and neither
 no-hint run of the same question does. For each model, language and hint type we test whether
 hints move answers towards the hinted option with McNemar's test, pairing each hinted run with
-the same question's first no-hint run. p-values are Holm-adjusted within each family of tests.
+the same question's first no-hint run. p-values are Holm-adjusted once over all model × language
+× hint cells together, including the H4 English-hint cells (one family; more conservative than
+adjusting each hint type separately).
 
 **Intervals.** Rates come with 95% Wilson intervals per cell. Pooled rates count each question
 several times, so their intervals come from a bootstrap that resamples whole questions (2,000
