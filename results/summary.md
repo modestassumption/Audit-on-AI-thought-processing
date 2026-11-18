@@ -1,8 +1,8 @@
-# Results summary (status 2026-11-18, 21:30 IST)
+# Results summary (status 2026-11-18, 22:45 IST)
 
 Every table in `results/` is regenerated from the runs and judge labels on `main` with
 `bash scripts/regenerate_results.sh`. Runs are final (Groq runs frozen at 19:30 IST). Judge labels
-are complete except gpt-oss-20b and qwen3.8-27b shard 4/7 (203 traces), so rerun the script after
+are complete except gpt-oss-20b and qwen3.8-27b shard 4/7 (196 traces), so rerun the script after
 those are merged and update the faithfulness numbers below.
 
 ## Coverage
@@ -15,9 +15,9 @@ those are merged and update the faithfulness numbers below.
 
 - **Missing runs:** qwen3.8-27b shard 6/7 (964 runs, 42 questions) was not finished before the
   freeze. Every other model × shard is complete (`docs/compute.md`).
-- **Judging:** 2,189 of the 2,392 influenced traces have a gpt-oss-120b label (all 909
+- **Judging:** 2,196 of the 2,392 influenced traces have a gpt-oss-120b label (all 909
   R1-Distill traces; the last 320 judged by the same model on DeepInfra after the Groq keys hit
-  their daily cap). The 203 left are gpt-oss-20b and qwen3.8-27b shard 4/7. Traces are judged
+  their daily cap). The 196 left are gpt-oss-20b and qwen3.8-27b shard 4/7. Traces are judged
   in a seeded order stratified by model × language × condition, so a partial set is
   representative (D5).
 - **Stale runs:** 662 logged runs are left out everywhere because their question or prompt was
@@ -53,20 +53,20 @@ Level 2 means the reasoning presents the hint as a reason for its answer
 
 | | Level 2 | 95% CI | Level 1 or 2 (loose) |
 |---|---|---|---|
-| gpt-oss-20b | 415 / 532 = 78.0% | 73.9–81.9 | 91.0% |
-| qwen3.8-27b | 606 / 635 = 95.4% | 93.7–97.0 | 98.4% |
+| gpt-oss-20b | 416 / 533 = 78.0% | 74.0–82.1 | 91.0% |
+| qwen3.8-27b | 609 / 638 = 95.5% | 93.8–97.0 | 98.4% |
 | R1-Distill | 258 / 674 = 38.3% | 33.9–42.6 | 56.4% |
 
-- **H1, model (GEE, 1,841 traces, 266 questions):** qwen3.8-27b admits the hint far more often
+- **H1, model (GEE, 1,845 traces, 267 questions):** qwen3.8-27b admits the hint far more often
   than gpt-oss-20b (OR 6.61, 95% CI 4.35–10.03) and R1-Distill far less (OR 0.17, 0.13–0.23); both
   Holm p < 0.001.
-- **H2, language:** no language differs significantly from English after Holm: Hindi OR 1.59
-  (1.03–2.45), Malayalam 0.63 (0.41–0.97), both Holm p = 0.105; Chinese 0.72 (0.46–1.11),
+- **H2, language:** no language differs significantly from English after Holm: Hindi OR 1.60
+  (1.04–2.46), Malayalam 0.63 (0.41–0.97), both Holm p = 0.103; Chinese 0.72 (0.46–1.11),
   Holm p = 0.134.
-- **H3, hint type:** no difference (expert vs. leaked OR 0.97, metadata vs. leaked 1.00, both Holm p = 1.0).
-- **Subject area:** humanities traces admit the hint more often than STEM (OR 1.49, 1.09–2.05,
-  Holm p = 0.013).
-- **Model × language interaction:** not significant (χ² = 10.72, 6 df, p = 0.097).
+- **H3, hint type:** no difference (expert vs. leaked OR 0.97, metadata vs. leaked 0.99, both Holm p = 1.0).
+- **Subject area:** humanities traces admit the hint more often than STEM (OR 1.50, 1.09–2.06,
+  Holm p = 0.012).
+- **Model × language interaction:** not significant (χ² = 10.69, 6 df, p = 0.098).
 - **Restate-only as Level 2** (`regression_restate.md`): the same four comparisons are significant
   (the three model pairs and subject area); no other becomes significant.
 
