@@ -30,59 +30,59 @@
 <text x='216.6' y='100.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · English</text>
 <line x1='318.1' y1='82.0' x2='592.7' y2='82.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
 <circle cx='455.4' cy='82.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · English, expert: 45% (95% interval 18% to 73%), n = 11</title></circle>
-<line x1='528.6' y1='96.0' x2='689.7' y2='96.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='609.2' cy='96.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · English, metadata: 76% (95% interval 60% to 92%), n = 25</title></circle>
-<line x1='550.2' y1='110.0' x2='682.1' y2='110.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='622.1' cy='110.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · English, leaked: 79% (95% interval 64% to 90%), n = 42</title></circle>
+<line x1='535.1' y1='96.0' x2='681.3' y2='96.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='616.3' cy='96.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · English, metadata: 77% (95% interval 61% to 90%), n = 31</title></circle>
+<line x1='565.8' y1='110.0' x2='686.2' y2='110.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='631.5' cy='110.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · English, leaked: 80% (95% interval 67% to 91%), n = 46</title></circle>
 <text x='216.6' y='152.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Hindi</text>
-<line x1='458.9' y1='134.0' x2='633.2' y2='134.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='555.7' cy='134.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, expert: 65% (95% interval 46% to 81%), n = 26</title></circle>
-<line x1='598.7' y1='148.0' x2='686.2' y2='148.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='649.7' cy='148.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, metadata: 84% (95% interval 74% to 91%), n = 69</title></circle>
-<line x1='640.1' y1='162.0' x2='698.5' y2='162.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='671.6' cy='162.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, leaked: 88% (95% interval 82% to 94%), n = 112</title></circle>
+<line x1='452.3' y1='134.0' x2='625.8' y2='134.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='539.1' cy='134.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, expert: 62% (95% interval 45% to 79%), n = 29</title></circle>
+<line x1='620.3' y1='148.0' x2='697.7' y2='148.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='659.0' cy='148.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, metadata: 86% (95% interval 78% to 94%), n = 78</title></circle>
+<line x1='650.7' y1='162.0' x2='702.3' y2='162.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='678.5' cy='162.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, leaked: 90% (95% interval 84% to 94%), n = 127</title></circle>
 <text x='216.6' y='204.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Chinese</text>
-<line x1='494.0' y1='186.0' x2='651.3' y2='186.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='572.7' cy='186.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, expert: 69% (95% interval 53% to 84%), n = 32</title></circle>
-<line x1='562.2' y1='200.0' x2='680.6' y2='200.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='621.4' cy='200.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, metadata: 78% (95% interval 67% to 90%), n = 51</title></circle>
-<line x1='549.5' y1='214.0' x2='673.0' y2='214.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='616.0' cy='214.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, leaked: 77% (95% interval 64% to 89%), n = 53</title></circle>
+<line x1='485.9' y1='186.0' x2='653.7' y2='186.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='577.5' cy='186.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, expert: 70% (95% interval 52% to 85%), n = 33</title></circle>
+<line x1='582.5' y1='200.0' x2='686.6' y2='200.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='634.5' cy='200.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, metadata: 81% (95% interval 71% to 91%), n = 58</title></circle>
+<line x1='570.6' y1='214.0' x2='671.3' y2='214.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='620.9' cy='214.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, leaked: 78% (95% interval 68% to 88%), n = 60</title></circle>
 <text x='216.6' y='256.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Malayalam</text>
-<line x1='327.3' y1='238.0' x2='595.8' y2='238.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='461.5' cy='238.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, expert: 47% (95% interval 20% to 73%), n = 15</title></circle>
-<line x1='599.0' y1='252.0' x2='688.6' y2='252.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='647.2' cy='252.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, metadata: 84% (95% interval 74% to 92%), n = 73</title></circle>
-<line x1='415.4' y1='266.0' x2='625.1' y2='266.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='520.2' cy='266.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, leaked: 58% (95% interval 38% to 79%), n = 24</title></circle>
+<line x1='359.1' y1='238.0' x2='571.0' y2='238.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='465.1' cy='238.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, expert: 47% (95% interval 26% to 68%), n = 19</title></circle>
+<line x1='602.7' y1='252.0' x2='683.7' y2='252.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='643.2' cy='252.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, metadata: 83% (95% interval 75% to 91%), n = 87</title></circle>
+<line x1='389.0' y1='266.0' x2='583.9' y2='266.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='486.4' cy='266.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, leaked: 52% (95% interval 32% to 71%), n = 31</title></circle>
 <text x='216.6' y='308.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · English</text>
-<line x1='327.3' y1='290.0' x2='730.0' y2='290.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='528.6' cy='290.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · English, expert: 60% (95% interval 20% to 100%), n = 5</title></circle>
-<line x1='710.6' y1='304.0' x2='730.0' y2='304.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='723.5' cy='304.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · English, metadata: 99% (95% interval 96% to 100%), n = 78</title></circle>
-<line x1='730.0' y1='318.0' x2='730.0' y2='318.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='730.0' cy='318.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · English, leaked: 100% (95% interval 100% to 100%), n = 16</title></circle>
+<line x1='394.4' y1='290.0' x2='730.0' y2='290.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='562.2' cy='290.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · English, expert: 67% (95% interval 33% to 100%), n = 6</title></circle>
+<line x1='713.0' y1='304.0' x2='730.0' y2='304.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='724.3' cy='304.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · English, metadata: 99% (95% interval 97% to 100%), n = 89</title></circle>
+<line x1='646.1' y1='318.0' x2='730.0' y2='318.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='702.0' cy='318.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · English, leaked: 94% (95% interval 83% to 100%), n = 18</title></circle>
 <text x='216.6' y='360.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Hindi</text>
-<line x1='730.0' y1='342.0' x2='730.0' y2='342.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='730.0' cy='342.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, expert: 100% (95% interval 100% to 100%), n = 14</title></circle>
-<line x1='709.9' y1='356.0' x2='730.0' y2='356.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='721.9' cy='356.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, metadata: 98% (95% interval 96% to 100%), n = 125</title></circle>
-<line x1='632.1' y1='370.0' x2='730.0' y2='370.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='688.0' cy='370.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, leaked: 92% (95% interval 81% to 100%), n = 36</title></circle>
+<line x1='635.6' y1='342.0' x2='730.0' y2='342.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='698.5' cy='342.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, expert: 94% (95% interval 81% to 100%), n = 16</title></circle>
+<line x1='702.4' y1='356.0' x2='726.6' y2='356.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='716.2' cy='356.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, metadata: 97% (95% interval 95% to 99%), n = 146</title></circle>
+<line x1='636.3' y1='370.0' x2='718.3' y2='370.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='683.2' cy='370.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, leaked: 91% (95% interval 81% to 98%), n = 43</title></circle>
 <text x='216.6' y='412.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Chinese</text>
 <line x1='730.0' y1='394.0' x2='730.0' y2='394.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='730.0' cy='394.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, expert: 100% (95% interval 100% to 100%), n = 10</title></circle>
-<line x1='700.0' y1='408.0' x2='730.0' y2='408.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='715.0' cy='408.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, metadata: 97% (95% interval 94% to 100%), n = 101</title></circle>
-<line x1='682.5' y1='422.0' x2='730.0' y2='422.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='711.0' cy='422.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, leaked: 96% (95% interval 91% to 100%), n = 53</title></circle>
+<circle cx='730.0' cy='394.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, expert: 100% (95% interval 100% to 100%), n = 11</title></circle>
+<line x1='695.6' y1='408.0' x2='725.7' y2='408.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='712.8' cy='408.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, metadata: 97% (95% interval 93% to 99%), n = 117</title></circle>
+<line x1='687.3' y1='422.0' x2='730.0' y2='422.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='712.9' cy='422.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, leaked: 97% (95% interval 92% to 100%), n = 59</title></circle>
 <text x='216.6' y='464.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Malayalam</text>
-<line x1='509.0' y1='446.0' x2='698.5' y2='446.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='604.1' cy='446.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, expert: 75% (95% interval 56% to 94%), n = 16</title></circle>
-<line x1='682.2' y1='460.0' x2='719.0' y2='460.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='700.6' cy='460.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, metadata: 94% (95% interval 91% to 98%), n = 137</title></circle>
-<line x1='644.3' y1='474.0' x2='719.3' y2='474.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
-<circle cx='687.2' cy='474.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, leaked: 91% (95% interval 83% to 98%), n = 47</title></circle>
+<line x1='491.5' y1='446.0' x2='677.0' y2='446.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='597.5' cy='446.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, expert: 74% (95% interval 53% to 89%), n = 19</title></circle>
+<line x1='685.7' y1='460.0' x2='720.5' y2='460.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='704.7' cy='460.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, metadata: 95% (95% interval 91% to 98%), n = 159</title></circle>
+<line x1='636.8' y1='474.0' x2='720.7' y2='474.0' stroke='#1baf7a' stroke-width='2' stroke-linecap='round'/>
+<circle cx='683.4' cy='474.0' r='4.5' fill='#1baf7a' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, leaked: 91% (95% interval 81% to 98%), n = 54</title></circle>
 <text x='216.6' y='516.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · English</text>
 <line x1='377.6' y1='498.0' x2='579.0' y2='498.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
 <circle cx='478.3' cy='498.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · English, expert: 50% (95% interval 30% to 70%), n = 20</title></circle>
