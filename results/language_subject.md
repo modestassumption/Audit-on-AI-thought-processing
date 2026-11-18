@@ -21,17 +21,17 @@
 
 | model | lang | stayed in question language | switched | difference, points (stayed - switched) | 95% CI, points | p | p (Holm) |
 |---|---|---|---|---|---|---|---|
-| gpt-oss-20b | hi | 6/6 (100.0%) | 167/200 (83.5%) | +16.5 | +11.4 to +21.6 | 0.278 | 0.833 |
+| gpt-oss-20b | hi | 6/6 (100.0%) | 167/200 (83.5%) | +16.5 | +11.4 to +21.6 | 0.278 | 1.000 |
 | gpt-oss-20b | ml | 0/0 | 82/112 (73.2%) | - | - | - | - |
 | gpt-oss-20b | zh | 10/10 (100.0%) | 93/126 (73.8%) | +26.2 | +18.5 to +33.9 | 0.063 | 0.315 |
 | qwen3.8-27b | hi | 0/0 | 169/174 (97.1%) | - | - | - | - |
 | qwen3.8-27b | ml | 0/0 | 183/199 (92.0%) | - | - | - | - |
-| qwen3.8-27b | zh | 10/10 (100.0%) | 148/153 (96.7%) | +3.3 | +0.5 to +6.1 | 0.561 | 0.833 |
-| r1-distill-llama-8b | hi | 0/1 (0.0%) | 84/159 (52.8%) | -52.8 | -60.6 to -45.1 | 0.292 | 0.833 |
-| r1-distill-llama-8b | ml | 2/3 (66.7%) | 47/160 (29.4%) | +37.3 | -16.5 to +91.1 | 0.163 | 0.651 |
-| r1-distill-llama-8b | zh | 19/58 (32.8%) | 0/0 | - | - | - | - |
+| qwen3.8-27b | zh | 10/10 (100.0%) | 148/153 (96.7%) | +3.3 | +0.5 to +6.1 | 0.561 | 1.000 |
+| r1-distill-llama-8b | hi | 0/1 (0.0%) | 123/234 (52.6%) | -52.6 | -59.0 to -46.2 | 0.294 | 1.000 |
+| r1-distill-llama-8b | ml | 2/6 (33.3%) | 75/260 (28.8%) | +4.5 | -33.6 to +42.6 | 0.811 | 1.000 |
+| r1-distill-llama-8b | zh | 20/86 (23.3%) | 0/0 | - | - | - | - |
 
-Adjusted for model, language, hint type and subject area (GEE, grouped by question; 1371 traces, 1283 switched, 255 questions): odds ratio of being faithful when the reasoning switches = 0.84 (95% CI 0.47-1.50), p = 0.560.
+Adjusted for model, language, hint type and subject area (GEE, grouped by question; 1577 traces, 1458 switched, 261 questions): odds ratio of being faithful when the reasoning switches = 1.27 (95% CI 0.75-2.17), p = 0.373.
 
 ## Influence per subject area (determined runs, same-language hints)
 
@@ -57,6 +57,6 @@ Adjusted for model, language, hint type and subject area (GEE, grouped by questi
 | qwen3.8-27b | Humanities | 28 | 108 | 114 | 94.7% | 89.0%-97.6% | 90.2%-98.4% |
 | qwen3.8-27b | STEM | 71 | 224 | 237 | 94.5% | 90.8%-96.8% | 91.3%-97.2% |
 | qwen3.8-27b | Social Sciences | 70 | 274 | 284 | 96.5% | 93.6%-98.1% | 94.3%-98.5% |
-| r1-distill-llama-8b | Humanities | 30 | 34 | 90 | 37.8% | 28.5%-48.1% | 25.0%-50.0% |
-| r1-distill-llama-8b | STEM | 73 | 56 | 163 | 34.4% | 27.5%-41.9% | 26.7%-42.1% |
-| r1-distill-llama-8b | Social Sciences | 84 | 87 | 189 | 46.0% | 39.1%-53.1% | 38.1%-53.5% |
+| r1-distill-llama-8b | Humanities | 34 | 50 | 124 | 40.3% | 32.1%-49.1% | 30.1%-51.1% |
+| r1-distill-llama-8b | STEM | 89 | 84 | 246 | 34.1% | 28.5%-40.3% | 27.4%-41.3% |
+| r1-distill-llama-8b | Social Sciences | 94 | 124 | 304 | 40.8% | 35.4%-46.4% | 34.0%-47.3% |

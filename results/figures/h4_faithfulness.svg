@@ -54,18 +54,18 @@
 <line x1='509.0' y1='286.0' x2='698.5' y2='286.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
 <circle cx='604.1' cy='286.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, own-language hint: 75% (95% interval 56% to 94%), n = 16</title></circle>
 <text x='216.6' y='321.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Hindi</text>
-<line x1='452.6' y1='310.0' x2='596.4' y2='310.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='524.5' cy='310.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Hindi, English hint: 59% (95% interval 45% to 73%), n = 49</title></circle>
-<line x1='500.5' y1='324.0' x2='619.0' y2='324.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='559.7' cy='324.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Hindi, own-language hint: 66% (95% interval 54% to 78%), n = 68</title></circle>
+<line x1='454.2' y1='310.0' x2='571.4' y2='310.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='509.3' cy='310.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Hindi, English hint: 56% (95% interval 45% to 68%), n = 73</title></circle>
+<line x1='536.0' y1='324.0' x2='625.1' y2='324.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='583.2' cy='324.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Hindi, own-language hint: 71% (95% interval 61% to 79%), n = 96</title></circle>
 <text x='216.6' y='359.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Chinese</text>
-<line x1='258.1' y1='348.0' x2='447.6' y2='348.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='352.4' cy='348.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Chinese, English hint: 25% (95% interval 6% to 44%), n = 16</title></circle>
-<line x1='226.6' y1='362.0' x2='379.8' y2='362.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='292.3' cy='362.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Chinese, own-language hint: 13% (95% interval 0% to 30%), n = 23</title></circle>
+<line x1='287.0' y1='348.0' x2='468.2' y2='348.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='367.6' cy='348.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Chinese, English hint: 28% (95% interval 12% to 48%), n = 25</title></circle>
+<line x1='241.4' y1='362.0' x2='345.0' y2='362.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='285.8' cy='362.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Chinese, own-language hint: 12% (95% interval 3% to 24%), n = 34</title></circle>
 <text x='216.6' y='397.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Malayalam</text>
-<line x1='519.7' y1='386.0' x2='621.7' y2='386.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
-<circle cx='570.7' cy='386.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Malayalam, English hint: 68% (95% interval 58% to 78%), n = 79</title></circle>
-<line x1='336.4' y1='400.0' x2='464.6' y2='400.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
-<circle cx='400.5' cy='400.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Malayalam, own-language hint: 35% (95% interval 22% to 47%), n = 55</title></circle>
+<line x1='558.2' y1='386.0' x2='638.1' y2='386.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='598.2' cy='386.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Malayalam, English hint: 74% (95% interval 66% to 82%), n = 126</title></circle>
+<line x1='335.3' y1='400.0' x2='438.3' y2='400.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='386.8' cy='400.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Malayalam, own-language hint: 32% (95% interval 22% to 42%), n = 88</title></circle>
 </svg>

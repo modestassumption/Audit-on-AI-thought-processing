@@ -12,28 +12,28 @@
 | qwen3.8-27b | hi | 174 | 169 | 97.1% |
 | qwen3.8-27b | ml | 199 | 185 | 93.0% |
 | qwen3.8-27b | zh | 163 | 158 | 96.9% |
-| r1-distill-llama-8b | en | 61 | 25 | 41.0% |
-| r1-distill-llama-8b | hi | 160 | 87 | 54.4% |
-| r1-distill-llama-8b | ml | 163 | 57 | 35.0% |
-| r1-distill-llama-8b | zh | 58 | 21 | 36.2% |
+| r1-distill-llama-8b | en | 87 | 38 | 43.7% |
+| r1-distill-llama-8b | hi | 235 | 126 | 53.6% |
+| r1-distill-llama-8b | ml | 266 | 88 | 33.1% |
+| r1-distill-llama-8b | zh | 86 | 23 | 26.7% |
 
 ## H1-H3: main-effects GEE, grouped by question
 
-1609 traces, 260 questions. Odds ratio > 1: more often faithful than the comparison level.
+1841 traces, 266 questions. Odds ratio > 1: more often faithful than the comparison level.
 
 | family | comparison | odds ratio | 95% CI | p | p (Holm) |
 |---|---|---|---|---|---|
-| H2 language vs. English | hi vs. en | 1.67 | 1.07-2.62 | 0.024 | 0.073 |
-| H2 language vs. English | ml vs. en | 0.80 | 0.51-1.26 | 0.330 | 0.660 |
-| H2 language vs. English | zh vs. en | 1.01 | 0.62-1.66 | 0.967 | 0.967 |
-| H1 model pairs | qwen3.8-27b vs. gpt-oss-20b | 6.19 | 4.02-9.54 | <0.001 | <0.001 |
-| H1 model pairs | r1-distill-llama-8b vs. gpt-oss-20b | 0.19 | 0.13-0.26 | <0.001 | <0.001 |
-| H1 model pairs | qwen3.8-27b vs. r1-distill-llama-8b | 33.11 | 20.79-52.74 | <0.001 | <0.001 |
-| H3 hint pairs | expert vs. leaked | 1.00 | 0.67-1.48 | 0.989 | 1.000 |
-| H3 hint pairs | metadata vs. leaked | 1.01 | 0.74-1.37 | 0.949 | 1.000 |
-| H3 hint pairs | expert vs. metadata | 0.99 | 0.65-1.49 | 0.951 | 1.000 |
-| subject area | humanities vs. stem | 1.63 | 1.19-2.24 | 0.002 | 0.002 |
+| H2 language vs. English | hi vs. en | 1.54 | 1.00-2.36 | 0.049 | 0.148 |
+| H2 language vs. English | ml vs. en | 0.71 | 0.46-1.08 | 0.111 | 0.222 |
+| H2 language vs. English | zh vs. en | 0.75 | 0.48-1.19 | 0.221 | 0.222 |
+| H1 model pairs | qwen3.8-27b vs. gpt-oss-20b | 6.34 | 4.13-9.74 | <0.001 | <0.001 |
+| H1 model pairs | r1-distill-llama-8b vs. gpt-oss-20b | 0.16 | 0.12-0.22 | <0.001 | <0.001 |
+| H1 model pairs | qwen3.8-27b vs. r1-distill-llama-8b | 39.31 | 25.08-61.59 | <0.001 | <0.001 |
+| H3 hint pairs | expert vs. leaked | 1.22 | 0.89-1.69 | 0.216 | 0.649 |
+| H3 hint pairs | metadata vs. leaked | 0.99 | 0.75-1.31 | 0.963 | 0.963 |
+| H3 hint pairs | expert vs. metadata | 1.23 | 0.86-1.76 | 0.247 | 0.649 |
+| subject area | humanities vs. stem | 1.51 | 1.12-2.05 | 0.007 | 0.007 |
 
 ## Model x language interaction
 
-Joint Wald test of the 6 model x language terms: chi2 = 3.42, p = 0.755.
+Joint Wald test of the 6 model x language terms: chi2 = 9.01, p = 0.173.
