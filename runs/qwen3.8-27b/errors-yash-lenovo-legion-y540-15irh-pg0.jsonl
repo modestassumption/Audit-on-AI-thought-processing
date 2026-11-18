@@ -1,0 +1,9 @@
+{"condition_id": "econometrics/test/33|ml|none|-|2", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:24:20+00:00"}
+{"condition_id": "econometrics/test/33|ml|expert|ml|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:24:34+00:00"}
+{"condition_id": "econometrics/test/33|ml|metadata|ml|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:24:48+00:00"}
+{"condition_id": "econometrics/test/33|ml|leaked|ml|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:25:02+00:00"}
+{"condition_id": "econometrics/test/33|ml|expert|en|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:25:16+00:00"}
+{"condition_id": "electrical_engineering/test/94|ml|none|-|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:25:30+00:00"}
+{"condition_id": "electrical_engineering/test/94|ml|none|-|2", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:25:44+00:00"}
+{"condition_id": "electrical_engineering/test/94|ml|expert|ml|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:25:58+00:00"}
+{"condition_id": "electrical_engineering/test/94|ml|metadata|ml|1", "error": "APIConnectionError: Connection error.", "timestamp_utc": "2026-11-17T20:26:12+00:00"}
