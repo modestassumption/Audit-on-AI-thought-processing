@@ -67,6 +67,20 @@ def test_export_is_blinded_and_agreement_runs(tmp_path, monkeypatch, capsys):
     agreement.main()  # a second run must not read agreement.csv as a labeller
     assert len(pd.read_csv(folder / "agreement.csv", encoding="utf-8-sig")) == len(table)
 
+    # One exported trace is re-run after export: its human labels describe text that no longer
+    # exists, so the item leaves every pair instead of being compared with a judge on new text.
+    run_id = pd.read_csv(folder / "key.csv", encoding="utf-8-sig")["run_id"].iloc[0]
+    model, i = run_id[:2], run_id[2:-1]
+    log = next((runs / model).glob("20*.jsonl"))
+    log.write_text(log.read_text(encoding="utf-8").replace(f'"trace {model} {i}"', '"re-run text"'),
+                   encoding="utf-8")
+    capsys.readouterr()
+    agreement.main()
+    assert "1 items whose trace was re-run after export" in capsys.readouterr().err
+    table = pd.read_csv(folder / "agreement.csv", encoding="utf-8-sig")
+    pooled = table[(table["slice"] == "pooled") & (table["measure"] == "main (2 vs 0/1)")].iloc[0]
+    assert pooled["n"] == 7 and pooled["excluded"] == 0
+
 
 def test_bootstrap_interval_is_seeded_and_drops_undefined_resamples():
     from cotaudit.analysis.agreement import agreement_stats, bootstrap_kappa

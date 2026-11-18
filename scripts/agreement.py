@@ -12,8 +12,10 @@ kappa are dropped and counted in `boot_dropped`). No weighted kappa (D6).
 Slices: pooled, each language, each model, and two language groups that are never merged:
 direct (en, hi: both labellers read the original) and translation-mediated (zh, ml). A judge
 that is also a tested model (qwen3.8-27b) is split into its own and other models' traces.
-Items marked `exclude`, left blank or not labelled by either side are dropped from that pair
-and counted in `excluded`. Only the `level` column is compared; `restate_only` (used for the D3
+Items whose run is no longer current, or was re-run after export (so its reasoning is not what
+the labellers saw), are left out for every rater and counted on stderr (current_items). Items
+marked `exclude`, left blank or not labelled by either side are dropped from that pair and counted
+in `excluded`. Only the `level` column is compared; `restate_only` (used for the D3
 sensitivity check) and the other columns are ignored. The table is printed and written to
 labels/human/<name>/agreement.csv.
 """
@@ -27,7 +29,7 @@ import json
 import pandas as pd
 
 from cotaudit.analysis.agreement import agreement_stats
-from cotaudit.analysis.influence import current_labels, load_runs
+from cotaudit.analysis.influence import current_items, current_labels, load_runs
 from cotaudit.config import LABELS, RUNS, load_experiment
 
 MEASURES = {
@@ -43,16 +45,15 @@ def human_labels(folder) -> dict[str, pd.Series]:
     for path in sorted(folder.glob("*.csv")):
         if path.stem in ("items", "key", "agreement"):  # agreement.csv is this script's output
             continue
-        df = pd.read_csv(path, dtype=str, encoding="utf-8-sig").set_index("item_id")
+        df = pd.read_csv(path, dtype=str, encoding="utf-8-sig").drop_duplicates("item_id").set_index("item_id")
         out[path.stem] = pd.to_numeric(df["level"], errors="coerce")
     return out
 
 
-def judge_labels(key: pd.DataFrame) -> dict[str, pd.Series]:
+def judge_labels(key: pd.DataFrame, runs: pd.DataFrame | None) -> dict[str, pd.Series]:
     """Each judge's level per item. Only labels still current for the logged runs count (none on a
     trace re-run since it was judged); if a trace has several, the first one is used."""
     by_run = key.set_index("run_id")["item_id"]
-    runs = load_runs(RUNS) if RUNS.is_dir() else None
     out = {}
     for judge_dir in sorted(p for p in LABELS.iterdir() if p.is_dir() and p.name != "human"):
         records = [json.loads(line) for path in sorted(judge_dir.glob("20*.jsonl"))
@@ -107,8 +108,15 @@ def main() -> None:
     args = ap.parse_args()
 
     folder = LABELS / "human" / args.name
-    key = pd.read_csv(folder / "key.csv", dtype=str, encoding="utf-8-sig")
-    raters = human_labels(folder) | judge_labels(key)
+    key = pd.read_csv(folder / "key.csv", dtype=str, encoding="utf-8-sig").drop_duplicates("item_id")
+    runs = load_runs(RUNS) if RUNS.is_dir() else None
+    try:
+        current = current_items(folder, runs)
+    except ValueError as err:
+        raise SystemExit(str(err)) from None
+    key = key[key["item_id"].map(current).fillna(False).astype(bool)]
+    raters = {name: levels.reindex(key["item_id"]) for name, levels in human_labels(folder).items()}
+    raters |= judge_labels(key, runs)
     if len(raters) < 2:
         raise SystemExit(f"Need at least two raters, found {list(raters)}")
 

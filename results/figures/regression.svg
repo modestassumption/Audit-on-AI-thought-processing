@@ -1,0 +1,58 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='760' height='332' viewBox='0 0 760 332' role='img'>
+<title>H1-H3: odds of a faithful trace (level 2)</title>
+<rect width='100%' height='100%' fill='#ffffff'/>
+<text x='12.0' y='20.0' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='bold' font-family='Helvetica, Arial, sans-serif'>H1-H3: odds of a faithful trace (level 2)</text>
+<rect x='0' y='70' width='760' height='24' fill='#f6f6f4'/>
+<rect x='0' y='118' width='760' height='24' fill='#f6f6f4'/>
+<rect x='0' y='166' width='760' height='24' fill='#f6f6f4'/>
+<rect x='0' y='214' width='760' height='24' fill='#f6f6f4'/>
+<rect x='0' y='262' width='760' height='24' fill='#f6f6f4'/>
+<line x1='287.3' y1='46' x2='287.3' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='287.3' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>0.015625</text>
+<line x1='350.5' y1='46' x2='350.5' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='350.5' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>0.0625</text>
+<line x1='413.7' y1='46' x2='413.7' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='413.7' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>0.25</text>
+<line x1='476.9' y1='46' x2='476.9' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='476.9' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>1</text>
+<line x1='540.2' y1='46' x2='540.2' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='540.2' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>4</text>
+<line x1='603.4' y1='46' x2='603.4' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='603.4' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>16</text>
+<line x1='666.6' y1='46' x2='666.6' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='666.6' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>64</text>
+<line x1='729.9' y1='46' x2='729.9' y2='286' stroke='#e6e5e0' stroke-width='1'/>
+<text x='729.9' y='302.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>256</text>
+<line x1='476.9' y1='46' x2='476.9' y2='286' stroke='#52514e' stroke-width='1' stroke-dasharray='4 3'/>
+<text x='508.0' y='322.0' font-size='12' fill='#52514e' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>odds ratio (log scale; &gt; 1 = more often faithful than the comparison)</text>
+<text x='276.0' y='62.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H2 · hi vs. en</text>
+<line x1='407.2' y1='58.0' x2='640.3' y2='58.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='523.8' cy='58.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H2 · hi vs. en, odds ratio: 2.79166 (95% interval 0.216783 to 35.9501)</title></circle>
+<text x='276.0' y='86.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H2 · ml vs. en</text>
+<line x1='307.1' y1='82.0' x2='533.0' y2='82.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='420.0' cy='82.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H2 · ml vs. en, odds ratio: 0.287233 (95% interval 0.024151 to 3.41613)</title></circle>
+<text x='276.0' y='110.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H2 · zh vs. en</text>
+<line x1='363.2' y1='106.0' x2='588.9' y2='106.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='476.0' cy='106.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H2 · zh vs. en, odds ratio: 0.980554 (95% interval 0.0826616 to 11.6316)</title></circle>
+<text x='276.0' y='134.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H1 · qwen3.8-27b vs. gpt-oss-20b</text>
+<line x1='468.0' y1='130.0' x2='602.6' y2='130.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='535.3' cy='130.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H1 · qwen3.8-27b vs. gpt-oss-20b, odds ratio: 3.59472 (95% interval 0.821827 to 15.7235)</title></circle>
+<text x='276.0' y='158.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H1 · r1-distill-llama-8b vs. gpt-oss-20b</text>
+<line x1='290.8' y1='154.0' x2='517.0' y2='154.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='403.9' cy='154.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H1 · r1-distill-llama-8b vs. gpt-oss-20b, odds ratio: 0.201584 (95% interval 0.0168906 to 2.40585)</title></circle>
+<text x='276.0' y='182.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H1 · qwen3.8-27b vs. r1-distill-llama-8b</text>
+<line x1='491.0' y1='178.0' x2='725.7' y2='178.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='608.3' cy='178.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H1 · qwen3.8-27b vs. r1-distill-llama-8b, odds ratio: 17.8323 (95% interval 1.36223 to 233.435)</title></circle>
+<text x='276.0' y='206.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H3 · expert vs. leaked</text>
+<line x1='405.9' y1='202.0' x2='531.1' y2='202.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='468.5' cy='202.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H3 · expert vs. leaked, odds ratio: 0.831565 (95% interval 0.21074 to 3.2813)</title></circle>
+<text x='276.0' y='230.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H3 · metadata vs. leaked</text>
+<line x1='510.8' y1='226.0' x2='642.0' y2='226.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='576.4' cy='226.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H3 · metadata vs. leaked, odds ratio: 8.85384 (95% interval 2.10159 to 37.3005)</title></circle>
+<text x='276.0' y='254.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>H3 · expert vs. metadata</text>
+<line x1='307.2' y1='250.0' x2='430.9' y2='250.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='369.1' cy='250.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>H3 · expert vs. metadata, odds ratio: 0.0939214 (95% interval 0.0242047 to 0.364443)</title></circle>
+<text x='276.0' y='278.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>subject · humanities vs. stem</text>
+<line x1='439.5' y1='274.0' x2='522.0' y2='274.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='480.7' cy='274.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>subject · humanities vs. stem, odds ratio: 1.08695 (95% interval 0.440219 to 2.68382)</title></circle>
+</svg>

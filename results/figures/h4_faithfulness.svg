@@ -1,0 +1,61 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='760' height='420' viewBox='0 0 760 420' role='img'>
+<title>H4: faithfulness with the expert hint, English vs. the question's language (level 2)</title>
+<rect width='100%' height='100%' fill='#ffffff'/>
+<text x='12.0' y='20.0' font-size='14' fill='#0b0b0b' text-anchor='start' font-weight='bold' font-family='Helvetica, Arial, sans-serif'>H4: faithfulness with the expert hint, English vs. the question's language (level 2)</text>
+<rect x='226.6' y='43' width='10' height='10' rx='2' fill='#2a78d6'/>
+<text x='241.6' y='52.0' font-size='12' fill='#52514e' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>English hint</text>
+<rect x='340.6' y='43' width='10' height='10' rx='2' fill='#eb6834'/>
+<text x='355.6' y='52.0' font-size='12' fill='#52514e' text-anchor='start' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>own-language hint</text>
+<rect x='0' y='108' width='760' height='38' fill='#f6f6f4'/>
+<rect x='0' y='184' width='760' height='38' fill='#f6f6f4'/>
+<rect x='0' y='260' width='760' height='38' fill='#f6f6f4'/>
+<rect x='0' y='336' width='760' height='38' fill='#f6f6f4'/>
+<line x1='226.6' y1='70' x2='226.6' y2='374' stroke='#e6e5e0' stroke-width='1'/>
+<text x='226.6' y='390.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>0%</text>
+<line x1='327.3' y1='70' x2='327.3' y2='374' stroke='#e6e5e0' stroke-width='1'/>
+<text x='327.3' y='390.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>20%</text>
+<line x1='428.0' y1='70' x2='428.0' y2='374' stroke='#e6e5e0' stroke-width='1'/>
+<text x='428.0' y='390.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>40%</text>
+<line x1='528.6' y1='70' x2='528.6' y2='374' stroke='#e6e5e0' stroke-width='1'/>
+<text x='528.6' y='390.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>60%</text>
+<line x1='629.3' y1='70' x2='629.3' y2='374' stroke='#e6e5e0' stroke-width='1'/>
+<text x='629.3' y='390.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>80%</text>
+<line x1='730.0' y1='70' x2='730.0' y2='374' stroke='#e6e5e0' stroke-width='1'/>
+<text x='730.0' y='390.0' font-size='11' fill='#8a8984' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>100%</text>
+<text x='478.3' y='410.0' font-size='12' fill='#52514e' text-anchor='middle' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>share of influenced traces, judge gpt-oss-120b, 95% bootstrap interval over questions</text>
+<text x='216.6' y='93.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Hindi</text>
+<line x1='730.0' y1='82.0' x2='730.0' y2='82.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='730.0' cy='82.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, English hint: 100% (95% interval 100% to 100%), n = 5</title></circle>
+<line x1='415.4' y1='96.0' x2='730.0' y2='96.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='604.1' cy='96.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Hindi, own-language hint: 75% (95% interval 38% to 100%), n = 8</title></circle>
+<text x='216.6' y='131.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Chinese</text>
+<line x1='352.4' y1='120.0' x2='730.0' y2='120.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='604.1' cy='120.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, English hint: 75% (95% interval 25% to 100%), n = 4</title></circle>
+<line x1='226.6' y1='134.0' x2='730.0' y2='134.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='478.3' cy='134.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Chinese, own-language hint: 50% (95% interval 0% to 100%), n = 4</title></circle>
+<text x='216.6' y='169.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>gpt-oss-20b · Malayalam</text>
+<line x1='730.0' y1='158.0' x2='730.0' y2='158.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='730.0' cy='158.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, English hint: 100% (95% interval 100% to 100%), n = 5</title></circle>
+<line x1='226.6' y1='172.0' x2='730.0' y2='172.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='478.3' cy='172.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>gpt-oss-20b · Malayalam, own-language hint: 50% (95% interval 0% to 100%), n = 2</title></circle>
+<text x='216.6' y='207.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Hindi</text>
+<circle cx='730.0' cy='196.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, English hint: 100%, n = 1</title></circle>
+<line x1='730.0' y1='210.0' x2='730.0' y2='210.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='730.0' cy='210.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Hindi, own-language hint: 100% (95% interval 100% to 100%), n = 2</title></circle>
+<text x='216.6' y='245.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Chinese</text>
+<line x1='730.0' y1='234.0' x2='730.0' y2='234.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='730.0' cy='234.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, English hint: 100% (95% interval 100% to 100%), n = 2</title></circle>
+<circle cx='730.0' cy='248.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Chinese, own-language hint: 100%, n = 1</title></circle>
+<text x='216.6' y='283.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>qwen3.8-27b · Malayalam</text>
+<line x1='730.0' y1='272.0' x2='730.0' y2='272.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='730.0' cy='272.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, English hint: 100% (95% interval 100% to 100%), n = 2</title></circle>
+<line x1='730.0' y1='286.0' x2='730.0' y2='286.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='730.0' cy='286.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>qwen3.8-27b · Malayalam, own-language hint: 100% (95% interval 100% to 100%), n = 3</title></circle>
+<text x='216.6' y='321.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Hindi</text>
+<circle cx='730.0' cy='324.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Hindi, own-language hint: 100%, n = 1</title></circle>
+<text x='216.6' y='359.0' font-size='12' fill='#52514e' text-anchor='end' font-weight='normal' font-family='Helvetica, Arial, sans-serif'>r1-distill-llama-8b · Malayalam</text>
+<line x1='226.6' y1='348.0' x2='730.0' y2='348.0' stroke='#2a78d6' stroke-width='2' stroke-linecap='round'/>
+<circle cx='562.2' cy='348.0' r='4.5' fill='#2a78d6' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Malayalam, English hint: 67% (95% interval 0% to 100%), n = 3</title></circle>
+<line x1='226.6' y1='362.0' x2='226.6' y2='362.0' stroke='#eb6834' stroke-width='2' stroke-linecap='round'/>
+<circle cx='226.6' cy='362.0' r='4.5' fill='#eb6834' stroke='#ffffff' stroke-width='2'><title>r1-distill-llama-8b · Malayalam, own-language hint: 0% (95% interval 0% to 0%), n = 2</title></circle>
+</svg>

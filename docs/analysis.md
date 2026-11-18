@@ -141,6 +141,11 @@ an association, not a causal effect.
 
 ### Results (to fill in)
 
+Interim numbers from the runs and labels pushed by 2026-11-18, with the headline findings and
+caveats: [`results/summary.md`](../results/summary.md). Regenerate every table with the commands
+under "Run" once more runs and labels are in.
+
+
 - Influence per model × language × hint, McNemar p-values (Holm): **[TBD]** (`results/stats.md`)
 - Faithfulness rates with Wilson and bootstrap intervals: **[TBD]** (`results/rates.md`)
 - H1–H3 odds ratios and the interaction test: **[TBD]** (`results/regression.md`)
