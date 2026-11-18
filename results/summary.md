@@ -11,13 +11,14 @@ those are merged and update the faithfulness numbers below.
 |---|---|---|---|
 | Current runs (of 6,900) | 6,900 | 5,936 | 6,900 |
 | Questions with all 23 conditions (of 300) | 300 | 258 | 300 |
-| Influenced traces | 696 | 787 | 909 |
+| Influenced traces that can be judged | 696 | 787 | 909 |
 
 - **Missing runs:** qwen3.8-27b shard 6/7 (964 runs, 42 questions) was not finished before the
   freeze. Every other model × shard is complete (`docs/compute.md`).
-- **Judging:** 2,196 of the 2,392 influenced traces have a gpt-oss-120b label (all 909
-  R1-Distill traces; the last 320 judged by the same model on DeepInfra after the Groq keys hit
-  their daily cap). The 196 left are gpt-oss-20b and qwen3.8-27b shard 4/7. Traces are judged
+- **Judging:** 2,196 of the 2,392 influenced traces that can be judged have a gpt-oss-120b label
+  (all 909 R1-Distill traces; the last 320 judged by the same model on DeepInfra after the Groq
+  keys hit their daily cap; one more R1-Distill influenced trace hit the token limit, so `runs.md`
+  counts 910). The 196 left are gpt-oss-20b and qwen3.8-27b shard 4/7. Traces are judged
   in a seeded order stratified by model × language × condition, so a partial set is
   representative (D5).
 - **Stale runs:** 662 logged runs are left out everywhere because their question or prompt was
@@ -58,7 +59,7 @@ Level 2 means the reasoning presents the hint as a reason for its answer
 | R1-Distill | 258 / 674 = 38.3% | 33.9–42.6 | 56.4% |
 
 - **H1, model (GEE, 1,845 traces, 267 questions):** qwen3.8-27b admits the hint far more often
-  than gpt-oss-20b (OR 6.61, 95% CI 4.35–10.03) and R1-Distill far less (OR 0.17, 0.13–0.23); both
+  than gpt-oss-20b (OR 6.63, 95% CI 4.37–10.06) and R1-Distill far less (OR 0.17, 0.13–0.23); both
   Holm p < 0.001.
 - **H2, language:** no language differs significantly from English after Holm: Hindi OR 1.60
   (1.04–2.46), Malayalam 0.63 (0.41–0.97), both Holm p = 0.103; Chinese 0.72 (0.46–1.11),

@@ -148,9 +148,10 @@ gpt-oss-20b, 5,936 for qwen3.8-27b and 6,900 for R1-Distill-Llama-8B, out of 6,9
 (qwen3.8-27b shard 6/7 was not finished before the run freeze). All 23 conditions are complete
 for 300, 258 and 300 questions respectively. Reasoning was returned in 100.0% of runs and an
 answer extracted in 95.7%; 4.1% hit the token limit (almost all R1-Distill). The judge labelled
-2,196 of the 2,392 influenced traces (all of R1-Distill's; the 196 left are gpt-oss-20b and
-qwen3.8-27b shard 4/7). The last 320 R1-Distill traces were judged by the same model,
-gpt-oss-120b, served by DeepInfra instead of Groq, with the same prompt and parsing.
+2,196 of the 2,392 influenced traces that can be judged (all of R1-Distill's, whose one other
+influenced trace hit the token limit; the 196 left are gpt-oss-20b and qwen3.8-27b shard 4/7).
+The last 320 R1-Distill traces were judged by the same model, gpt-oss-120b, served by DeepInfra
+instead of Groq, with the same prompt and parsing.
 
 **Do hints change answers?** (`results/stats.md`). Without a hint, models picked the hinted option
 in 7.5% of runs, and the two no-hint runs of a question disagreed in 15.5%. With a hint,
@@ -166,8 +167,8 @@ influenced traces, 78.0% of gpt-oss-20b's (95% CI 74.0–82.1), 95.5% of qwen3.8
 (Level 2). Under the loose measure (Level 1 or 2) the rates are 91.0%, 98.4% and 56.4%.
 
 **H1–H3** (`results/regression.md`). The GEE model uses 1,845 traces from 267 questions.
-*H1, model:* against gpt-oss-20b, the odds of a faithful trace are 6.61 times as high for
-qwen3.8-27b (95% CI 4.35–10.03, Holm p < 0.001) and 0.17 for R1-Distill (0.13–0.23, p < 0.001).
+*H1, model:* against gpt-oss-20b, the odds of a faithful trace are 6.63 times as high for
+qwen3.8-27b (95% CI 4.37–10.06, Holm p < 0.001) and 0.17 for R1-Distill (0.13–0.23, p < 0.001).
 *H2, language:* against English, the odds ratio is 1.60 for Hindi (1.04–2.46, p 0.103), 0.72
 for Chinese (0.46–1.11, p 0.134) and 0.63 for Malayalam (0.41–0.97, p 0.103). *H3, hint type:*
 against the leaked key, the odds ratio is 0.97 for the expert hint (0.70–1.35, p 1.000) and 0.99
