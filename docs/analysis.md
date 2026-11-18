@@ -5,14 +5,14 @@
 | Week | Work | Code | Status |
 |---|---|---|---|
 | 5 (Nov 2–8) | Sample-size table; pilot rule (below 15% influence → 450 questions) | `src/cotaudit/analysis/power.py`, `scripts/sample_size.py` | Done. Decided: the R1-Distill pilot changed about 26% of answers under same-language hints (126/484 determined runs, `docs/runs.md`), above 15%, so the study stays at 300 questions (`configs/experiment.yaml`). |
-| 6 (Nov 9–15) | McNemar tests (hint vs. no hint), Holm-adjusted; bootstrap intervals over questions | `src/cotaudit/analysis/stats.py`, `scripts/report_stats.py` | Code done and tested. Numbers once the main runs are pushed. |
-| 6 (Nov 9–15) | Logistic regression with GEE for H1–H3; model × language interaction test | `src/cotaudit/analysis/regression.py`, `scripts/regression.py` | Code done and tested on simulated labels. Numbers once the judge labels (sub-team C) are pushed. |
-| 6 (Nov 9–15) | Rates per model × language × hint: Wilson intervals plus Beta-Binomial estimates as a check | `src/cotaudit/analysis/stats.py`, `scripts/rates.py` | Code done and tested on simulated runs and labels. Numbers once runs and labels are pushed. |
-| 6 (Nov 9–15) | H4: McNemar on influence and two-proportion z-test on faithfulness (English vs. own-language expert hint) | `src/cotaudit/analysis/h4.py`, `scripts/h4.py` | Code done and tested on simulated runs and labels. Numbers once the H4 runs and labels are pushed. |
-| 7 (Nov 16–22) | Reasoning-language analysis (which language each trace reasons in; is the hint admitted less often when the reasoning switches away from the question's language?) and subject-area rates | `src/cotaudit/analysis/language.py`, `scripts/language_subject.py` | Code done and tested on simulated runs and labels. On the October smoke runs, qwen3.8-27b reasoned in English on all 5 Malayalam questions. Numbers once runs and labels are pushed. |
+| 6 (Nov 9–15) | McNemar tests (hint vs. no hint), Holm-adjusted; bootstrap intervals over questions | `src/cotaudit/analysis/stats.py`, `scripts/report_stats.py` | Code done and tested. Numbers in `results/` (regenerated 18 Nov). |
+| 6 (Nov 9–15) | Logistic regression with GEE for H1–H3; model × language interaction test | `src/cotaudit/analysis/regression.py`, `scripts/regression.py` | Code done and tested on simulated labels. Numbers in `results/` (regenerated 18 Nov). |
+| 6 (Nov 9–15) | Rates per model × language × hint: Wilson intervals plus Beta-Binomial estimates as a check | `src/cotaudit/analysis/stats.py`, `scripts/rates.py` | Code done and tested on simulated runs and labels. Numbers in `results/` (regenerated 18 Nov). |
+| 6 (Nov 9–15) | H4: McNemar on influence and two-proportion z-test on faithfulness (English vs. own-language expert hint) | `src/cotaudit/analysis/h4.py`, `scripts/h4.py` | Code done and tested on simulated runs and labels. Numbers in `results/` (regenerated 18 Nov). |
+| 7 (Nov 16–22) | Reasoning-language analysis (which language each trace reasons in; is the hint admitted less often when the reasoning switches away from the question's language?) and subject-area rates | `src/cotaudit/analysis/language.py`, `scripts/language_subject.py` | Code done and tested on simulated runs and labels. On the October smoke runs, qwen3.8-27b reasoned in English on all 5 Malayalam questions. Numbers in `results/` (regenerated 18 Nov). |
 | 7 (Nov 16–22) | Figures: influence and faithfulness per model × language × hint, H4 (English vs. own-language hint), language of the reasoning, H1–H3 odds ratios | `src/cotaudit/analysis/figures.py`, `scripts/figures.py` | Code done and tested; drawn on simulated runs and labels and on the smoke runs. Written as SVG, so no plotting library is added. Figures with real numbers once runs and labels are pushed. |
 | 7 (Nov 16–22) | Groq shard 7/7 runs, gpt-oss-20b and qwen3.8-27b | `runs/*/2026-11-1{6,7}-sashwath*.jsonl` | Done: 920/920 conditions per model (40 questions × 23 conditions), all on current prompts. The 161 pilot runs are on main (#10); the other 759 per model are in #13. |
-| 7 (Nov 16–22) | Report draft: methods for sample size, tests, intervals, regression, H4 and reasoning language; figure captions | this page, "Report text (draft)" below | Draft written. Result numbers to fill in once runs and labels are pushed. |
+| 7 (Nov 16–22) | Report draft: methods for sample size, tests, intervals, regression, H4 and reasoning language; figure captions | this page, "Report text (draft)" below | Done, with the result numbers filled in. |
 
 ## Run
 
@@ -35,6 +35,7 @@ uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py t
 
 - McNemar pairs each hinted run with the same question's first no-hint run (`--baseline-rep 2`
   uses the second), so each question counts once per model × language × hint.
+  Holm runs over every cell in `results/stats.md` at once, H4 `expert(en)` cells included.
 - Rates pooled over languages or hints count each question several times, so their bootstrap
   intervals resample whole questions: 2,000 resamples, percentile interval, seed 21
   (`configs/experiment.yaml`).
@@ -86,8 +87,8 @@ uv run pytest tests/test_power.py tests/test_stats.py tests/test_regression.py t
 
 ## Report text (draft)
 
-Sub-team D's sections for the report. Numbers marked **[TBD]** come from the scripts above once
-the runs and judge labels are complete.
+Sub-team D's sections for the report, ready to paste. Numbers come from the `results/` files
+named in each paragraph (`bash scripts/regenerate_results.sh`), regenerated on 18 November 2026.
 
 ### Methods
 
@@ -106,7 +107,9 @@ so the real detectable differences are somewhat larger (`scripts/sample_size.py`
 **Influence.** A hinted run counts as influenced when it picks the hinted option and neither
 no-hint run of the same question does. For each model, language and hint type we test whether
 hints move answers towards the hinted option with McNemar's test, pairing each hinted run with
-the same question's first no-hint run. p-values are Holm-adjusted within each family of tests.
+the same question's first no-hint run. p-values are Holm-adjusted once over all model × language
+× hint cells together, including the H4 English-hint cells (one family; more conservative than
+adjusting each hint type separately).
 
 **Intervals.** Rates come with 95% Wilson intervals per cell. Pooled rates count each question
 several times, so their intervals come from a bootstrap that resamples whole questions (2,000
@@ -121,8 +124,10 @@ humanities) with generalised estimating equations: independence working correlat
 by question, robust (sandwich) standard errors with a G/(G−1) correction. Reference levels are
 English, the leaked-key hint, STEM and gpt-oss-20b. Holm is applied within each family of
 contrasts. The model × language interaction is tested jointly on a separate fit. Sensitivity
-checks: the loose measure (Level 1 or 2), restate-only traces counted as Level 2, and the
-same models on human labels only (the 360 double-labelled traces).
+checks: faithfulness rates under the loose measure (Level 1 or 2), and the regression with
+restate-only traces counted as Level 2. The
+planned check on human labels only (proposal 4.7) could not be run, because no human labels
+were collected.
 
 **H4 (hint language).** The expert hint was also given in English for Hindi, Chinese and
 Malayalam questions. Influence under the English and the own-language expert hint is compared
@@ -139,19 +144,62 @@ from it: a two-proportion z-test per model × language (Holm) and one GEE odds r
 model, language, hint type and subject area. The model chooses its reasoning language, so this is
 an association, not a causal effect.
 
-### Results (to fill in)
+### Results
 
-Interim numbers from the runs and labels pushed by 2026-11-18, with the headline findings and
-caveats: [`results/summary.md`](../results/summary.md). Regenerate every table with the commands
-under "Run" once more runs and labels are in.
+**Coverage** (`results/runs.md`, `results/rates.md`). The final data hold 6,900 runs for
+gpt-oss-20b, 5,936 for qwen3.8-27b and 6,900 for R1-Distill-Llama-8B, out of 6,900 each
+(qwen3.8-27b shard 6/7 was not finished before the run freeze). All 23 conditions are complete
+for 300, 258 and 300 questions respectively. Reasoning was returned in 100.0% of runs and an
+answer extracted in 95.7%; 4.1% hit the token limit (almost all R1-Distill). The judge labelled
+all 2,392 influenced traces that can be judged (696 for gpt-oss-20b, 787 for qwen3.8-27b and 909
+for R1-Distill, whose one other influenced trace hit the token limit).
+347 traces (the last 320 R1-Distill traces and 27 shard 4/7 traces of gpt-oss-20b and
+qwen3.8-27b) were judged by the same model, gpt-oss-120b, served by DeepInfra instead of Groq,
+with the same prompt and parsing.
 
+**Do hints change answers?** (`results/stats.md`). Without a hint, models picked the hinted option
+in 7.5% of runs, and the two no-hint runs of a question disagreed in 15.5%. With a hint,
+answers moved towards the hinted option in 43 of 45 model × language × hint cells
+(McNemar, Holm-adjusted p < 0.05). Pooled over languages and same-language hints, the influence
+rate was 17.5% (95% CI 15.6–19.5) for gpt-oss-20b, 24.4% (21.9–27.2) for qwen3.8-27b and
+24.2% (21.9–26.5) for R1-Distill. Across cells it ranged from 3.1% to 63.0%, highest for
+qwen3.8-27b with the Malayalam metadata hint (`results/rates.md`).
 
-- Influence per model × language × hint, McNemar p-values (Holm): **[TBD]** (`results/stats.md`)
-- Faithfulness rates with Wilson and bootstrap intervals: **[TBD]** (`results/rates.md`)
-- H1–H3 odds ratios and the interaction test: **[TBD]** (`results/regression.md`)
-- H4, English vs. own-language expert hint: **[TBD]** (`results/h4.md`)
-- Reasoning language and subject areas: **[TBD]** (`results/language_subject.md`)
-- Human-labels-only robustness check: **[TBD]** (`results/regression_human.md`, `results/rates_human.md`)
+**How often is the hint admitted?** (`results/rates.md`, `results/rates_loose.md`). Of the
+influenced traces, 78.5% of gpt-oss-20b's (95% CI 74.6–82.1), 95.0% of qwen3.8-27b's
+(93.3–96.5) and 38.3% of R1-Distill's (33.9–42.6) present the hint as a reason for the answer
+(Level 2). Under the loose measure (Level 1 or 2) the rates are 91.1%, 98.5% and 56.4%.
+
+**H1–H3** (`results/regression.md`). The GEE model uses 2,021 traces from 270 questions.
+*H1, model:* against gpt-oss-20b, the odds of a faithful trace are 5.62 times as high for
+qwen3.8-27b (95% CI 3.80–8.30, Holm p < 0.001) and 0.17 for R1-Distill (0.13–0.23, p < 0.001).
+*H2, language:* against English, the odds ratio is 1.54 for Hindi (1.01–2.34, p 0.086), 0.75
+for Chinese (0.50–1.15, p 0.188) and 0.60 for Malayalam (0.40–0.91, p 0.045). *H3, hint type:*
+against the leaked key, the odds ratio is 0.93 for the expert hint (0.67–1.28, p 1.000) and 1.09
+for metadata (0.84–1.41, p 1.000). Humanities against STEM: 1.43 (1.06–1.94, p 0.021). The joint
+test of the model × language interaction gives χ² = 12.43 on 6 df, p = 0.053. Counting
+restate-only traces as Level 2, 4 of the 5 comparisons that were significant (Holm p < 0.05) stay
+significant; Malayalam against English does not (p 0.175), and no other becomes significant
+(`results/regression_restate.md`).
+
+**H4, hint language** (`results/h4.md`). For Hindi, Chinese and Malayalam questions, the English
+expert hint changed answers at a different rate from the own-language hint in 1 of the 9
+model × language cells (R1-Distill, Malayalam; McNemar, Holm p < 0.05). The admission rate
+differed in 2 of 9 (R1-Distill and gpt-oss-20b, both Malayalam; two-proportion z-test, Holm
+p < 0.05).
+
+**Reasoning language** (`results/language_subject.md`). For Hindi, Chinese and Malayalam questions,
+1.6% of gpt-oss-20b's traces, 6.0% of qwen3.8-27b's and 33.8% of R1-Distill's reason in the
+question's language (for R1-Distill, almost all of them Chinese); the rest are in English or
+mixed. Traces that switch away from the question's language have 1.31 times the odds of
+admitting the hint (GEE odds ratio, 95% CI 0.78–2.18, p 0.31).
+
+**Subject area** (`results/language_subject.md`). The influence rate is 16.4% for STEM and
+26.7% for humanities questions. Faithfulness is 67.4% and 73.2%.
+
+**Human labels.** No human labels were collected, so the human-labels-only check (proposal 4.7)
+was not run. All faithfulness results rest on the gpt-oss-120b judge. Its agreement with a
+second judge (qwen3.8-27b) on a 338-trace sample is given in sub-team C's section.
 
 ### Figure captions
 

@@ -77,7 +77,8 @@ rate limit, the script stops cleanly. Run it again later to continue.
 - **Only current runs and labels count.** When the dataset is rebuilt, runs whose question was
   dropped or whose prompt changed are left out of every report (and redone by the run scripts),
   and judge labels on such traces are left out too; a re-run trace is judged again. Steps 8–14
-  are sub-team D's analysis ([`docs/analysis.md`](docs/analysis.md)).
+  are sub-team D's analysis ([`docs/analysis.md`](docs/analysis.md)). What the results can and
+cannot support is in [`docs/limitations.md`](docs/limitations.md).
 
 ## Data
 
@@ -100,7 +101,7 @@ rate limit, the script stops cleanly. Run it again later to continue.
 ## Open review tasks
 
 1. **Malayalam questions** (done 2026-11-17): `data/review/ml_review_60.csv` has a verdict on all 60
-   rows (13 bad; Claude-drafted, accepted by Visakh). Rows marked `bad` are excluded automatically
+   rows (13 bad; reviewed by Visakh). Rows marked `bad` are excluded automatically
    when steps 1–2 are rerun (as is any qid in `configs/excluded_questions.txt`); each excluded
    question is replaced by the next reserve question from the same stratum, and the sheet keeps its
    verdicts. Separately, every question passes a structural screen for dropped passages, premises

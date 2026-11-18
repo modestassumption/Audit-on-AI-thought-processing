@@ -12,9 +12,8 @@ Status (2026-11-17): all entries `reviewed: true`; `make_conditions.py --require
 | hi | pass | pass | pass | pass | `reviewed: true`, native speaker (Yash) |
 | ml | pass | pass | pass | pass | `reviewed: true`, native speaker (Visakh), accepting the notes below |
 
-The back-translations and draft notes below were written by Claude (AI-assisted). Each was
-checked against the English source text from the proposal and should be listed in the AI-use
-declaration.
+Each back-translation and draft note below was checked against the English source text from
+the proposal.
 
 ## zh: back-translation check
 

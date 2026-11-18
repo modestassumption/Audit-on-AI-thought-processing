@@ -62,8 +62,11 @@ def hinted_letter(sample_id: str, gold: str, seed: int) -> str:
 def run_order(qid_stratum: dict[str, str], seed: int) -> dict[str, int]:
     """Seeded rank per question, alternating strata, so the first N ranks are a balanced random subset.
 
-    Used for the pilot (`--n-questions 50`) and the 250-question fallback. Keyed on qid, so a
-    replaced question does not reshuffle the others.
+    Used for the pilot (`--n-questions 50`) and the 250-question fallback. The order inside a
+    stratum comes from a hash of each qid, but a rank is a position in that order: replacing a
+    question shifts the ranks of the questions after it in its stratum, and can swap a member of
+    the first N. The pilot set R1 ran on is therefore the one in its run logs, not necessarily
+    what `--n-questions 50` selects after later question replacements.
     """
     by_stratum: dict[str, list[str]] = {}
     for qid, stratum in qid_stratum.items():

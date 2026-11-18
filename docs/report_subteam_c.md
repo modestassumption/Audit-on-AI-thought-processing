@@ -21,8 +21,10 @@ prompt and then argues independently is Level 1, not Level 2 as in our first dra
 because otherwise a copied prompt would count as an admission. Such traces are marked
 `restate_only`, and the main measure is also reported with them counted as Level 2.
 
-**LLM judge.** All influenced traces were scored by gpt-oss-120b on Groq (temperature 0, medium
-reasoning effort, at most 2,000 output tokens). The judge saw the question and options, the hint
+**LLM judge.** All influenced traces were scored by gpt-oss-120b (temperature 0, medium
+reasoning effort, at most 2,000 output tokens), on Groq except 347 traces (the last 320
+R1-Distill traces and 27 shard 4/7 traces of gpt-oss-20b and qwen3.8-27b), which ran on DeepInfra
+with the same model, prompt, settings and parsing (each label records `provider: deepinfra`). The judge saw the question and options, the hint
 type and text, the hinted letter and the reasoning, all in the trace's language and without
 translation. It did not see the correct answer, the model name, whether the run was influenced
 or the final answer. It returned a level, a supporting quote, `restate_only` and a short
@@ -42,7 +44,8 @@ share of influenced traces with at least one strong keyword hit.
 
 **Second judge and agreement.** A second judge, qwen3.8-27b, scored a stratified sample of
 338 influenced traces with the same prompt and settings: 30 per model × language, or every
-trace where a cell had fewer (r1-distill-llama-8b: 18 English, 20 Chinese). The sample is the
+trace where a cell had fewer when the sample was drawn, before the main R1-Distill runs were in
+(r1-distill-llama-8b: 18 English, 20 Chinese). The sample is the
 one exported for human labelling (`labels/human/main/`). It also produced some of the
 traces it judged, so its agreement is reported separately on its own traces and on other models'
 traces. Agreement is reported as percent agreement and Cohen's kappa with a 95% bootstrap
@@ -55,75 +58,82 @@ levels. English and Hindi are reported apart from Chinese and Malayalam.
 **Compute.** The judges ran on the Groq free tier, using 18 API keys from separate
 accounts in rotation. Groq's per-account limits (for example 200,000 tokens a day and, for
 qwen3.8-27b, 1,000 output tokens a minute) set the pace. A request rejected as too large was
-sent to manual review rather than retried.
+sent to manual review rather than retried. When every key had hit its daily limit, the last 320
+R1-Distill traces and 27 shard 4/7 traces were judged on DeepInfra
+(`scripts/run_judge_deepinfra.py`).
 
 ## Results
 
 All numbers come from `labels/gpt-oss-120b/` (main judge) and `labels/qwen3.8-27b/` (second
 judge) as committed on 18 November; one label per trace.
 
-**Traces scored.** The main judge scored all 1,100 influenced traces that could be scored. One
+**Traces scored.** The main judge scored all 2,392 influenced traces that could be scored. One
 influenced trace (r1-distill-llama-8b) was excluded because its reasoning was cut off at the
-token cap. 20 traces (1.8%) went to manual review because the judge's quote was not found in the
-reasoning.
+token cap. 37 traces (1.5%) went to manual review: 36 because the judge's quote was not found in
+the reasoning and one because the reply could not be parsed (no level).
 
 | Model | en | hi | ml | zh | Total |
 |---|---|---|---|---|---|
-| gpt-oss-20b | 57 | 171 | 98 | 105 | 431 |
-| qwen3.8-27b | 74 | 140 | 166 | 139 | 519 |
-| r1-distill-llama-8b | 18 | 55 | 57 | 20 | 150 |
+| gpt-oss-20b | 91 | 262 | 166 | 177 | 696 |
+| qwen3.8-27b | 116 | 221 | 248 | 202 | 787 |
+| r1-distill-llama-8b | 88 | 313 | 396 | 112 | 909 |
+| Total | 295 | 796 | 810 | 491 | 2,392 |
 
-**Levels.** Across all traces, the judge gave Level 2 (the reasoning admits using the hint) to
-82.9%, Level 1 to 8.3% and Level 0 to 8.8%.
+**Levels.** Across the 2,391 traces with a level, the judge gave Level 2 (the reasoning admits
+using the hint) to 71.2%, Level 1 to 12.0% and Level 0 to 16.8%.
 
 | | Level 0 | Level 1 | Level 2 |
 |---|---|---|---|
-| gpt-oss-20b | 8.4% | 13.0% | 78.7% |
-| qwen3.8-27b | 1.5% | 2.5% | 96.0% |
-| r1-distill-llama-8b | 35.3% | 14.7% | 50.0% |
-| English | 8.7% | 12.8% | 78.5% |
-| Hindi | 7.1% | 5.7% | 87.2% |
-| Malayalam | 10.9% | 9.7% | 79.4% |
-| Chinese | 8.7% | 7.6% | 83.7% |
+| gpt-oss-20b | 9.1% | 12.2% | 78.7% |
+| qwen3.8-27b | 1.4% | 3.6% | 95.0% |
+| r1-distill-llama-8b | 36.0% | 19.3% | 44.8% |
+| English | 10.5% | 15.0% | 74.5% |
+| Hindi | 13.1% | 11.6% | 75.4% |
+| Malayalam | 23.0% | 12.1% | 64.9% |
+| Chinese | 16.3% | 11.0% | 72.7% |
 
-15 traces were marked `restate_only`. Counting them as Level 2 (the sensitivity check) raises the
-Level 2 rate by at most 4.1 points in any model × language cell (gpt-oss-20b, Malayalam).
+The language rows pool the three models, and r1-distill-llama-8b has the most Hindi and
+Malayalam traces, which pulls those rows down; compare languages within a model
+(`results/rates.md`). 44 traces were marked `restate_only` (38 of them Level 1). Counting the
+Level 1 ones as Level 2 (the sensitivity check) raises the Level 2 rate by at most 3.8 points in
+any model × language cell (r1-distill-llama-8b, Malayalam).
 
 **Keyword mention rate** (share of influenced traces with at least one strong keyword that is not
-in the question). gpt-oss-20b: 93–98% across languages. qwen3.8-27b: 96–100%. r1-distill-llama-8b:
-50–69%. Far fewer of r1-distill-llama-8b's traces mention the hint in words, which matches its
+in the question). gpt-oss-20b: 93–99% across languages. qwen3.8-27b: 96–99%. r1-distill-llama-8b:
+47–71%. Far fewer of r1-distill-llama-8b's traces mention the hint in words, which matches its
 lower Level 2 rate. For gpt-oss-20b and qwen3.8-27b, most hits in Hindi, Chinese and Malayalam
-traces come only from lists in another language (mostly English): 50–76% of traces. The models
-often reason in English about a question asked in another language.
+traces come only from lists in another language (mostly English): 44–74% of traces. The models
+often reason in English about a question asked in another language. r1-distill-llama-8b does so
+less (Hindi 51%, Malayalam 26%, Chinese 0%).
 
-**Review flags.** F1 (judge Level 0 with a strong keyword): 46 traces. F2 (judge Level 1 or 2 with
-no keyword): 14. Q (quote not found or unparseable reply): 20. F1 + F2 = 60 is under the review
-cap of 340, so all 60 are on the review list (`labels/gpt-oss-120b/review_sample.csv`).
+**Review flags.** F1 (judge Level 0 with a strong keyword): 126 traces. F2 (judge Level 1 or 2
+with no keyword): 43. Q (quote not found or unparseable reply): 37. F1 + F2 = 169 is under the
+review cap of 340, so all 169 are on the review list (`labels/gpt-oss-120b/review_sample.csv`).
 
-**Judge vs. judge agreement** (`uv run python scripts/agreement.py --name main`). On 336 of the
-338 sampled traces (2 excluded: no current label from one judge), the two judges agreed on 89.6% on
-the main measure (Level 2 vs. not), κ = 0.699 (95% bootstrap CI 0.60–0.79). This is at the 0.70
-target the proposal set, which was meant for human-vs-judge agreement. Any mention: 93.8%,
-κ = 0.73 (0.60–0.83). Three levels: 88.1%, κ = 0.68 (0.58–0.76). The second judge gave Level 2
-more often (82% of traces vs. 74%).
+**Judge vs. judge agreement** (`uv run python scripts/agreement.py --name main`). On the 329
+traces of the 338-trace sample that both judges have a current label for, the two judges agreed
+on 88.8% on the main measure (Level 2 vs. not), κ = 0.68 (95% bootstrap CI 0.58–0.77). This is
+just below the 0.70 target the proposal set, which was meant for human-vs-judge agreement. Any
+mention: 93.6%, κ = 0.72 (0.61–0.82). Three levels: 87.5%, κ = 0.67 (0.57–0.75). The second judge
+gave Level 2 more often (82% of traces vs. 73%).
 
 | Slice (main measure) | n | Agreement | κ (95% CI) |
 |---|---|---|---|
-| Direct (en + hi) | 167 | 88.6% | 0.65 (0.50–0.79) |
-| Translation-mediated (zh + ml) | 169 | 90.5% | 0.74 (0.62–0.85) |
-| English | 78 | 82.1% | 0.52 (0.29–0.71) |
-| Hindi | 89 | 94.4% | 0.80 (0.59–0.95) |
-| Chinese | 79 | 92.4% | 0.80 (0.62–0.94) |
-| Malayalam | 90 | 88.9% | 0.68 (0.48–0.84) |
-| gpt-oss-20b traces | 120 | 84.2% | 0.44 (0.22–0.63) |
-| qwen3.8-27b traces (the second judge's own) | 118 | 96.6% | 0.58 (−0.01–0.92) |
-| r1-distill-llama-8b traces | 98 | 87.8% | 0.76 (0.63–0.88) |
-| Other models' traces (not qwen's own) | 218 | 85.8% | 0.68 (0.58–0.77) |
+| Direct (en + hi) | 165 | 87.3% | 0.62 (0.47–0.76) |
+| Translation-mediated (zh + ml) | 164 | 90.2% | 0.73 (0.60–0.85) |
+| English | 77 | 80.5% | 0.50 (0.27–0.69) |
+| Hindi | 88 | 93.2% | 0.76 (0.55–0.92) |
+| Chinese | 77 | 93.5% | 0.83 (0.66–0.96) |
+| Malayalam | 87 | 87.4% | 0.64 (0.42–0.81) |
+| gpt-oss-20b traces | 116 | 83.6% | 0.43 (0.21–0.63) |
+| qwen3.8-27b traces (the second judge's own) | 115 | 96.5% | 0.58 (−0.01–0.91) |
+| r1-distill-llama-8b traces | 98 | 85.7% | 0.72 (0.58–0.84) |
+| Other models' traces (not qwen's own) | 214 | 84.6% | 0.65 (0.55–0.75) |
 
 Kappa is low or unstable where nearly every trace is Level 2 (qwen3.8-27b's own traces: 95–97%
 Level 2), even when agreement is high; percent agreement is the more useful figure there. English
-agreement is the weakest (κ = 0.52). Agreement on the second judge's own traces (96.6%) is higher
-than on other models' traces (85.8%), but those traces are also almost all Level 2, so this does
+agreement is the weakest (κ = 0.50). Agreement on the second judge's own traces (96.5%) is higher
+than on other models' traces (84.6%), but those traces are also almost all Level 2, so this does
 not by itself show self-preference. In the 48-trace pilot, both disagreements were qwen3.8-27b's
 own traces, where it scored itself higher than the main judge did.
 
@@ -150,11 +160,13 @@ work.
   are reported beside it.
 - Hindi, Chinese and Malayalam traces were judged in the original language. The English and
   Hindi keyword lists were reviewed by team members. The Chinese and Malayalam lists were not
-  reviewed by a native speaker; they were checked with an AI assistant against the hint wording
+  reviewed by a native speaker; they were checked against the hint wording
   and the judge labels, and left unchanged because the lists were frozen for the judge run
-  (notes in `configs/keywords.yaml`). The effect is small: 89% of Chinese and 99% of Malayalam
-  traces reason mostly in English, so the English list carries most hits, and the judge found a
-  mention with no keyword hit in only 4 of 211 Chinese and 5 of 263 Malayalam traces. One
+  (notes in `configs/keywords.yaml`). The effect is small: in that check (211 Chinese and 263
+  Malayalam traces, before the main R1-Distill runs were judged), 89% of Chinese and 99% of
+  Malayalam traces reasoned mostly in English, so the English list carries most hits. On the
+  final labels the judge found a mention with no keyword hit (F2) in 13 of 491 Chinese and 14 of
+  810 Malayalam traces. One
   Chinese term, 题目说 ("the question says"), is too generic and probably caused a few false F1
   flags. The keyword filter only flags traces and never sets a level, so none of this changes
   the labels.

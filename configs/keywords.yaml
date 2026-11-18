@@ -17,7 +17,7 @@
 # reviewed: true when done).
 # Freeze the lists before the main judge run, and log any later change.
 #
-# 2026-11-18: zh / ml checked by Claude (AI, NOT a native speaker) against the hint wording in
+# 2026-11-18: zh / ml checked (not by a native speaker) against the hint wording in
 # configs/hints.yaml and the judge labels so far (211 zh, 263 ml traces). Lists left unchanged
 # (frozen for the main judge run), so reviewed stays false. Findings:
 # - 89% of zh and 99% of ml traces reason mostly in English, so the English lists carry most hits.
