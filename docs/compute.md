@@ -34,3 +34,4 @@ resume across machines once pushed.
 
 | Date | Account | Hours | Runs logged | Notes |
 |---|---|---|---|---|
+| 2026-11-16 | Sanjay Rajkumar (Team B) | 2.24 | 1,150 | R1-Distill pilot, 50 questions, T4 x2 (`docs/runs.md`); hours of the earlier unusable attempt not recorded |
