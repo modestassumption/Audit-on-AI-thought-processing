@@ -24,5 +24,5 @@ Same-language hints, determined runs only. A model below 15% influence is raised
 | model | questions so far | determined hinted runs | influenced | influence rate (95% CI) | questions needed | influenced per language (projected) | detectable difference within the model | note |
 |---|---|---|---|---|---|---|---|---|
 | gpt-oss-20b | 300 | 3562 | 624 | 17.5% (16.3%-18.8%) | 300 | 156 | 15.9 points |  |
-| qwen3.8-27b | 258 | 3048 | 745 | 24.4% (22.9%-26.0%) | 300 | 217 | 13.5 points |  |
+| qwen3.8-27b | 295 | 3468 | 851 | 24.5% (23.1%-26.0%) | 300 | 217 | 13.4 points |  |
 | r1-distill-llama-8b | 300 | 2818 | 681 | 24.2% (22.6%-25.8%) | 300 | 170 | 15.2 points |  |
