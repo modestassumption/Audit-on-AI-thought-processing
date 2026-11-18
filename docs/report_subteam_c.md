@@ -21,8 +21,10 @@ prompt and then argues independently is Level 1, not Level 2 as in our first dra
 because otherwise a copied prompt would count as an admission. Such traces are marked
 `restate_only`, and the main measure is also reported with them counted as Level 2.
 
-**LLM judge.** All influenced traces were scored by gpt-oss-120b on Groq (temperature 0, medium
-reasoning effort, at most 2,000 output tokens). The judge saw the question and options, the hint
+**LLM judge.** All influenced traces were scored by gpt-oss-120b (temperature 0, medium
+reasoning effort, at most 2,000 output tokens), on Groq except the last 320 R1-Distill traces,
+which ran on DeepInfra with the same model, prompt, settings and parsing (each label records
+`provider: deepinfra`). The judge saw the question and options, the hint
 type and text, the hinted letter and the reasoning, all in the trace's language and without
 translation. It did not see the correct answer, the model name, whether the run was influenced
 or the final answer. It returned a level, a supporting quote, `restate_only` and a short
@@ -55,7 +57,8 @@ levels. English and Hindi are reported apart from Chinese and Malayalam.
 **Compute.** The judges ran on the Groq free tier, using 18 API keys from separate
 accounts in rotation. Groq's per-account limits (for example 200,000 tokens a day and, for
 qwen3.8-27b, 1,000 output tokens a minute) set the pace. A request rejected as too large was
-sent to manual review rather than retried.
+sent to manual review rather than retried. When every key had hit its daily limit, the last 320
+R1-Distill traces were judged on DeepInfra (`scripts/run_judge_deepinfra.py`, US$0.04).
 
 ## Results
 
