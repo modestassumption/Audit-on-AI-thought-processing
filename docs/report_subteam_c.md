@@ -103,30 +103,30 @@ often reason in English about a question asked in another language.
 no keyword): 14. Q (quote not found or unparseable reply): 20. F1 + F2 = 60 is under the review
 cap of 340, so all 60 are on the review list (`labels/gpt-oss-120b/review_sample.csv`).
 
-**Judge vs. judge agreement** (`uv run python scripts/agreement.py --name main`). On 336 of the
-338 sampled traces (2 excluded: no current label from one judge), the two judges agreed on 89.6% on
-the main measure (Level 2 vs. not), κ = 0.699 (95% bootstrap CI 0.60–0.79). This is at the 0.70
-target the proposal set, which was meant for human-vs-judge agreement. Any mention: 93.8%,
-κ = 0.73 (0.60–0.83). Three levels: 88.1%, κ = 0.68 (0.58–0.76). The second judge gave Level 2
-more often (82% of traces vs. 74%).
+**Judge vs. judge agreement** (`uv run python scripts/agreement.py --name main`). On the 329
+traces of the 338-trace sample that both judges have a current label for, the two judges agreed
+on 88.8% on the main measure (Level 2 vs. not), κ = 0.68 (95% bootstrap CI 0.58–0.77). This is
+just below the 0.70 target the proposal set, which was meant for human-vs-judge agreement. Any
+mention: 93.6%, κ = 0.72 (0.61–0.82). Three levels: 87.5%, κ = 0.67 (0.57–0.75). The second judge
+gave Level 2 more often (82% of traces vs. 73%).
 
 | Slice (main measure) | n | Agreement | κ (95% CI) |
 |---|---|---|---|
-| Direct (en + hi) | 167 | 88.6% | 0.65 (0.50–0.79) |
-| Translation-mediated (zh + ml) | 169 | 90.5% | 0.74 (0.62–0.85) |
-| English | 78 | 82.1% | 0.52 (0.29–0.71) |
-| Hindi | 89 | 94.4% | 0.80 (0.59–0.95) |
-| Chinese | 79 | 92.4% | 0.80 (0.62–0.94) |
-| Malayalam | 90 | 88.9% | 0.68 (0.48–0.84) |
-| gpt-oss-20b traces | 120 | 84.2% | 0.44 (0.22–0.63) |
-| qwen3.8-27b traces (the second judge's own) | 118 | 96.6% | 0.58 (−0.01–0.92) |
-| r1-distill-llama-8b traces | 98 | 87.8% | 0.76 (0.63–0.88) |
-| Other models' traces (not qwen's own) | 218 | 85.8% | 0.68 (0.58–0.77) |
+| Direct (en + hi) | 165 | 87.3% | 0.62 (0.47–0.76) |
+| Translation-mediated (zh + ml) | 164 | 90.2% | 0.73 (0.60–0.85) |
+| English | 77 | 80.5% | 0.50 (0.27–0.69) |
+| Hindi | 88 | 93.2% | 0.76 (0.55–0.92) |
+| Chinese | 77 | 93.5% | 0.83 (0.66–0.96) |
+| Malayalam | 87 | 87.4% | 0.64 (0.42–0.81) |
+| gpt-oss-20b traces | 116 | 83.6% | 0.43 (0.21–0.63) |
+| qwen3.8-27b traces (the second judge's own) | 115 | 96.5% | 0.58 (−0.01–0.91) |
+| r1-distill-llama-8b traces | 98 | 85.7% | 0.72 (0.58–0.84) |
+| Other models' traces (not qwen's own) | 214 | 84.6% | 0.65 (0.55–0.75) |
 
 Kappa is low or unstable where nearly every trace is Level 2 (qwen3.8-27b's own traces: 95–97%
 Level 2), even when agreement is high; percent agreement is the more useful figure there. English
-agreement is the weakest (κ = 0.52). Agreement on the second judge's own traces (96.6%) is higher
-than on other models' traces (85.8%), but those traces are also almost all Level 2, so this does
+agreement is the weakest (κ = 0.50). Agreement on the second judge's own traces (96.5%) is higher
+than on other models' traces (84.6%), but those traces are also almost all Level 2, so this does
 not by itself show self-preference. In the 48-trace pilot, both disagreements were qwen3.8-27b's
 own traces, where it scored itself higher than the main judge did.
 
