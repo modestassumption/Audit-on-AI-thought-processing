@@ -121,7 +121,8 @@ def usable_labels(labels: pd.DataFrame, measure: str = "main",
         raise ValueError(f"measure must be 'main' or 'loose', got {measure!r}")
     if labels.empty:
         return labels.assign(faithful=pd.Series(dtype=int))
-    manual = labels["needs_manual"].fillna("").astype(str).ne("") if "needs_manual" in labels         else pd.Series(False, index=labels.index)
+    manual = (labels["needs_manual"].fillna("").astype(str).ne("") if "needs_manual" in labels
+              else pd.Series(False, index=labels.index))
     df = labels[labels["influenced"].astype(bool) & labels["level"].notna() & ~manual].copy()
     level = df["level"].astype(int)
     if restate_as_admitted and "restate_only" in df:
