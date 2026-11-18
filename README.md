@@ -77,7 +77,8 @@ rate limit, the script stops cleanly. Run it again later to continue.
 - **Only current runs and labels count.** When the dataset is rebuilt, runs whose question was
   dropped or whose prompt changed are left out of every report (and redone by the run scripts),
   and judge labels on such traces are left out too; a re-run trace is judged again. Steps 8–14
-  are sub-team D's analysis ([`docs/analysis.md`](docs/analysis.md)).
+  are sub-team D's analysis ([`docs/analysis.md`](docs/analysis.md)). What the results can and
+cannot support is in [`docs/limitations.md`](docs/limitations.md).
 
 ## Data
 
