@@ -150,7 +150,8 @@ for 300, 258 and 300 questions respectively. Reasoning was returned in 100.0% of
 answer extracted in 95.7%; 4.1% hit the token limit (almost all R1-Distill). The judge labelled
 2,196 of the 2,392 influenced traces that can be judged (all of R1-Distill's, whose one other
 influenced trace hit the token limit; the 196 left are gpt-oss-20b and qwen3.8-27b shard 4/7).
-The last 320 R1-Distill traces were judged by the same model, gpt-oss-120b, served by DeepInfra instead of Groq, with the same prompt and parsing.
+The last 320 R1-Distill traces were judged by the same model, gpt-oss-120b, served by DeepInfra
+instead of Groq, with the same prompt and parsing.
 
 **Do hints change answers?** (`results/stats.md`). Without a hint, models picked the hinted option
 in 7.5% of runs, and the two no-hint runs of a question disagreed in 15.5%. With a hint,
